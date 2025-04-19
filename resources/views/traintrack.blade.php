@@ -53,13 +53,13 @@
         <div class="mt-3 space-y-2">
           <div class="flex items-center">
             <div class="w-[29px] h-[29px] rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center">
-              <span class="text-[12px] font-medium text-[#757575]">2.1</span>
+              <span class="text-[12px] font-medium text-[#0f0f0f]">2.1</span>
             </div>
             <div class="ml-2 text-[15px] text-[#333]">Select Interest Categories</div>
           </div>
           <div class="flex items-center">
             <div class="w-[29px] h-[29px] rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center">
-              <span class="text-[12px] font-medium text-[#757575]">2.2</span>
+              <span class="text-[12px] font-medium text-[#0f0f0f]">2.2</span>
             </div>
             <div class="ml-2 text-[15px] text-[#333]">Choose Topics</div>
           </div>
@@ -70,25 +70,25 @@
 
     <!-- Steps 3–6 -->
     <div class="flex items-center relative">
-      <div class="w-8 h-8 rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center text-[#757575] font-medium text-sm mr-3">3</div>
+      <div class="w-8 h-8 rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center text-[#0f0f0f] font-medium text-sm mr-3">3</div>
       <div class="text[16px] text-[#333] font-medium">Technical Skills</div>
     </div>
 
 
     <div class="flex items-center relative">
-      <div class="w-8 h-8 rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center text-[#757575] font-medium text-sm mr-3">4</div>
+      <div class="w-8 h-8 rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center text-[#0f0f0f] font-medium text-sm mr-3">4</div>
       <div class="text[16px] text-[#333] font-medium">Non-Technical Skills</div>
     </div>
 
 
     <div class="flex items-center relative">
-      <div class="w-8 h-8 rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center text-[#757575] font-medium text-sm mr-3">5</div>
+      <div class="w-8 h-8 rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center text-[#0f0f0f] font-medium text-sm mr-3">5</div>
       <div class="text[16px] text-[#333] font-medium">Advance Preferences</div>
     </div>
 
 
     <div class="flex items-center relative">
-      <div class="w-8 h-8 rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center text-[#757575] font-medium text-sm mr-3">6</div>
+      <div class="w-8 h-8 rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center text-[#0f0f0f] font-medium text-sm mr-3">6</div>
       <div class="text[16px] text-[#333] font-medium">Summary & Results</div>
     </div>
   </div>
