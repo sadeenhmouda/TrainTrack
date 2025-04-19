@@ -20,8 +20,8 @@
 
     <div class="w-2/5 bg-[#f9f9f9] px-10 py-8">
         <!-- Logo Image at the top -->
-        <img src="assets/logo.png" alt="Train Track Logo" class="w-[250px] h-[100px]" />
-    
+        <img src="public\tt.png" alt="Train Track Logo" class="w-[250px] h-[100px]"/>
+        
         <div class="text-gray-700 font-semibold text-base border-b border-gray-200 pb-2 mb-6">
             Step Guide
           </div>
@@ -250,5 +250,3 @@
   
   </body>
   </html>
-technicalSkills.txt
-18 KB
