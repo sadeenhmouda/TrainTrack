@@ -121,13 +121,16 @@
 </a>
 
 
-
-    <!-- Next Button -->
+'traintrack.subject2'
+   <!-- Next Button -->
+   <a href="{{ route('traintrack.subject2') }}">
     <button
       class="w-[159px] h-[47px] bg-[#6A1B9A] text-white text-[25px] font-medium rounded-[12px] hover:bg-[#5a1784] transition duration-300">
       Next
     </button>
-  </div>
+  </a>
+  
+</div>
 
 
   <!-- Back Button Toggle -->

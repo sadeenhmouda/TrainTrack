@@ -8,14 +8,16 @@ Route::get('/', function () {
 Route::get('/traintrack/start', function () {
     return view('traintrack');
 })->name('traintrack.start'); // step1
-
-//Updated routes and views for subject and traintrack pages 
-Route::get('/subject', function () {
-    return view('subject');
-})->name('subject');  
  
-
 Route::get('/traintrack', function () {
     return view('traintrack');
 })->name('traintrack');
 
+Route::get('/traintrack/subject', function () {
+    return view('subject');
+})->name('traintrack.subject');
+
+
+Route::get('/traintrack/subject2', function () {
+    return view('subject2');
+})->name('traintrack.subject2');

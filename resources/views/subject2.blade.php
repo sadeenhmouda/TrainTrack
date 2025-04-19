@@ -9,7 +9,7 @@
 <body class="h-screen w-screen bg-[#f0f0f0] font-[Roboto] relative">
   
   <!-- Frame Container -->
-   
+  <div class="w-full h-full flex justify-center items-center">
 
     <!-- Main Wizard Layout -->
     <div class="w-full h-full flex bg-white">
@@ -38,7 +38,7 @@
     <!-- Step 1 -->
     <div class="flex items-center relative">
       <div class="w-8 h-8 rounded-full bg-[#F5F5F5] border-[2px] border-[#6A1B9A] flex items-center justify-center text-[#6A1B9A] font-medium text-sm mr-3">1</div>
-      <div class="text[16px] text-[#333] font-medium">Let’s Get to Know You</div>
+      <div class="text[16px] text-[#333] font-medium">subject of intrest 2</div>
     </div>
 
 
@@ -96,25 +96,35 @@
 
 
       <!-- Right Side (Form Content) -->
-      <div class="flex-1 p-12 overflow-y-auto">
-        <h1 class="text-[28px] font-semibold mb-4">👋 Let's Get to Know You</h1>
-        <p class="text-[16px] text-[#333]">This is a test layout for the full-screen wizard interface.</p>
+      <!-- Bottom Buttons -->
+     <div class="absolute bottom-4 right-5 w-full px-10 flex justify-end items-end">
+        <!-- Next Button (right corner) -->
+        <a href="{{ route('traintrack.subject2') }}">
+          <button
+            class="w-[159px] h-[47px] bg-[#6A1B9A] text-white text-[25px] font-medium rounded-[12px] hover:bg-[#5a1784] transition duration-300">
+            Next
+          </button>
+        </a>
       </div>
-    </div>
-  
 
+<!-- Bottom Buttons -->
+<div class="absolute bottom-4 left-0 w-full px-10 flex justify-between items-end">
+    <!-- Back Button -->
+<a href="{{ route('traintrack.subject') }}">
+  <button
+    class="w-[159px] h-[47px] border-2 border-[#6A1B9A] text-[#6A1B9A] text-[25px] font-medium rounded-[12px] transition-all duration-300 mx-80">
+    Back
+  </button>
+</a>
   
-
-    <!-- Bottom Buttons -->
-<div class="absolute bottom-4 right-5 w-full px-10 flex justify-end items-end">
-  <!-- Next Button (right corner) -->
-  <a href="{{ route('traintrack.subject') }}">
-    <button
-      class="w-[159px] h-[47px] bg-[#6A1B9A] text-white text-[25px] font-medium rounded-[12px] hover:bg-[#5a1784] transition duration-300">
-      Next
-    </button>
-  </a>
-</div>
+  <!-- Back Button Toggle -->
+  <script>
+    const backBtn = document.getElementById('backBtn');
+    backBtn.addEventListener('click', () => {
+      backBtn.classList.toggle('bg-[#6A1B9A]');
+      backBtn.classList.toggle('text-white');
+      backBtn.classList.toggle('border-none');
+    });
+  </script>
 </body>
 </html>
-
