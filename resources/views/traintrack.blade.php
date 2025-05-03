@@ -1,220 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Train Track Wizard</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="{{ asset('css/first.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
 </head>
-<body class="h-screen w-screen bg-[#f0f0f0] font-[Roboto] relative">
 
-  <!-- Frame Container -->
-  <!-- Main Wizard Layout -->
-  <div class="w-full h-full flex bg-white ">
+<body class="wizard-body">
+  <div class="wizard-layout">
+    {{-- Left Sidebar --}}
+    @include('traintrack.partials.sidebar')
 
-    <!-- Left Side (Stepper) -->
-    <div class="w-[320px] px-6 py-7 bg-white border-r border-[#e0e0e0]">
+    {{-- Right Form Area --}}
+    <div class="form-area">
+      <h1 class="form-title">👋 Let’s Get to Know You</h1>
+      <p class="form-subtitle">Please fill out your personal information below</p>
 
-      <!-- App Logo -->
-      <img src="{{ asset('traintracklogo.png') }}" style="width: 180px;" class="fixed top-0 left-0  ml-1">
-      <br>
-      <br>
+      <form>
+        <!-- Full Name -->
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" placeholder="Enter your full name">
+        </div>
 
-      <!-- Stepper Container -->
-      <!-- Stepper Title -->
-      <div class="mt-5 ml-4">
-        <h3 class="w-[238px] h-[24px] text-[20px] font-normal text-[#333] mb-4 ml-10px">Progress Guide</h3>
-        <div class="relative ml-1">
-
-          <!-- Vertical line behind steps -->
-          <div class="-ml-6 absolute top-0 bottom-0 left-[32px] w-[1px] bg-gray-300 z-0"></div>
-
-          <div class="flex flex-col space-y-3 relative z-10 -ml-2">
-            <!-- Step 1 -->
-            <div class="flex items-center relative">
-              <div class="w-8 h-8 rounded-full bg-[#F5F5F5] border-[2px] border-[#6A1B9A] flex items-center justify-center text-[#0f0f0f] font-medium text-sm mr-3">1</div>
-              <div class="mt-1 text[13px] text-[#333] font-medium">Let’s Get to Know You</div>
-            </div>
-
-            <!-- Step 2 -->
-            <div class="flex items-start relative">
-              <div class="w-8 h-8 rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center text-[#0f0f0f] font-medium text-sm mr-3">2</div>
-              <div class="flex flex-col justify-center">
-                <div class="mt-1 text[13px] text-[#333] font-medium ">Subject of Interest</div>
-                <!-- Substeps -->
-                <div class="mt-3 space-y-3">
-                  <div class="flex items-center">
-                    <div class="w-[29px] h-[29px] rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center">
-                      <span class="text-[12px] font-medium text-[#0f0f0f]">2.1</span>
-                    </div>
-                    <div class="ml-2 text-[15px] text-[#333]">Select Interest Categories</div>
-                  </div>
-                  <div class="flex items-center">
-                    <div class="w-[29px] h-[29px] rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center">
-                      <span class="text-[12px] font-medium text-[#0f0f0f]">2.2</span>
-                    </div>
-                    <div class="ml-2 text-[15px] text-[#333]">Choose Topics</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Steps 3–6 -->
-            <div class="flex items-center relative">
-              <div class="w-8 h-8 rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center text-[#0f0f0f] font-medium text-sm mr-3">3</div>
-              <div class="text[13px] text-[#333] font-medium">Technical Skills</div>
-            </div>
-            <div class="flex items-center relative">
-              <div class="w-8 h-8 rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center text-[#0f0f0f] font-medium text-sm mr-3">4</div>
-              <div class="text[1px] text-[#333] font-medium">Non-Technical Skills</div>
-            </div>
-            <div class="flex items-center relative">
-              <div class="w-8 h-8 rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center text-[#0f0f0f] font-medium text-sm mr-3">5</div>
-              <div class="text[13px] text-[#333] font-medium">Advance Preferences</div>
-            </div>
-            <div class="flex items-center relative">
-              <div class="w-8 h-8 rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center text-[#0f0f0f] font-medium text-sm mr-3">6</div>
-              <div class="text[16px] text-[#333] font-medium">Summary & Results</div>
-            </div>
+        <!-- Gender -->
+        <div class="form-group">
+          <label>Gender</label>
+          <div class="button-group">
+            <button type="button" class="option-button">🧔 Male</button>
+            <button type="button" class="option-button">👩 Female</button>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Right Side (New Section) -->
-<div class="flex-1 px-10 py-8 bg-white" x-data="formStep1()">
+        <!-- Date of Birth (Dropdown Style) -->
+        <div class="form-group dob-group">
+          <label class="dob-label">Date of Birth</label>
+          <div class="dob-selects" style="display: flex; gap: 10px;">
+            <select id="dob-month" required>
+              <option value="" disabled selected>Month</option>
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
 
-<h1 class="text-[28px] font-medium mb-2">🧠 Let's Get to Know You.</h1>
-  <p class="text-[15px] text-[#333] ml-10 mb-6">
-    This is a test layout for the full-screen wizard interface.
-  </p>
+            <select id="dob-day" required>
+              <option value="" disabled selected>Day</option>
+              <!-- JS will populate 1–31 -->
+            </select>
 
-  <!-- Full Name -->
-  <div class="mb-6">
-    <label for="fullName" class="block text-sm font-medium text-[#333] ml-5 mb-2">Full Name</label>
-    <input type="text" id="fullName" x-model="fullName"
-      @blur="validateFullName()"
-      minlength="3" maxlength="50"
-      placeholder="Enter your full name"
-      :class="invalidName ? 'border-red-500' : 'border-gray-300'"
-      class="w-1/2 px-4 py-2 rounded-md border hover:border-[#B388CB] focus:outline-none focus:ring-2 focus:ring-[#B388CB] text-sm ml-5 transition-all" />
-  </div>
-
-  <!-- Gender Selection -->
-  <div class="mb-6">
-    <label class="block text-sm font-medium text-[#333] ml-5 mb-2">Gender</label>
-    <div class="flex gap-4 ml-5">
-      <button type="button"
-        @click="gender = 'Male'"
-        :class="gender === 'Male' ? 'border-[#6A1B9A] bg-[#f3e5f5]' : 'border-gray-300'"
-        class="flex items-center gap-2 px-4 py-2 rounded-full text-[#333] text-sm border hover:border-[#6A1B9A] transition-all">
-         Male
-      </button>
-      <button type="button"
-        @click="gender = 'Female'"
-        :class="gender === 'Female' ? 'border-[#6A1B9A] bg-[#f3e5f5]' : 'border-gray-300'"
-        class="flex items-center gap-2 px-4 py-2 rounded-full text-[#333] text-sm border hover:border-[#6A1B9A] transition-all">
-         Female
-      </button>
-    </div>
-  </div>
-
-  <!-- Major Selection -->
-  <div class="mb-6">
-    <label class="block text-sm font-medium text-[#333] ml-5 mb-2">Major</label>
-    <div class="flex flex-col gap-3 ml-5">
-      <template x-for="(item, index) in majors" :key="index">
-        <div @click="selectedMajor = item.label"
-          :class="selectedMajor === item.label 
-                  ? 'bg-[#EBDEF0] border-[#6A1B9A]' 
-                  : 'bg-[#F5F5F5] border-gray-300 hover:border-[#6A1B9A]'"
-          class="relative cursor-pointer flex items-center justify-between px-4 py-1.5 rounded-full text-sm text-[#333] border w-fit transition-all">
-
-          <div class="flex items-center group">
-            <span x-text="item.icon + ' ' + item.label"></span>
-
-            <!-- Info Tooltip -->
-            <div class="relative ml-2">
-              <span class="cursor-pointer text-gray-500 text-[13px]">ⓘ</span>
-              <div
-                class="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 bg-[#f3e5f5] text-[#333] text-xs rounded-lg px-3 py-1 border border-[#6A1B9A] shadow-md w-[220px] hidden group-hover:block z-10 whitespace-normal">
-                <span x-text="item.description"></span>
-              </div>
-            </div>
+            <select id="dob-year" required>
+              <option value="" disabled selected>Year</option>
+              <!-- JS will populate years -->
+            </select>
           </div>
         </div>
-      </template>
+
+        <!-- Major -->
+        <div class="form-group">
+          <label>Major</label>
+          <div class="major-options">
+            <span class="major-pill">☁️ Computer Science Apprenticeship Program</span>
+            <span class="major-pill">💼 Management Information System</span>
+            <span class="major-pill">🛠️ Computer Engineering</span>
+            <span class="major-pill">💻 Computer Science</span>
+            <span class="major-pill">🔐 Cyber Security</span>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="form-buttons">
+          <button type="submit" class="next">Next</button>
+        </div>
+      </form>
     </div>
   </div>
 
-  <!-- Next Button -->
-  <div class="fixed bottom-4 right-10">
-    <button
-      @click="validateAndGoNext()"
-      class="w-[130px] h-[40px] bg-[#6A1B9A] text-white text-[20px] font-medium rounded-[12px] hover:bg-[#5a1784] transition duration-300">
-      Next
-    </button>
-  </div>
+  <!-- Your Scripts -->
+  <script src="{{ asset('js/first.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{{ asset('js/alert.js') }}"></script>
 
-</div>
-
-<!-- AlpineJS and SweetAlert -->
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<!-- Form Logic -->
-<script>
-function formStep1() {
-  return {
-    fullName: '',
-    gender: '',
-    selectedMajor: '',
-    invalidName: false,
-
-    majors: [
-      { label: 'Computer Science Apprenticeship Program', icon: '☁️', description: 'Hands-on learning through real-world software development projects.' },
-      { label: 'Management Information System', icon: '💼', description: 'Using technology to improve business processes and decision-making.' },
-      { label: 'Network Information System', icon: '🔐', description: 'Covers network administration, cybersecurity, and infrastructure planning.' },
-      { label: 'Computer Engineering', icon: '🛠️', description: 'Blends hardware design with software programming and embedded systems.' },
-      { label: 'Computer Science', icon: '💻', description: 'Core CS topics: algorithms, data structures, AI, and software development.' }
-    ],
-
-    validateFullName() {
-      this.invalidName = !this.fullName || this.fullName.length < 3;
-    },
-
-    validateAndGoNext() {
-      this.validateFullName();
-
-      if (!this.fullName || !this.gender || !this.selectedMajor) {
-        Swal.fire({
-          title: 'Missing Information!',
-          text: 'Please fill out your Full Name, Gender, and Major to continue 🚀',
-          icon: 'warning',
-          confirmButtonText: 'OK'
-        });
-      } else {
-        // Save to localStorage
-        const formData = {
-          fullName: this.fullName,
-          gender: this.gender,
-          selectedMajor: this.selectedMajor
-        };
-        localStorage.setItem('personal_info', JSON.stringify(formData));
-
-        // Redirect to next page
-        window.location.href = "{{ route('traintrack.subject') }}";
-      }
+  <!-- Populate Days and Years -->
+  <script>
+    // Populate Day 1–31
+    const daySelect = document.getElementById("dob-day");
+    for (let i = 1; i <= 31; i++) {
+      const day = i.toString().padStart(2, '0');
+      daySelect.innerHTML += `<option value="${day}">${day}</option>`;
     }
-  }
-}
-</script>
-   
 
+    // Populate Years from current back to 1950
+    const yearSelect = document.getElementById("dob-year");
+    const currentYear = new Date().getFullYear();
+    for (let y = currentYear; y >= 1950; y--) {
+      yearSelect.innerHTML += `<option value="${y}">${y}</option>`;
+    }
+  </script>
 
+  <!-- Resume + Exit Handling -->
+  <script>
+    // ✅ 1. Ask to resume
+    handleWizardResume();
 
+    // ✅ 2. Warn before leaving
+    warnBeforeExit(() => {
+      const name = document.getElementById("fullName")?.value.trim();
+      const gender = document.querySelector(".option-button.selected");
+      const major = document.querySelector(".major-pill.selected");
+      const day = document.getElementById("dob-day")?.value;
+      const month = document.getElementById("dob-month")?.value;
+      const year = document.getElementById("dob-year")?.value;
 
-
-  </div>
+      return name || gender || major || (day && month && year);
+    });
+  </script>
 </body>
 </html>

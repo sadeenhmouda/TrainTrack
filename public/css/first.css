@@ -1,0 +1,214 @@
+/* Global Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ✅ Allow scrolling only when needed */
+body,
+html,
+.form-area,
+.wizard-layout {
+  overflow-y: auto; /* Only vertical scrolling when needed */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* ✅ Natural scrollbar for all browsers */
+body {
+  -ms-overflow-style: auto;  /* IE and Edge */
+  scrollbar-width: auto;     /* Firefox */
+}
+
+.wizard-body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  background-color: #f8f8f8;
+}
+
+.wizard-layout {
+  display: flex;
+  height: 100vh;           /* ✅ Lock full screen height */
+  overflow: hidden;        /* ✅ Prevent outer scroll */
+}
+
+/* Form Area */
+.form-area {
+  flex-grow: 1;
+  padding: 40px;
+  background-color: #fff;
+  overflow-y: auto;        /* ✅ Scroll inside this only if needed */
+}
+
+.form-title {
+  font-size: 28px;
+  color: #6A1B9A;
+  margin-bottom: 10px;
+}
+
+.form-subtitle {
+  color: #555;
+  margin-bottom: 30px;
+}
+
+/* Form Group */
+.form-group {
+  margin-bottom: 24px;
+
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.form-group input[type="text"] {
+  font-size: 14px;
+  width: 50%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Date of Birth Field */
+.dob-label {
+  font-size: 13px;
+  font-family: 'Roboto', sans-serif;
+  display: block;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: #000000;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.dob-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  font-size: 14px;
+  color: #333;
+}
+.dob-group {
+  position: relative;
+  z-index: 1;
+}
+
+#dob {
+  width: 50%;
+}
+
+.dob-input::placeholder {
+  color: #bbb;
+  font-weight: 500;
+}
+
+.dob-input:focus {
+  border-color: #6A1B9A;
+  box-shadow: 0 0 0 2px rgba(106, 27, 154, 0.1);
+}
+
+/* Gender Buttons */
+.button-group {
+  display: inline-flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.option-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.option-button:hover {
+  background-color: #aa6dd0;
+}
+.option-button.selected,
+.major-pill.selected {
+  border: 2px solid #6A1B9A;
+  background-color: #ede7f6;
+}
+
+
+/* Major Pills */
+.major-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+  align-items: flex-start;
+}
+
+/* Last row: pill + button in same row */
+.pill-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 12px;
+  gap: 12px;
+}
+
+/* Pill style */
+.major-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background-color: #f5f5f5;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: 0.2s;
+} 
+.major-pill:hover {
+  background-color: #aa6dd0;
+}
+
+/* Next button (fixed in corner) */
+.next {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 20px;
+  background-color: #6A1B9A;
+  color: white;
+  border: none;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.next:hover {
+  background-color: #aa6dd0;
+}
+.error {
+  font-size: 13px;
+  font-weight: 500;
+  color: red;
+  margin-left: 6px;
+}
