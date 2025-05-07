@@ -6,88 +6,92 @@
   <title>Train Track Wizard</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="{{ asset('css/nontechnicalskills.css') }}">
+
 </head>
 <body class="h-screen w-screen bg-[#f0f0f0] font-[Roboto] relative">
 
   <!-- Frame Container -->
   <!-- Main Wizard Layout -->
-  <div class="w-full h-full flex bg-white">
+  <div class="w-full max-w-screen-2xl mx-auto h-full flex bg-white">
 
     <!-- Left Side (Stepper) -->
-    <div class="w-[320px] px-6 py-7 bg-white border-r border-[#e0e0e0]">
+<div class="w-[320px] px-6 py-8 bg-white border-r border-[#e0e0e0]">
+  <!-- App Logo -->
+  <img src="{{ asset('traintracklogo.png') }}" style="width: 180px;" class="fixed top-0 left-0  ml-1">
+  <br>
+  <br>
 
-      <!-- App Logo -->
-      <img src="{{ asset('traintracklogo.png') }}" style="width: 180px;" class="fixed top-0 left-0  ml-1">
-      <br>
-      <br>
+ <!-- Stepper Title -->
+  <h3 class="w-[238px] h-[24px] text-[18px] font-normal text-[#333] mb-4 ml-10px">Progress Guide</h3>
 
-      <!-- Stepper Container -->
-      <!-- Stepper Title -->
-      <div class="mt-5 ml-4">
-        <h3 class="w-[238px] h-[24px] text-[20px] font-normal text-[#333] mb-4 ml-10px">Progress Guide</h3>
-        <div class="relative ml-1">
+  <!-- Stepper Container -->
+  <div class="relative pl-4">
+    <!-- Vertical line -->
+    <div class="absolute top-0 bottom-0 left-[32px] w-[1px] bg-gray-300 z-0"></div>
 
-          <!-- Vertical line behind steps -->
-          <div class="-ml-4 absolute top-0 bottom-0 left-[32px] w-[1px] bg-gray-300 z-0"></div>
 
-          <div class="flex flex-col space-y-3 relative z-10">
-            <!-- Step 1 -->
-            <div class="flex items-center relative">
-              <div class="w-8 h-8 rounded-full bg-[#6A1B9A] border-[2px] border-[#6A1B9A] flex items-center justify-center text-white font-medium text-sm mr-3">1</div>
-              <div class="mt-1 text[13px] text-[#333] font-medium">Let’s Get to Know You</div>
-            </div>
+    <div class="flex flex-col space-y-3 relative z-10">
 
-            <!-- Step 2 -->
-            <div class="flex items-start relative">
-              <div class="w-8 h-8 rounded-full bg-[#6A1B9A] border-[2px] border-[#6A1B9A] flex items-center justify-center text-white font-medium text-sm mr-3">2</div>
-              <div class="flex flex-col justify-center">
-                <div class="mt-1 text[13px] text-[#333] font-medium">Subject of Interest</div>
-                <!-- Substeps -->
-                <div class="mt-3 space-y-3">
-                  <div class="flex items-center">
-                    <div class="w-[29px] h-[29px] rounded-full bg-[#6A1B9A] border border-[#6A1B9A] flex items-center justify-center">
-                      <span class="text-[12px] font-medium text-white">2.1</span>
-                    </div>
-                    <div class="ml-2 text-[15px] text-[#333]">Select Interest Categories</div>
-                  </div>
-                  <div class="flex items-center">
-                    <div class="w-[29px] h-[29px] rounded-full bg-[#6A1B9A] border border-[#6A1B9A] flex items-center justify-center">
-                      <span class="text-[12px] font-medium text-white">2.2</span>
-                    </div>
-                    <div class="ml-2 text-[15px] text-[#333]">Choose Topics</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+   <!-- Step 1 completed-->
+    <div class="flex items-center">
+        <div class="w-8 h-8 rounded-full bg-[#6A1B9A] border-[2px] border-[#6A1B9A] flex items-center justify-center text-white font-semibold text-sm mr-3">1</div>
+        <div class="text-[16px] text-[#333] font-medium">Let’s Get to Know You</div>
+      </div>
 
-            <!-- Steps 3–6 -->
-            <div class="flex items-center relative">
-              <div class="w-8 h-8 rounded-full bg-[#6A1B9A] border-[2px] border-[#6A1B9A] flex items-center justify-center text-white font-medium text-sm mr-3">3</div>
-              <div class="text[13px] text-[#333] font-medium">Technical Skills</div>
+
+    <!-- Step 2 complete-->
+    <div class="flex items-start relative">
+      <div class="w-8 h-8 rounded-full bg-[#6A1B9A] border-[2px] border-[#6A1B9A] flex items-center justify-center text-white font-semibold text-sm mr-3">2</div>
+      <div class="flex flex-col justify-center">
+        <div class="text[16px] text-[#333] font-medium">Your Learning Interests</div>
+
+        <!-- Substeps -->
+        <div class="mt-3 space-y-2">
+          <div class="flex items-center">
+            <div class="w-[29px] h-[29px] rounded-full  bg-[#6A1B9A] border-[2px] border-[#6A1B9A] flex items-center justify-center">
+              <span class="text-[10px] font-medium text-[#ffffff]">2.1</span>
             </div>
-            <div class="flex items-center relative">
-              <div class="w-8 h-8 rounded-full bg-[#F5F5F5]border-[2px] border-[#6A1B9A]  flex items-center justify-center text-[#0f0f0f] font-medium text-sm mr-3">4</div>
-              <div class="text[13px] text-[#333] font-medium">Non-Technical Skills</div>
+            <div class="ml-2 text-[15px] text-[#333]">Select Interest Categories</div>
+          </div>
+          <div class="flex items-center">
+            <div class="w-[29px] h-[29px] rounded-full bg-[#6A1B9A] border-[2px] border-[#6A1B9A] flex items-center justify-center">
+              <span class="text-[10px] font-medium text-[#ffffff]">2.2</span>
             </div>
-            <div class="flex items-center relative">
-              <div class="w-8 h-8 rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center text-[#0f0f0f] font-medium text-sm mr-3">5</div>
-              <div class="text[13px] text-[#333] font-medium">Advance Preferences</div>
-            </div>
-            <div class="flex items-center relative">
-              <div class="w-8 h-8 rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center text-[#0f0f0f] font-medium text-sm mr-3">6</div>
-              <div class="text[13px] text-[#333] font-medium">Summary & Results</div>
-            </div>
+            <div class="ml-2 text-[15px] text-[#333]">Choose Topics</div>
           </div>
         </div>
       </div>
     </div>
 
- 
+    <!-- Steps 3–6 -->
+    <div class="flex items-center relative">
+      <div class="w-8 h-8 rounded-full  bg-[#6A1B9A] border-[2px] border-[#6A1B9A] flex items-center justify-center text-[#ffffff] font-medium text-sm mr-3">3</div>
+      <div class="text[16px] text-[#333] font-medium">Technical Skills</div>
+    </div>
+
+    <div class="flex items-center relative">
+      <div class="w-8 h-8 rounded-full  bg-[#F5F5F5] border-[2px] border-[#6A1B9A] flex items-center justify-center text-[#757575] font-medium text-sm mr-3">3</div>
+      <div class="text[16px] text-[#333] font-medium">Non-Technical Skills</div>
+    </div>
+
+    <div class="flex items-center relative">
+      <div class="w-8 h-8 rounded-full bg-[#F5F5F5] border-[2px]  border-gray-300  flex items-center justify-center text-[#757575] font-medium text-sm mr-3">4</div>
+    <div class="text[16px] text-[#333] font-medium">Advance Preferences</div>
+    </div>
+
+    <div class="flex items-center relative">
+      <div class="w-8 h-8 rounded-full bg-[#F5F5F5] border border-gray-300 flex items-center justify-center text-[#757575] font-medium text-sm mr-3">6</div>
+      <div class="text[16px] text-[#333] font-medium">Summary & Results</div>
+    </div>
+  </div>
+</div></div>
      <!-- Right Side (New Section) -->
      <!-- Right Side (Non-Technical Skills Step) -->
 <div class="flex-1 px-10 py-8 bg-white" x-data="nonTechnicalSkillsStep()">
   <h1 class="text-[28px] font-medium mb-2">💬 Non-Technical Skills</h1>
-  <p class="text-[15px] text-[#333] ml-2 mb-6">Choose the soft skills you feel most confident in.</p>
+  <p class="text-[15px] text-[#333] ml-2 mb-1">Choose 2 min soft skills you feel most confident in.</p>
+<div class="selection-counter pr-8" x-text="'Selected ' + selectedSkills.length + '/5'"></div>
 
   <!-- Dynamic skills will be inserted here -->
   <div id="skills-container" class="grid grid-cols-2 gap-5 px-4 mt-6"></div>
@@ -135,30 +139,23 @@ function nonTechnicalSkillsStep() {
   return {
     selectedSkills: JSON.parse(localStorage.getItem('selectedNonTechSkills'))?.skills || [],
 
-    saveAndGoNext() {
-      const checked = document.querySelectorAll('input[name="non_tech_skills[]"]:checked');
-      const skillIds = Array.from(checked).map(el => el.value);
+saveAndGoNext() {
+  if (this.selectedSkills.length < 2) {
+    Swal.fire({
+      icon: 'warning',
+      title: '⚠️ Minimum Required',
+      text: 'Please select at least 2 skills to proceed.',
+      confirmButtonColor: '#6A1B9A'
+    });
+    return;
+  }
 
-      if (skillIds.length < 1) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Please select at least 1 skill ⚡',
-          text: 'You must choose at least one Non-Technical Skill before continuing.',
-          confirmButtonColor: '#6A1B9A',
-          confirmButtonText: 'OK',
-          customClass: { popup: 'rounded-xl' }
-        });
-        return;
-      }
+  localStorage.setItem('selectedNonTechSkills', JSON.stringify({
+    skills: this.selectedSkills
+  }));
+  window.location.href = "{{ route('traintrack.advancepreferences') }}";
+}
 
-      // Save properly into localStorage as an object
-      localStorage.setItem('selectedNonTechSkills', JSON.stringify({
-        skills: skillIds
-      }));
-
-      // Redirect to next step
-      window.location.href = "{{ route('traintrack.advancepreferences') }}";
-    }
   };
 }
 
@@ -184,34 +181,56 @@ document.addEventListener('DOMContentLoaded', function () {
     "Customer Service": "🎧",
     "Adaptability": "🌊",
     "Presentation Skills": "📽️",
-    "Collaboration": "🫱🏼‍🫲🏽"
+    "Collaboration": "🤝"
   };
 
   axios.get("https://train-track-backend.onrender.com/wizard/non-technical-skills")
-    .then(response => {
-      const skills = response.data.data;
-      
-      skills.forEach(skill => {
-        const isChecked = selectedSkillIds.includes(String(skill.id)) ? 'checked' : '';
-        const emoji = emojiMap[skill.name] || '';
+  .then(response => {
+    const skills = response.data.data;
 
-        const label = document.createElement('label');
-        label.className = 'w-full';
-        label.innerHTML = `
-          <div class="flex items-center w-full p-3 bg-purple-100 rounded-lg cursor-pointer hover:bg-purple-200 transition">
-            <input type="checkbox" name="non_tech_skills[]" value="${skill.id}" ${isChecked}
-              class="form-checkbox h-4 w-4 text-purple-600 rounded border-gray-400 mr-3">
-            <span class="text-sm font-medium text-[#333]">${emoji} ${skill.name}</span>
-          </div>
-        `;
+    skills.forEach(skill => {
+      const isChecked = selectedSkillIds.includes(String(skill.id));
+      const emoji = emojiMap[skill.name] || '';
 
-        container.appendChild(label);
+      const label = document.createElement('label');
+      label.className = 'skill-card';
+      label.innerHTML = `
+        <input type="checkbox" value="${skill.id}" ${isChecked ? 'checked' : ''}>
+        <span>${emoji} ${skill.name}</span>
+      `;
+
+      const checkbox = label.querySelector('input');
+      checkbox.addEventListener('change', (e) => {
+        const id = e.target.value;
+        if (e.target.checked) {
+          if (selectedSkillIds.length >= 5) {
+            e.target.checked = false;
+            Swal.fire({
+              icon: 'info',
+              title: 'Limit Reached',
+              text: 'You can only choose up to 5 skills.',
+              confirmButtonColor: '#6A1B9A'
+            });
+            return;
+          }
+          selectedSkillIds.push(id);
+        } else {
+          const index = selectedSkillIds.indexOf(id);
+          if (index !== -1) selectedSkillIds.splice(index, 1);
+        }
+
+        localStorage.setItem('selectedNonTechSkills', JSON.stringify({ skills: selectedSkillIds }));
+        document.querySelector('.selection-counter').textContent = `Selected ${selectedSkillIds.length}/5`;
       });
-    })
-    .catch(error => {
-      console.error("API Error:", error);
-      container.innerHTML = `<p class="text-red-600 text-sm">❌ Failed to load skills. Please try again later.</p>`;
+
+      container.appendChild(label);
     });
+  })
+  .catch(error => {
+    console.error("API Error:", error);
+    container.innerHTML = `<p class="text-red-600 text-sm">❌ Failed to load skills. Please try again later.</p>`;
+  });
+
 });
 </script>
 

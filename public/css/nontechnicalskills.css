@@ -1,0 +1,47 @@
+/* Counter style */
+.selection-counter {
+    text-align: right;
+    font-size: 16px;
+    font-weight: 500;
+    color: #6A1B9A;
+    margin-right: 24px;
+    margin-bottom: 10px;
+  }
+  
+  /* Checkbox card */
+  .skill-card {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px;
+    background-color: #f3e8ff; /* light purple */
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  .skill-card:hover {
+    background-color: #e9d5ff;
+  }
+  .skill-card input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border: 2px solid #6A1B9A;
+    border-radius: 4px;
+    margin-right: 12px;
+    cursor: pointer;
+    position: relative;
+  }
+  .skill-card input[type="checkbox"]:checked {
+    background-color: #6A1B9A;
+  }
+  .skill-card input[type="checkbox"]:checked::after {
+    content: '✔';
+    color: white;
+    font-size: 14px;
+    position: absolute;
+    left: 4px;
+    top: -1px;
+  }
+  

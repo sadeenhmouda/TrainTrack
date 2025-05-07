@@ -1,0 +1,72 @@
+/* === Button Container === */
+.advanced-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 40px;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 16px;
+  }
+  
+  /* === Shared Base Styles === */
+  .advanced-btn {
+    width: 130px;
+    height: 40px;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+  }
+  
+  /* === Back Button === */
+  .advanced-btn-back {
+    border: 2px solid #6A1B9A;
+    color: #6A1B9A;
+    background: transparent;
+  }
+  .advanced-btn-back:hover {
+    background-color: #6A1B9A;
+    color: white;
+  }
+  
+  /* === Clear Button (inline text style) === */
+  .advanced-btn-clear {
+    font-size: 20px;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+    color: #6A1B9A;
+    text-decoration: underline;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  .advanced-btn-clear:hover {
+    color: #4a126b;
+  }
+  
+  /* === Skip Button === */
+  .advanced-btn-skip {
+    background-color: #999;
+    color: white;
+    border: none;
+  }
+  .advanced-btn-skip:hover {
+    background-color: #777;
+  }
+  
+  /* === Submit Button === */
+  .advanced-btn-submit {
+    background-color: #6A1B9A;
+    color: white;
+    border: none;
+  }
+  .advanced-btn-submit:hover {
+    background-color: #5a1784;
+  }
+  .advanced-btn-submit:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
