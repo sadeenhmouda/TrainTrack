@@ -1,128 +1,129 @@
 /* ✅ Right Side Layout */
 .subject-form {
-    padding: 40px;
-    background-color: white;
-    flex-grow: 1;
-    font-family: 'Roboto', sans-serif;
-  }
-  
-  /* ✅ Title */
-  .subject-form h1 {
-    font-size: 28px;
-    font-weight: 600;
-    color: #222;
-    margin-bottom: 10px;
-  }
-  
-  /* ✅ Subtitle */
-  .subject-form p {
-    font-size: 15px;
-    color: #333;
-    margin-left: 40px;
-    margin-bottom: 24px;
-  }
-  
-  /* ✅ Category Grid Layout */
-  .subject-category-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(180px, 1fr));
-    gap: 32px 24px;
-    justify-items: center;
-    margin-top: 24px;
-  }
-  
-  /* ✅ Category Card */
-  .subject-card {
-    width: 100%;
-    max-width: 210px;
-    height: 170px;
-    padding: 24px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    text-align: center;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .subject-card:hover {
-    border-color: #6A1B9A;
-  }
-  
-  /* ✅ Selected Card */
-  .subject-card.selected {
-    border: 2px solid #6A1B9A;
-    background-color: #f9f0ff;
-  }
-  /* ✅ Image Inside Card */
-  .subject-card img {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 12px;
-  }
-  
-  /* ✅ Title Inside Card */
-  .subject-card span {
-    font-size: 14px;
-    font-weight: 500;
-    color: #333;
-    display: block;
-  }
-  
-  /* ✅ Bottom Button Group */
-  .subject-buttons {
-    position: absolute;
-    bottom: 16px;
-    left: 0;
-    width: 100%;
-    padding: 0 40px;
-    display: flex;
-    justify-content: space-between; /* ✅ Back on left, Next on right */
-    align-items: center;
-  }
-  
-  .btn-back {
-    width: 130px;
-    height: 40px;
-    border: 2px solid #6A1B9A;
-    color: #6A1B9A;
-    font-size: 20px;
-    font-weight: 500;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    margin-left: 330px;  /* ✅ Move it more to the right from the edge */
-  }
-  
-  
-  
-  .btn-back:hover {
-    background-color: #6A1B9A;
-    color: #fff;
-  }
-  
-  /* ✅ Next Button */
-  .btn-next {
-    width: 130px;
-    height: 40px;
-    font-size: 20px;
-    font-weight: 500;
-    color: white;
-    background-color: #6A1B9A;
-    border: none;
-    border-radius: 12px;
-    transition: all 0.3s ease; 
-  }
-  
-  .btn-next:hover {
-    background-color: #5a1784;
-  }
-  
-  .btn-next:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
+  padding: 40px;
+  background-color: white;
+  flex-grow: 1;
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Allows footer alignment */
+}
+
+/* ✅ Title */
+.subject-form h1 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #222; 
+  margin-bottom: 10px;
+}
+
+/* ✅ Subtitle */
+.subject-form p {
+  font-size: 15px;
+  color: #333;
+  margin-left: 40px;
+  margin-bottom: 24px;
+}
+
+/* ✅ Category Grid Layout */
+.subject-category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(180px, 1fr));
+  gap: 32px 24px;
+  justify-items: center;
+  margin-top: 24px;
+  flex-grow: 1; /* Make grid area grow to fill space */
+}
+
+/* ✅ Category Card */
+.subject-card {
+  width: 100%;
+  max-width: 210px;
+  height: 170px;
+  padding: 24px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.subject-card:hover {
+  border-color: #6A1B9A;
+}
+
+.subject-card.selected {
+  border: 2px solid #6A1B9A;
+  background-color: #f9f0ff;
+}
+
+.subject-card img {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 12px;
+}
+
+.subject-card span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  display: block;
+}
+
+
+/* ✅ Bottom Button Group */
+.subject-buttons {
+  margin-top: auto;
+  padding: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+/* ✅ Back Button */
+.btn-back {
+  width: 130px;
+  height: 40px;
+  border: 2px solid #6A1B9A;
+  color: #6A1B9A;
+  font-size: 20px;
+  font-weight: 500;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.btn-back:hover {
+  background-color: #6A1B9A;
+  color: #fff;
+}
+
+/* ✅ Next Button (Always visible but disabled until 3 selections) */
+.btn-next {
+  width: 130px;
+  height: 40px;
+  font-size: 20px;
+  font-weight: 500;
+  color: white;
+  background-color: #ccc; /* Gray when disabled */
+  border: none;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: not-allowed;
+}
+
+.btn-next.active {
+  background-color: #6A1B9A;
+  cursor: pointer;
+}
+
+.btn-next.active:hover {
+  background-color: #5a1784;
+}
+
