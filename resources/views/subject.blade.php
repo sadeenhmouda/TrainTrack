@@ -14,7 +14,7 @@
     {{-- Left Sidebar --}}
     @include('traintrack.partials.sidebar')
 
-    <!-- Right Side: Subject of Interest Step -->
+    <!-- Right Side -->
     <div class="subject-form">
       <h1>🧠 Knowledge Background</h1>
       <p>Select max 3 categories to get personalized subject suggestions</p>
