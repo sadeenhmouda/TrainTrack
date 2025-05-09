@@ -27,11 +27,20 @@
   }
   
   /* ====== Topic Container ====== */
-  .topics-container {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
+/* Container that pushes counter to the right */
+.selection-line {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -10px;
+  margin-bottom: 1.8rem;
+}
+
+/* Counter text style */
+.tec-counter {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6A1B9A;
+}
   
   .category-group h2 {
     font-size: 18px;

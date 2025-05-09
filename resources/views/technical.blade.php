@@ -3,26 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <title>Technical Skills | Train Track Wizard</title>
+  <link href="{{ asset('css/first.css') }}" rel="stylesheet">
+  <link href="{{ asset('css/sidebar.css') }}" rel="stylesheet">
+  <link href="{{ asset('css/tec.css') }}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('css/first.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/tec.css') }}">
 </head>
 <body class="wizard-body">
   <div class="wizard-layout">
-
-    {{-- Left Sidebar --}}
+    <!-- ✅ Left Sidebar -->
     @include('traintrack.partials.sidebar')
 
-    <!-- Right Side -->
+    <!-- ✅ Right Content Area -->
     <div class="tec-content" x-data="technicalSkillsStep()">
-      <h1 class="tec-title">🧠 Technical Skills</h1>
-      <p class="tec-subtitle">We recommend selecting up to 7 strongest technical skills.</p>
 
-      <!-- Skills will be injected here -->
+      <!-- ✅ Title and Counter -->
+      <h1 class="tec-title">🧠 Technical Skill</h1>
+       <p class="tec-subtitle">
+         Select the technical skills you’re strongest in — you can choose between 3 and 8.
+         <div class="selection-line">
+           <span id="selected-counter" class="tec-counter">Selected 0</span>
+          </div>
+        </p>
+
+      <!-- ✅ Dynamic Skill Categories Injected Here -->
       <div id="skills-container" class="tec-skill-container"></div>
 
-      <!-- Navigation Buttons -->
+      <!-- ✅ Selected Skill Pills Display -->
+      <div id="selected-skills-wrapper" class="selected-wrapper">
+        <p class="selected-label">✅ Selected Skills</p>
+        <div id="selected-skills-box" class="selected-scroll-box"></div>
+      </div>
+
+      <!-- ✅ Navigation Buttons -->
       <div class="tec-footer">
         <a href="{{ route('traintrack.subject2') }}">
           <button class="btn-back">Back</button>
@@ -32,7 +44,7 @@
     </div>
   </div>
 
-  <!-- Scripts -->
+  <!-- ✅ Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://unpkg.com/alpinejs" defer></script>

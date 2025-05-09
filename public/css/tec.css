@@ -1,114 +1,183 @@
+/* Main Right Panel Layout */
 .tec-content {
-    padding: 2.5rem 3rem;
-    background-color: white;
-    width: 100%;
-    position: relative;
-  }
-  
-  .tec-title {
-    font-size: 26px;
-    font-weight: 600;
-    margin-bottom: 0.4rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #1c1c1c;
-  }
-  
-  .tec-subtitle {
-    font-size: 15px;
-    color: #555;
-    margin-left: 4px;
-    margin-bottom: 1.8rem;
-  }
-  
-  .tec-skill-container {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    margin-top: 1rem;
-  }
-  
-  .subject-category-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: #222;
-    margin-bottom: 0.5rem;
-  }
-  
-  .category-box {
-    background-color: #f2dfff;
-    border-radius: 16px;
-    padding: 0.5rem;
-  }
-  
-  .category-header {
-    background-color: #e8d4f8;
-    border-radius: 16px;
-    padding: 1rem 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 16px;
-    color: #333;
-    transition: background 0.2s ease;
-  }
-  
-  .category-header:hover {
-    background-color: #e1c4f6;
-  }
-  
-  .category-body {
-    padding: 0.8rem 1.5rem;
-    padding-bottom: 1rem;
-    display: none;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-  
-  .category-body.show {
-    display: flex;
-  }
-  
-  .tec-footer {
-    position: absolute;
-    bottom: 1rem;
-    left: 0;
-    width: 100%;
-    padding: 0 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .btn-back,
-  .btn-next {
-    width: 130px;
-    height: 40px;
-    border-radius: 12px;
-    font-weight: 500;
-    font-size: 18px;
-    transition: all 0.3s ease;
-  }
-  
-  .btn-back {
-    border: 2px solid #6A1B9A;
-    color: #6A1B9A;
-    background: white;
-  }
-  
-  .btn-next {
-    background-color: #6A1B9A;
-    color: white;
-  }
-  
-  .btn-next:hover {
-    background-color: #5a1784;
-  }
-  
-  input[type="checkbox"] {
-    accent-color: #6A1B9A;
-  }
-  
+  flex: 1;
+  padding: 2.5rem 3rem;
+  background-color: white;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+/* Title with icon and counter */
+.tec-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #1c1c1c;
+}
+
+/* Container that pushes counter to the right */
+.selection-line {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -10px;
+  margin-bottom: 1.8rem;
+}
+
+/* Counter text style */
+.tec-counter {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6A1B9A;
+}
+
+/* Subtitle */
+.tec-subtitle {
+  font-size: 15px;
+  color: #555;
+  margin-left: 4px;
+  margin-bottom: 1.8rem;
+}
+
+/* Skills Container */
+.tec-skill-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+.category-box {
+  background-color: #f2dfff;
+  border-radius: 12px;
+  padding: 0.3rem;
+  width: 100%;
+  max-width: 657px;      /* 🔁 Exactly as in Figma */
+  margin: 0 auto;         /* ✅ Center it */
+}
+
+.category-header {
+  background-color: #e8d4f8;
+  border-radius: 12px;    /* 🔁 Matches Figma radius */
+  padding: 0.7rem 1.2rem; /* 👌 Balanced spacing */
+  font-size: 15px;        /* 👁️ Matches visual density */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 500;
+  color: #333;
+  transition: background 0.2s ease;
+}
+
+.category-header:hover {
+  background-color: #e1c4f6;
+}
+
+/* Toggle +/- icon */
+.toggle-icon {
+  font-size: 18px;
+  font-weight: bold;
+  color: #6A1B9A;
+}
+
+/* Collapsible Content */
+.category-body {
+  padding: 0.5rem 1rem 0.8rem 1rem;
+  display: none;
+  flex-direction: column;
+  gap: 0.4rem;
+  background-color: #fff;
+  max-height: 180px;
+  overflow-y: auto;
+  border-radius: 0 0 10px 10px;
+}
+
+.category-body.show {
+  display: flex;
+}
+
+/* Footer Buttons Container */
+.tec-footer {
+  margin-top: 2.5rem;
+  padding: 0 3rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Button Styles */
+.btn-back,
+.btn-next {
+  width: 130px;
+  height: 40px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 18px;
+  transition: all 0.3s ease;
+}
+
+.btn-back {
+  border: 2px solid #6A1B9A;
+  color: #6A1B9A;
+  background: white;
+}
+
+.btn-next {
+  background-color: #6A1B9A;
+  color: white;
+}
+
+.btn-next:hover {
+  background-color: #5a1784;
+}
+
+/* Checkbox Custom Style */
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #6A1B9A;
+}
+
+/* Selected Skills Display Box */
+.selected-scroll-box {
+  max-height: 100px;
+  overflow-y: auto;
+  background-color: #f3f4f6;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Individual Pill */
+.skill-pill {
+  display: inline-block;
+  background-color: #e0e7ff;
+  color: #1e40af;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid #a5b4fc;
+}
+
+/* Selected Skills Section Label */
+.selected-label {
+  margin-top: 1rem;
+  font-weight: 500;
+  color: #0c600c;
+}
+.pill-remove {
+  color: #1e40af;
+  font-weight: bold;
+  margin-right: 6px;
+  cursor: pointer;
+}
+.pill-remove:hover {
+  color: #dc2626; /* red on hover */
+}
