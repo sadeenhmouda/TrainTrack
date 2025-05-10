@@ -47,3 +47,4 @@ Route::get('/traintrack/summaryresults', function () {
     return view('summaryresults'); 
 })->name('traintrack.summaryresults');
  // step6
+ 

@@ -5,41 +5,37 @@
   padding: 0;
 }
 
-/* ✅ Allow scrolling only when needed */
-body,
-html,
-.form-area,
-.wizard-layout {
-  overflow-y: auto; /* Only vertical scrolling when needed */
-  overflow-x: hidden; /* Prevent horizontal scrolling */
-}
-
-/* ✅ Natural scrollbar for all browsers */
-body {
-  -ms-overflow-style: auto;  /* IE and Edge */
-  scrollbar-width: auto;     /* Firefox */
-}
-
-.wizard-body {
+/* Base Layout */
+html, body {
+  height: 100%;
+  overflow: hidden;
   font-family: 'Roboto', sans-serif;
-  font-weight: 400;
   background-color: #f8f8f8;
+}
+
+/* Wizard Layout */
+.wizard-body {
+  height: 100%;
 }
 
 .wizard-layout {
   display: flex;
-  height: 100vh;           /* ✅ Lock full screen height */
-  overflow: hidden;        /* ✅ Prevent outer scroll */
+  height: 100vh;
+  overflow: hidden;
 }
 
-/* Form Area */
+/* Main Form Area */
 .form-area {
   flex-grow: 1;
-  padding: 40px;
   background-color: #fff;
-  overflow-y: auto;        /* ✅ Scroll inside this only if needed */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 40px 60px 220px 60px;
+  overflow-y: auto;
 }
 
+/* Titles */
 .form-title {
   font-size: 28px;
   color: #6A1B9A;
@@ -48,13 +44,12 @@ body {
 
 .form-subtitle {
   color: #555;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 /* Form Group */
 .form-group {
   margin-bottom: 24px;
-
 }
 
 .form-group label {
@@ -71,52 +66,48 @@ body {
   border-radius: 6px;
 }
 
-/* Date of Birth Field */
+/* Date of Birth Styling */
 .dob-label {
   font-size: 13px;
-  font-family: 'Roboto', sans-serif;
-  display: block;
   font-weight: 500;
   letter-spacing: 0.05em;
-  color: #000000;
+  color: #000;
   margin-bottom: 6px;
   text-transform: uppercase;
 }
 
-.dob-input {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #fff;
-  font-size: 14px;
-  color: #333;
-}
 .dob-group {
   position: relative;
-  z-index: 1;
 }
 
-#dob {
-  width: 50%;
+.dob-selects {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
 }
 
-.dob-input::placeholder {
-  color: #bbb;
-  font-weight: 500;
-}
+  .dob-selects select {
+    width: 120px;
+    height: 42px;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    color: #000;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.2s ease
+ }
 
-.dob-input:focus {
-  border-color: #6A1B9A;
-  box-shadow: 0 0 0 2px rgba(106, 27, 154, 0.1);
-}
+
 
 /* Gender Buttons */
 .button-group {
   display: inline-flex;
   gap: 12px;
   margin-top: 10px;
-  
 }
 
 .option-button {
@@ -128,22 +119,20 @@ body {
   border: 1px solid #ccc;
   border-radius: 20px;
   cursor: pointer;
-  transition: 0.2s;
-  font-family: 'Roboto', sans-serif;
   font-size: 14px;
-  font-weight: 400;
+  transition: 0.2s;
   white-space: nowrap;
 }
 
 .option-button:hover {
   background-color: #aa6dd0;
 }
+
 .option-button.selected,
 .major-pill.selected {
   border: 2px solid #6A1B9A;
   background-color: #ede7f6;
 }
-
 
 /* Major Pills */
 .major-options {
@@ -154,17 +143,6 @@ body {
   align-items: flex-start;
 }
 
-/* Last row: pill + button in same row */
-.pill-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-top: 12px;
-  gap: 12px;
-}
-
-/* Pill style */
 .major-pill {
   display: inline-flex;
   align-items: center;
@@ -173,23 +151,35 @@ body {
   background-color: #f5f5f5;
   border-radius: 20px;
   border: 1px solid #ccc;
-  font-family: 'Roboto', sans-serif;
   font-size: 14px;
-  font-weight: 400;
-  white-space: nowrap;
   cursor: pointer;
   transition: 0.2s;
-} 
+}
+
 .major-pill:hover {
   background-color: #aa6dd0;
 }
 
-/* Next button (fixed in corner) */
+/* Error Message */
+.error {
+  font-size: 13px;
+  font-weight: 500;
+  color: red;
+  margin-left: 6px;
+}
+
+/* Next Button (Bottom Right like Figma) */
+.form-buttons {
+  position: fixed;
+  bottom: 60px;
+  right: 60px;
+  z-index: 100;
+}
 
 .next {
   width: 130px;
   height: 40px;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
   font-family: 'Roboto', sans-serif;
   color: white;
@@ -197,19 +187,20 @@ body {
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-
 .next:hover {
   background-color: #aa6dd0;
 }
-.error {
-  font-size: 13px;
-  font-weight: 500;
-  color: red;
-  margin-left: 6px;
+
+/* Responsive for Short Screens */
+@media (max-height: 650px) {
+  .form-area {
+    overflow-y: auto;
+    padding-bottom: 140px;
+  }
 }

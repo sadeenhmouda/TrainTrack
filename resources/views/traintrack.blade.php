@@ -66,17 +66,14 @@
           </div>
         </div>
 
-        <!-- Major -->
-        <div class="form-group">
-          <label>Major</label>
-          <div class="major-options">
-            <span class="major-pill">☁️ Computer Science Apprenticeship Program</span>
-            <span class="major-pill">💼 Management Information System</span>
-            <span class="major-pill">🛠️ Computer Engineering</span>
-            <span class="major-pill">💻 Computer Science</span>
-            <span class="major-pill">🔐 Cyber Security</span>
+    
+        <!-- Major (to be populated dynamically) -->
+          <div class="form-group">
+            <label>Major</label>
+            <div class="major-options" id="majorOptions">
+             <!-- JS will inject major pills here -->
+           </div>
           </div>
-        </div>
 
         <!-- Buttons -->
         <div class="form-buttons">
@@ -103,7 +100,7 @@
     // Populate Years from current back to 1950
     const yearSelect = document.getElementById("dob-year");
     const currentYear = new Date().getFullYear();
-    for (let y = currentYear; y >= 1950; y--) {
+    for (let y = currentYear; y >= 1990; y--) {
       yearSelect.innerHTML += `<option value="${y}">${y}</option>`;
     }
   </script>
