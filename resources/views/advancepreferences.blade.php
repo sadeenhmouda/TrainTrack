@@ -16,7 +16,7 @@
   <!-- Main Wizard Layout -->
   <div class="w-full max-w-screen-2xl mx-auto h-full flex bg-white">
 
- <!-- Left Side (Stepper) -->
+   <!-- Left Side (Stepper) -->
 <div class="w-[320px] px-6 py-8 bg-white border-r border-[#e0e0e0]">
   <!-- App Logo -->
   <img src="{{ asset('traintracklogo.png') }}" style="width: 180px;" class="fixed top-0 left-0  ml-1">
@@ -176,6 +176,7 @@
     </button>
   </div>
 </div>
+
 
 
 <script>

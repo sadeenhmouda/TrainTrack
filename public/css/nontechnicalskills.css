@@ -1,20 +1,16 @@
-/* Counter style */
 .selection-counter {
-    text-align: right;
     font-size: 16px;
     font-weight: 500;
     color: #6A1B9A;
-    margin-right: 24px;
     margin-bottom: 10px;
   }
   
-  /* Checkbox card */
   .skill-card {
     display: flex;
     align-items: center;
     width: 100%;
     padding: 12px;
-    background-color: #f3e8ff; /* light purple */
+    background-color: #f3e8ff;
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
@@ -43,5 +39,31 @@
     position: absolute;
     left: 4px;
     top: -1px;
+  }
+  
+  /* Navigation Button Styles */
+  .advanced-btn {
+    width: 130px;
+    height: 40px;
+    font-size: 20px;
+    font-weight: 500;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+  }
+  .advanced-btn-back {
+    border: 2px solid #6A1B9A;
+    color: #6A1B9A;
+    background-color: white;
+  }
+  .advanced-btn-back:hover {
+    background-color: #6A1B9A;
+    color: white;
+  }
+  .advanced-btn-next {
+    background-color: #6A1B9A;
+    color: white;
+  }
+  .advanced-btn-next:hover {
+    background-color: #5a1784;
   }
   
