@@ -1,4 +1,3 @@
-// ✅ 1. Check if page needs scrollbar
 window.addEventListener("load", () => {
   const bodyHeight = document.body.scrollHeight;
   const screenHeight = window.innerHeight;
@@ -6,67 +5,48 @@ window.addEventListener("load", () => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+  // ✅ Clear wizard progress
+  localStorage.removeItem("selectedSubjectIds");
+  localStorage.removeItem("selectedTechnicalSkills");
+  localStorage.removeItem("selectedNonTechnicalSkills");
+  localStorage.removeItem("trainingModeId");
+  localStorage.removeItem("companySizeId");
+  localStorage.removeItem("industryIds");
+  localStorage.removeItem("recommendationResult");
+  localStorage.removeItem("fallbackTriggered");
+
   const nameField = document.getElementById("fullName");
 
-  // ✅ Populate Month dropdown
+  // ✅ Populate Month
   const monthSelect = document.getElementById("dob-month");
   monthSelect.innerHTML = "";
   monthSelect.appendChild(new Option("Month", "", true, true)).disabled = true;
-  const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
+  const months = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"];
   months.forEach((month, index) => {
     const value = (index + 1).toString().padStart(2, "0");
     monthSelect.appendChild(new Option(month, value));
   });
 
-  // ✅ Populate Day dropdown
+  // ✅ Populate Day
   const daySelect = document.getElementById("dob-day");
   daySelect.innerHTML = "";
   daySelect.appendChild(new Option("Day", "", true, true)).disabled = true;
   for (let d = 1; d <= 31; d++) {
     const padded = d.toString().padStart(2, "0");
-    const option = document.createElement("option");
-    option.textContent = padded;
-    option.value = padded;
-    daySelect.appendChild(option);
+    daySelect.appendChild(new Option(padded, padded));
   }
 
-  // ✅ Populate Year dropdown (current year to 1990)
+  // ✅ Populate Year
   const yearSelect = document.getElementById("dob-year");
   yearSelect.innerHTML = "";
   yearSelect.appendChild(new Option("Year", "", true, true)).disabled = true;
   const currentYear = new Date().getFullYear();
   for (let y = currentYear; y >= 1990; y--) {
-    const option = document.createElement("option");
-    option.textContent = y;
-    option.value = y;
-    yearSelect.appendChild(option);
+    yearSelect.appendChild(new Option(y, y));
   }
 
-  // ✅ Restore saved data
-  const savedData = JSON.parse(localStorage.getItem("personal_info"));
-  if (savedData) {
-    nameField.value = savedData.fullName || '';
-
-    // Restore gender
-    document.querySelectorAll(".option-button").forEach(btn => {
-      if (btn.textContent.trim() === savedData.gender) {
-        btn.classList.add("selected");
-      }
-    });
-
-    // Restore DOB
-    if (savedData.dob) {
-      const [day, month, year] = savedData.dob.split("/");
-      document.getElementById("dob-day").value = day;
-      document.getElementById("dob-month").value = month;
-      document.getElementById("dob-year").value = year;
-    }
-  }
-
-  // ✅ Gender selection logic
+  // ✅ Gender logic
   document.querySelectorAll(".option-button").forEach(btn => {
     btn.addEventListener("click", () => {
       document.querySelectorAll(".option-button").forEach(b => b.classList.remove("selected"));
@@ -76,13 +56,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // ✅ Fetch majors with emoji
+  // ✅ Load majors dynamically
   fetch("https://train-track-backend.onrender.com/wizard/majors")
     .then(res => res.json())
     .then(result => {
       if (result.success && result.data) {
         const majorOptionsDiv = document.getElementById("majorOptions");
-        majorOptionsDiv.innerHTML = '';
+        majorOptionsDiv.innerHTML = "";
 
         const majorEmojiMap = {
           "Computer Science Apprenticeship Program": "🧑‍💻",
@@ -96,12 +76,11 @@ document.addEventListener("DOMContentLoaded", function () {
         result.data.forEach(major => {
           const span = document.createElement("span");
           span.classList.add("major-pill");
-          const emoji = majorEmojiMap[major.name] || "🎓";
-          span.textContent = `${emoji} ${major.name}`;
+          span.dataset.id = major.id; // ✅ Store major_id here
+          span.textContent = `${majorEmojiMap[major.name] || "🎓"} ${major.name}`;
           majorOptionsDiv.appendChild(span);
         });
 
-        // Bind click for majors
         document.querySelectorAll(".major-pill").forEach(pill => {
           pill.addEventListener("click", () => {
             document.querySelectorAll(".major-pill").forEach(p => p.classList.remove("selected"));
@@ -110,22 +89,10 @@ document.addEventListener("DOMContentLoaded", function () {
             if (error) error.remove();
           });
         });
-
-        // Restore selected major
-        if (savedData) {
-          document.querySelectorAll(".major-pill").forEach(pill => {
-            if (pill.textContent.trim() === `${majorEmojiMap[savedData.major] || "🎓"} ${savedData.major}`) {
-              pill.classList.add("selected");
-            }
-          });
-        }
       }
-    })
-    .catch(err => {
-      console.error("Error fetching majors:", err);
     });
 
-  // ✅ Live error removal
+  // ✅ Error removal
   nameField.addEventListener("input", function () {
     const error = this.nextElementSibling;
     if (error && error.classList.contains("error") && this.value.trim()) {
@@ -133,7 +100,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // ✅ Live DOB error removal
   ["dob-day", "dob-month", "dob-year"].forEach(id => {
     document.getElementById(id).addEventListener("change", () => {
       const day = document.getElementById("dob-day").value;
@@ -183,20 +149,25 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (isValid) {
-      const dobFormatted = `${day}/${month}/${year}`;
+      // ✅ Format DOB as YYYY-MM-DD
+      const dobFormatted = `${year}-${month}-${day}`;
+
       const formData = {
-        fullName,
-        dob: dobFormatted,
-        gender: selectedGender.textContent.trim(),
-        major: selectedMajor.textContent.trim().replace(/^[^\w]+/, '') // remove emoji
+        full_name: fullName,
+        gender: selectedGender.textContent.trim().replace(/^[^\w]+/, ""), // remove emoji
+        date_of_birth: dobFormatted,
+        major_id: selectedMajor.dataset.id
       };
+
       localStorage.setItem("personal_info", JSON.stringify(formData));
+      console.log("✅ Saved personal info:", formData);
+
       window.location.href = "/traintrack/subject";
     }
   });
 });
 
-// ✅ Error helper functions
+// ✅ Error helpers
 function showError(inputId, message) {
   const input = document.getElementById(inputId);
   const error = document.createElement("div");

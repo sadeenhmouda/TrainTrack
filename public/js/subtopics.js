@@ -6,13 +6,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let selectedTopics = [];
 
-  // ✅ Start from 0
-  localStorage.removeItem("selectedSubjectIds");
+  // ✅ Load previously selected topics (if any)
+  const saved = localStorage.getItem("selectedSubjectIds");
+  if (saved) {
+    selectedTopics = JSON.parse(saved);
+  }
+
   updateCounter();
 
-  // ✅ Fetch topics based on categories
+  // ✅ Fetch topics based on selected categories
   function fetchTopics() {
-    const categoryIds = localStorage.getItem("selectedCategoryIds");
+    const raw = localStorage.getItem("selectedCategoryIds");
+    const categoryIds = raw ? JSON.parse(raw).join(",") : "";
+
     if (!categoryIds) {
       topicsContainer.innerHTML = "<p style='color: red;'>⚠️ No categories selected. Please go back and choose categories first.</p>";
       return;
@@ -33,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  // ✅ Render topics
+  // ✅ Render all topics and restore selection state
   function renderTopics(categories) {
     topicsContainer.innerHTML = "";
 
@@ -56,7 +62,12 @@ document.addEventListener("DOMContentLoaded", function () {
         btn.setAttribute("data-subject-id", sub.id);
         btn.setAttribute("data-category-id", cat.Subject_category_id);
 
-        btn.addEventListener("click", () => toggleTopic(btn, sub.id, cat.Subject_category_id));
+        // ✅ Restore previous selection
+        if (selectedTopics.includes(sub.id)) {
+          btn.classList.add("selected");
+        }
+
+        btn.addEventListener("click", () => toggleTopic(btn, sub.id));
         btnContainer.appendChild(btn);
       });
 
@@ -65,8 +76,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // ✅ Toggle topic
-  function toggleTopic(button, id, categoryId) {
+  // ✅ Toggle topic selection
+  function toggleTopic(button, id) {
     if (selectedTopics.includes(id)) {
       selectedTopics = selectedTopics.filter(t => t !== id);
       button.classList.remove("selected");
@@ -75,34 +86,30 @@ document.addEventListener("DOMContentLoaded", function () {
       selectedTopics.push(id);
       button.classList.add("selected");
     }
+
     updateCounter();
   }
 
-  // ✅ Counter & Validation
+  // ✅ Update counter and warning
   function updateCounter() {
     selectedCount.textContent = selectedTopics.length;
 
     const usedCategoryIds = new Set();
-
     document.querySelectorAll(".topic-btn.selected").forEach(btn => {
-      const categoryId = btn.getAttribute("data-category-id");
-      if (categoryId) usedCategoryIds.add(categoryId);
+      usedCategoryIds.add(btn.getAttribute("data-category-id"));
     });
 
     const isValid = selectedTopics.length === 7 && usedCategoryIds.size === 3;
     nextBtn.disabled = !isValid;
 
-    // Show/hide warning
-    if (selectedTopics.length === 7 && usedCategoryIds.size < 3) {
-      warningEl.style.display = "block";
-    } else {
-      warningEl.style.display = "none";
-    }
+    warningEl.style.display = selectedTopics.length === 7 && usedCategoryIds.size < 3
+      ? "block"
+      : "none";
   }
 
-  // ✅ Save & Go
+  // ✅ Save selections on "Next"
   nextBtn.addEventListener("click", () => {
-    localStorage.setItem("selectedSubjectIds", selectedTopics.join(","));
+    localStorage.setItem("selectedSubjectIds", JSON.stringify(selectedTopics));
     window.location.href = "/traintrack/technical";
   });
 

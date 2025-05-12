@@ -1,158 +1,106 @@
-function advancedPreferences() {
-    return {
-      trainingModes: [],
-      companySizes: [],
-      companyCultures: [],
-      industries: [],
-      training_mode: '',
-      company_size: '',
-      selected_culture: [],
-      selected_industry: [],
-  
-      trainingModeTips: {
-        hybrid: "Mix of onsite and remote training.",
-        onsite: "Training happens at the company's location.",
-        remotely: "Training can be done from anywhere."
-      },
-  
-      companySizeTips: {
-        small: "Tight-knit teams with flexible roles and personal mentoring.",
-        medium: "Balanced size with some structure and room to grow.",
-        large: "Big companies with structured departments and formal training."
-      },
-  
-      cultureTips: {
-        "Autonomous Workstyle": "Work independently with trust and ownership.",
-        "Creative & Agile": "Flexible and innovative environment.",
-        "Learning-Focused": "Emphasis on growth and learning.",
-        "Process-Oriented": "Structured workflows and standard procedures.",
-        "Structured Environment": "Clear rules, responsibilities, and hierarchy."
-      },
-  
-      industryTips: {
-        "Workforce Management": "Managing teams, schedules, and productivity.",
-        "Telecommunications": "Working with mobile, internet, and signals.",
-        "Insurance": "Risk management and customer protection.",
-        "Software Development": "Building and maintaining software systems.",
-        "E-commerce Solutions": "Online shopping and retail systems."
-      },
-  
-      fetchPreferences() {
-        fetch("https://train-track-backend.onrender.com/wizard/preferences")
-          .then(res => res.json())
-          .then(data => {
-            this.trainingModes = data.data.training_modes;
-            this.companySizes = data.data.company_sizes;
-            this.companyCultures = data.data.company_cultures;
-            this.industries = data.data.industries;
-          });
-      },
-  
-      toggleCulture(item) {
-        if (this.selected_culture.includes(item)) {
-          this.selected_culture = this.selected_culture.filter(i => i !== item);
-        } else if (this.selected_culture.length < 2) {
-          this.selected_culture.push(item);
-        }
-      },
-  
-      toggleIndustry(item) {
-        if (this.selected_industry.includes(item)) {
-          this.selected_industry = this.selected_industry.filter(i => i !== item);
-        } else {
-          if (this.selected_industry.length >= 2) {
-            this.selected_industry.shift();
-          }
-          this.selected_industry.push(item);
-        }
-      },
-  
-      clearAll() {
-        this.training_mode = '';
-        this.company_size = '';
-        this.selected_culture = [];
-        this.selected_industry = [];
-        localStorage.removeItem("preferences");
-      },
-  
-      get canSubmit() {
-        return this.training_mode || this.company_size || this.selected_culture.length > 0 || this.selected_industry.length > 0;
-      },
-  
-      goBack() {
-        const payload = {
-          training_mode: this.training_mode,
-          preferred_company_size: this.company_size,
-          preferred_culture: this.selected_culture,
-          preferred_industry: this.selected_industry,
-        };
-        localStorage.setItem("preferences", JSON.stringify(payload));
-        window.location.href = "/traintrack/nontechnical";
-      },
-  
-      skip() {
-        Swal.fire({
-          title: 'Redirecting...',
-          text: 'Please wait a moment ✨',
-          allowOutsideClick: false,
-          didOpen: () => Swal.showLoading()
-        });
-        setTimeout(() => {
-          localStorage.setItem("preferences", JSON.stringify({}));
-          window.location.href = "/traintrack/summaryresults";
-        }, 1000);
-      },
-  
-      submit() {
-        const payload = {
-          training_mode: this.training_mode,
-          preferred_company_size: this.company_size,
-          preferred_culture: this.selected_culture,
-          preferred_industry: this.selected_industry,
-        };
-  
-        localStorage.setItem("preferences", JSON.stringify(payload));
-  
-        Swal.fire({
-          title: 'Submitting...',
-          text: 'Please wait...',
-          allowOutsideClick: false,
-          didOpen: () => Swal.showLoading()
-        });
-  
-        fetch("https://train-track-backend.onrender.com/wizard/preferences", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        })
-          .then(res => {
-            if (res.ok) {
-              Swal.fire({
-                title: 'Success 🎉',
-                text: 'Preferences saved!',
-                icon: 'success',
-                confirmButtonText: 'Continue'
-              }).then(() => {
-                window.location.href = "/traintrack/summaryresults";
-              });
-            } else {
-              Swal.fire({
-                title: 'Oops!',
-                text: 'Something went wrong!',
-                icon: 'error',
-                confirmButtonText: 'OK'
-              });
-            }
-          })
-          .catch(() => {
-            Swal.fire({
-              title: 'Network Error',
-              text: 'Check your internet connection.',
-              icon: 'warning',
-              confirmButtonText: 'OK'
-            });
-          });
-      }
-    };
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("skipAndSubmitBtn").addEventListener("click", () => {
+    preferencesFilled = false;
+    submitToExpertSystem();
+  });
+
+  document.getElementById("submitWithPrefsBtn").addEventListener("click", () => {
+    preferencesFilled = true;
+    submitToExpertSystem();
+  });
+
+  fetchAdvancedPreferences();
+});
+
+let selectedSubjects = JSON.parse(localStorage.getItem("selectedSubjectIds")) || [];
+let selectedTechnicalSkills = JSON.parse(localStorage.getItem("selectedTechnicalSkills")) || [];
+let selectedNonTechnicalSkills = JSON.parse(localStorage.getItem("selectedNonTechnicalSkills")) || [];
+
+let selectedTrainingModeId = localStorage.getItem("trainingModeId");
+let selectedCompanySizeId = localStorage.getItem("companySizeId");
+let selectedIndustryIds = JSON.parse(localStorage.getItem("industryIds")) || [];
+
+let preferencesFilled = false;
+
+async function fetchAdvancedPreferences() {
+  try {
+    const res = await fetch("https://train-track-backend.onrender.com/wizard/preferences");
+    const data = await res.json();
+
+    if (data.success) {
+      console.log("✅ Advanced Preferences Loaded:", data.data);
+    } else {
+      console.warn("⚠️ Could not load preferences:", data.message);
+    }
+  } catch (err) {
+    console.error("❌ Failed to fetch preferences:", err);
   }
-  
+}
+
+async function submitToExpertSystem() {
+  // ✅ Subject validation
+  if (!selectedSubjects || selectedSubjects.length < 3 || selectedSubjects.length > 7) {
+    Swal.fire("Error", "Please select between 3 and 7 subjects before continuing.", "error");
+    return;
+  }
+
+  // ✅ Conditional validations
+  if (preferencesFilled) {
+    if (!selectedNonTechnicalSkills || selectedNonTechnicalSkills.length < 3 || selectedNonTechnicalSkills.length > 5) {
+      Swal.fire("Error", "Please select between 3 and 5 non-technical skills before continuing.", "error");
+      return;
+    }
+
+    if (!selectedTechnicalSkills || selectedTechnicalSkills.length < 3 || selectedTechnicalSkills.length >8 ) {
+      Swal.fire("Error", "Please select between 3 and 8 technical skills before continuing.", "error");
+      return;
+    }
+  }
+
+  const payload = {
+    subjects: selectedSubjects,
+    technical_skills: selectedTechnicalSkills,
+    non_technical_skills: selectedNonTechnicalSkills,
+    is_fallback: false,
+    previous_fallback_ids: [],
+    advanced_preferences: preferencesFilled
+      ? {
+          training_modes: selectedTrainingModeId ? [parseInt(selectedTrainingModeId)] : [],
+          company_sizes: selectedCompanySizeId ? [parseInt(selectedCompanySizeId)] : [],
+          industries: selectedIndustryIds.map(Number)
+        }
+      : {}
+  };
+
+  console.log("🛠️ Sending to Expert System:", payload);
+
+  Swal.fire({
+    title: "Loading...",
+    didOpen: () => Swal.showLoading(),
+    allowOutsideClick: false
+  });
+
+  try {
+    const response = await fetch("https://train-track-backend.onrender.com/recommendations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await response.json();
+    Swal.close();
+
+    if (result.success) {
+      localStorage.setItem("recommendationResult", JSON.stringify(result));
+      if (result.fallback_triggered) {
+        localStorage.setItem("fallbackTriggered", "true");
+      }
+      window.location.href = "/traintrack/summaryresults";
+    } else {
+      Swal.fire("Error", result.message || "Something went wrong", "error");
+    }
+  } catch (error) {
+    Swal.close();
+    Swal.fire("Error", "Network error. Please try again.", "error");
+  }
+}

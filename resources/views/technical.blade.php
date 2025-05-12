@@ -10,6 +10,7 @@
 </head>
 <body class="wizard-body">
   <div class="wizard-layout">
+
     <!-- ✅ Left Sidebar -->
     @include('traintrack.partials.sidebar')
 
@@ -18,17 +19,17 @@
 
       <!-- ✅ Title and Counter -->
       <h1 class="tec-title">🧠 Technical Skill</h1>
-       <p class="tec-subtitle">
-         Select the technical skills you’re strongest in — you can choose between 3 and 8.
-         <div class="selection-line">
-           <span id="selected-counter" class="tec-counter">Selected 0</span>
-          </div>
-        </p>
+      <p class="tec-subtitle">
+        Select the technical skills you’re strongest in — you can choose between 3 and 8.
+        <div class="selection-line">
+          <span id="selected-counter" class="tec-counter">Selected: 0</span>
+        </div>
+      </p>
 
-      <!-- ✅ Dynamic Skill Categories Injected Here -->
-      <div id="skills-container" class="tec-skill-container"></div>
+      <!-- ✅ Skills will be injected here by JS -->
+      <div id="technical-skills-list" class="tec-skill-container"></div>
 
-      <!-- ✅ Selected Skill Pills Display -->
+      <!-- ✅ Selected Pills -->
       <div id="selected-skills-wrapper" class="selected-wrapper">
         <p class="selected-label">✅ Selected Skills</p>
         <div id="selected-skills-box" class="selected-scroll-box"></div>

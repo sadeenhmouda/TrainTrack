@@ -2,24 +2,27 @@ document.addEventListener("DOMContentLoaded", function () {
   const API_URL = "https://train-track-backend.onrender.com/wizard/subject-categories";
   const categoryGrid = document.getElementById("categoryGrid");
   const nextBtn = document.getElementById("nextBtn");
-
-  const nextRoute = window.nextRoute; // ✅ Uses the route passed from Blade
+  const selectedCount = document.getElementById("selectedCount"); // Optional counter
+  const nextRoute = window.nextRoute || "/traintrack/subject2"; // ✅ fallback route
 
   let selectedCategories = [];
 
-  // ✅ Load categories from API
+  // ✅ Fetch subject categories from backend
   fetch(API_URL)
     .then(response => response.json())
     .then(result => {
       if (result.success) {
         renderCategories(result.data);
+      } else {
+        categoryGrid.innerHTML = "<p class='text-red-500'>⚠️ Could not load categories.</p>";
       }
     })
     .catch(error => {
       console.error("Error fetching categories:", error);
+      categoryGrid.innerHTML = "<p class='text-red-500'>⚠️ API Error. Try again later.</p>";
     });
 
-  // ✅ Render category cards dynamically
+  // ✅ Render subject category cards
   function renderCategories(categories) {
     categoryGrid.innerHTML = "";
 
@@ -29,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
       card.setAttribute("data-id", cat.id);
 
       card.innerHTML = `
-        <img src="${cat.image_url}" alt="${cat.name}">
+        <img src="${cat.image_url || 'https://via.placeholder.com/100'}" alt="${cat.name}">
         <span>${cat.name}</span>
       `;
 
@@ -38,9 +41,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // ✅ Toggle category selection (max 3)
+  // ✅ Toggle category selection
   function toggleCategory(card, id) {
-    if (selectedCategories.includes(id)) {
+    const alreadySelected = selectedCategories.includes(id);
+
+    if (alreadySelected) {
       selectedCategories = selectedCategories.filter(cid => cid !== id);
       card.classList.remove("selected");
     } else {
@@ -52,14 +57,23 @@ document.addEventListener("DOMContentLoaded", function () {
       card.classList.add("selected");
     }
 
+    updateUI();
+  }
+
+  // ✅ Update counter and button state
+  function updateUI() {
+    if (selectedCount) {
+      selectedCount.textContent = selectedCategories.length;
+    }
+
     nextBtn.disabled = selectedCategories.length !== 3;
     nextBtn.classList.toggle("active", selectedCategories.length === 3);
   }
 
-  // ✅ Next button click
+  // ✅ Save selected categories to localStorage and move to next page
   nextBtn.addEventListener("click", () => {
     if (selectedCategories.length === 3) {
-      localStorage.setItem("selectedCategoryIds", selectedCategories.join(","));
+      localStorage.setItem("selectedCategoryIds", JSON.stringify(selectedCategories)); // Save as JSON
       window.location.href = nextRoute;
     } else {
       alert("Please select exactly 3 categories.");

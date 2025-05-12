@@ -2,45 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Train Track Wizard</title>
+  <title>Train Track Wizard – Non-Technical Skills</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('css/first.css') }}">
   <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
   <link rel="stylesheet" href="{{ asset('css/nontechnicalskills.css') }}">
 </head>
+
 <body class="wizard-body">
   <div class="wizard-layout">
-    {{-- ✅ Left Sidebar --}}
-    @include('traintrack.partials.sidebar')
 
-    {{-- ✅ Right Panel: Non-Technical Skills --}}
+    <!-- Sidebar -->
+    @include('traintrack.partials.sidebar', ['currentStep' => 4])
+
+    <!-- Right Panel -->
     <div class="right-panel" x-data="nonTechnicalSkillsStep()">
-      <!-- ✅ Section Title + Subtitle -->
+
+      <!-- Titles -->
       <h1 class="section-title">💬 Non-Technical Skills</h1>
-      <p class="section-subtitle">Choose 2 min soft skills you feel most confident in.</p>
+      <p class="section-subtitle">Choose 3 to 5 soft skills you feel most confident in.</p>
 
-      <!-- ✅ Live Counter -->
-      <div class="selection-counter" x-text="'Selected ' + selectedSkills.length"></div>
+      <!-- Counter -->
+      <div id="nontech-counter" class="nontech-counter">Selected: 0</div>
 
-      <!-- ✅ Skills Grid (Populated by JS) -->
+      <!-- Skills Grid -->
       <div id="skills-container" class="skills-grid"></div>
 
-      <!-- ✅ Bottom Buttons (Fixed Position) -->
+      <!-- Navigation Buttons -->
       <div class="wizard-buttons">
         <a href="{{ route('traintrack.technical') }}">
-          <button id="backBtn" class="btn-outline">Back</button>
+          <button class="btn-outline">Back</button>
         </a>
-
         <button id="nextBtn" class="btn-next" disabled>Next</button>
       </div>
     </div>
   </div>
 
-  <!-- ✅ JS Libraries -->
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://unpkg.com/alpinejs" defer></script>
-
-  <!-- ✅ JS Logic -->
-  <script src="{{ asset('js/non.js') }}"></script>
+  <script src="{{ asset('js/non.v2.js') }}"></script>
 </body>
 </html>

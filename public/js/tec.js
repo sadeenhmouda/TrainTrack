@@ -2,7 +2,8 @@ function technicalSkillsStep() {
   return {
     saveAndGoNext() {
       const checked = document.querySelectorAll('input[name="technical_skills[]"]:checked');
-      const selected = Array.from(checked).map(cb => cb.value);
+      let selected = Array.from(checked).map(cb => cb.value);
+      selected = [...new Set(selected)];
 
       if (selected.length < 3 || selected.length > 8) {
         alert("Please select between 3 and 8 technical skills.");
@@ -10,137 +11,145 @@ function technicalSkillsStep() {
       }
 
       localStorage.setItem("selectedTechnicalSkills", JSON.stringify(selected));
-      window.location.href = "/traintrack/nontechnical"; // ✅ Update this route
+      window.location.href = "/traintrack/nontechnical";
     }
   };
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  const selectedIds = localStorage.getItem('selectedCategoryIds') || '';
-  const savedSkillIds = JSON.parse(localStorage.getItem('selectedTechnicalSkills') || '[]');
-  const container = document.getElementById('skills-container');
-  const counterBox = document.getElementById('selected-counter');
-  const selectedBox = document.getElementById('selected-skills-box');
+document.addEventListener("DOMContentLoaded", function () {
+  const selectedIds = JSON.parse(localStorage.getItem("selectedTechnicalSkills") || "[]");
+  const counter = document.getElementById("selected-counter");
+  const selectedBox = document.getElementById("selected-skills-box");
+  const skillContainer = document.getElementById("technical-skills-list");
 
+  // ✅ Emoji map for category headers
   const emojiMap = {
-    "Programming & Logic": "💻",
+    "Programming & Logic": "🛠️",
     "Cloud & DevOps Tools": "☁️",
-    "Cybersecurity & IT Security": "🛡️",
     "Security & IT Operations": "🔒",
     "Database Technologies": "🗃️",
     "Web & UI Development": "🌐",
     "Software & System Design": "📐",
     "Testing & QA": "🔍",
-    "IT & Business Process Management": "🧠",
+    "IT & Business Process Management": "📊",
+    "Digital Marketing Tools": "📣",
     "Marketing Tools & Techniques": "🎯",
-    "Digital Marketing Tools": "📢",
-    "Data Analysis & BI Tools": "📊"
+    "Data Analysis & BI Tools": "📈",
+    "Cybersecurity & IT Security": "🛡️"
   };
 
-  // 🧼 Set initial count
-  updateCounter(savedSkillIds.length);
+  const apiURL = "https://train-track-backend.onrender.com/wizard/technical-skills?category_ids=11,12,13,14,15,16,17,18";
 
-  axios.get(`https://train-track-backend.onrender.com/wizard/technical-skills?category_ids=${selectedIds}`)
-    .then(res => {
-      const data = res.data.data;
+  fetch(apiURL)
+    .then(response => response.json())
+    .then(result => {
+      if (result.success && Array.isArray(result.data)) {
+        skillContainer.innerHTML = "";
 
-      data.forEach(subjectCategory => {
-        subjectCategory.tech_categories.forEach(category => {
-          const emoji = emojiMap[category.tech_category_name] || '📂';
+        // ✅ Flatten tech categories from all subject categories
+        const allTechCategories = [];
 
-          const box = document.createElement('div');
-          box.className = 'category-box';
-
-          const header = document.createElement('div');
-          header.className = 'category-header';
-          header.innerHTML = `<span>${emoji} ${category.tech_category_name}</span><span class="toggle-icon">+</span>`;
-
-          const body = document.createElement('div');
-          body.className = 'category-body';
-
-          category.skills.forEach(skill => {
-            const isChecked = savedSkillIds.includes(String(skill.id));
-            const label = document.createElement('label');
-            label.innerHTML = `
-              <input type="checkbox" name="technical_skills[]" value="${skill.id}" ${isChecked ? 'checked' : ''}>
-              ${skill.name}
-            `;
-            body.appendChild(label);
+        result.data.forEach(subjectCategory => {
+          subjectCategory.tech_categories.forEach(techCat => {
+            allTechCategories.push({
+              name: techCat.tech_category_name,
+              skills: techCat.skills
+            });
           });
-
-          header.addEventListener('click', () => {
-            body.classList.toggle('show');
-            const icon = header.querySelector('.toggle-icon');
-            icon.textContent = icon.textContent === '+' ? '−' : '+';
-          });
-
-          box.appendChild(header);
-          box.appendChild(body);
-          container.appendChild(box);
         });
-      });
 
-      attachCheckboxHandlers();
+        // ✅ Group by unique tech category names
+        const grouped = {};
+        allTechCategories.forEach(cat => {
+          if (!grouped[cat.name]) grouped[cat.name] = [];
+          grouped[cat.name] = grouped[cat.name].concat(cat.skills);
+        });
+
+        // ✅ Render each tech category with collapsible section
+        Object.entries(grouped).forEach(([categoryName, skills]) => {
+          const emoji = emojiMap[categoryName] || "";
+          const categoryBox = document.createElement("div");
+          categoryBox.className = "category-box";
+
+          categoryBox.innerHTML = `
+            <div class="category-header">
+              ${emoji} ${categoryName}
+              <span class="toggle-icon">+</span>
+            </div>
+            <div class="category-body">
+              ${skills.map(skill => `
+                <label>
+                  <input type="checkbox" name="technical_skills[]" value="${skill.id}">
+                  ${skill.name}
+                </label>
+              `).join("")}
+            </div>
+          `;
+
+          skillContainer.appendChild(categoryBox);
+        });
+
+        // ✅ Handle collapsible toggle
+        document.querySelectorAll(".category-header").forEach(header => {
+          header.addEventListener("click", () => {
+            const body = header.nextElementSibling;
+            const icon = header.querySelector(".toggle-icon");
+            body.classList.toggle("show");
+            icon.textContent = body.classList.contains("show") ? "-" : "+";
+          });
+        });
+
+        // ✅ Pre-select saved skills
+        selectedIds.forEach(id => {
+          const input = document.querySelector(`input[name="technical_skills[]"][value="${id}"]`);
+          if (input) input.checked = true;
+        });
+
+        document.querySelectorAll('input[name="technical_skills[]"]').forEach(cb => {
+          cb.addEventListener("change", updateUI);
+        });
+
+        updateUI();
+      }
     })
     .catch(error => {
-      container.innerHTML = '<p class="text-red-600">❌ Failed to load technical skills.</p>';
-      console.error(error);
+      console.error("❌ Failed to load technical skills:", error);
     });
 
-  function attachCheckboxHandlers() {
-    const checkboxes = document.querySelectorAll('input[name="technical_skills[]"]');
+  function updateUI() {
+    const checked = document.querySelectorAll('input[name="technical_skills[]"]:checked');
+    let selected = Array.from(checked).map(cb => ({
+      id: cb.value,
+      name: cb.parentElement.textContent.trim()
+    }));
 
-    function refreshUI() {
-      const checked = document.querySelectorAll('input[name="technical_skills[]"]:checked');
-      const selected = Array.from(checked).map(cb => ({
-        id: cb.value,
-        name: cb.parentElement.textContent.trim()
-      }));
+    selected = selected.filter((s, index, self) => index === self.findIndex(t => t.id === s.id));
+    localStorage.setItem("selectedTechnicalSkills", JSON.stringify(selected.map(s => s.id)));
 
-      // 💾 Save selected IDs
-      localStorage.setItem('selectedTechnicalSkills', JSON.stringify(selected.map(s => s.id)));
+    if (counter) counter.textContent = `Selected: ${selected.length}`;
 
-      // 🔢 Update counter
-      updateCounter(selected.length);
-
-      // 🟣 Update selected pills
-      selectedBox.innerHTML = '';
+    if (selectedBox) {
+      selectedBox.innerHTML = "";
       selected.forEach(skill => {
-        const pill = document.createElement('span');
-        pill.className = 'skill-pill';
-        pill.innerHTML = `
-          <span class="pill-remove" data-id="${skill.id}">×</span>
-          ${skill.name}
-        `;
+        const pill = document.createElement("span");
+        pill.className = "skill-pill";
+        pill.innerHTML = `<span class="pill-remove" data-id="${skill.id}">×</span>${skill.name}`;
         selectedBox.appendChild(pill);
       });
-
-      // ❌ Remove pill handler
-      document.querySelectorAll('.pill-remove').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const id = btn.getAttribute('data-id');
-          const input = document.querySelector(`input[name="technical_skills[]"][value="${id}"]`);
-          if (input) input.checked = false;
-          refreshUI();
-        });
-      });
-
-      // ✅ Enforce limit
-      checkboxes.forEach(cb => {
-        cb.disabled = !cb.checked && selected.length >= 8;
-      });
     }
 
-    checkboxes.forEach(cb => {
-      cb.addEventListener('change', refreshUI);
+    document.querySelectorAll(".pill-remove").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-id");
+        const input = document.querySelector(`input[name="technical_skills[]"][value="${id}"]`);
+        if (input) input.checked = false;
+        updateUI();
+      });
     });
 
-    refreshUI(); // Initialize
-  }
-
-  function updateCounter(count) {
-    if (counterBox) {
-      counterBox.textContent = `Selected: ${count}`;
-    }
+    const checkboxes = document.querySelectorAll('input[name="technical_skills[]"]');
+    checkboxes.forEach(cb => {
+      cb.disabled = !cb.checked && selected.length >= 8;
+    });
   }
 });
