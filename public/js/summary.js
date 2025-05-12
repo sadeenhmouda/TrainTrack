@@ -43,7 +43,12 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  // ✅ NORMAL MATCH SCENARIOS (Perfect, Very Strong, Strong, Partial, Fallback)
+  // ✅ Trigger fallback modal if needed
+  if (result.match_scenario === "fallback") {
+    showFallbackModal(); // ✅ from popup.js
+  }
+
+  // ✅ NORMAL MATCH SCENARIOS (Perfect, Very Strong, Strong, Partial)
   result.recommended_positions.forEach((pos, index) => {
     const card = document.createElement("div");
     card.className = "position-card";
@@ -98,6 +103,33 @@ document.addEventListener("DOMContentLoaded", function () {
           `;
         });
       }
+    });
+  }
+
+  // ✅ BONUS: Show Improve Button if user skipped fallback
+  const fallbackFlag = localStorage.getItem("fallbackTriggered");
+  if (fallbackFlag === "true") {
+    const improveDiv = document.createElement("div");
+    improveDiv.innerHTML = `
+      <div style="text-align: center; margin-top: 2rem;">
+        <button id="improveBtn" style="
+          background: linear-gradient(90deg, #8e2de2, #4a00e0);
+          color: white;
+          border: none;
+          padding: 14px 28px;
+          font-size: 16px;
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+          cursor: pointer;
+          transition: transform 0.2s ease-in-out;
+        ">✨ Improve My Selections</button>
+      </div>
+    `;
+    container.appendChild(improveDiv);
+
+    document.getElementById("improveBtn").addEventListener("click", () => {
+      localStorage.removeItem("fallbackTriggered");
+      window.location.href = "/traintrack/fallback/improve";
     });
   }
 });

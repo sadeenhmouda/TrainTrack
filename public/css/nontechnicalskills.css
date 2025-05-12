@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* ====== Layout ====== */
 .right-panel {
   flex: 1;
@@ -170,74 +169,3 @@
   align-items: center;
   gap: 6px;
 }
-=======
-.selection-counter {
-    font-size: 16px;
-    font-weight: 500;
-    color: #6A1B9A;
-    margin-bottom: 10px;
-  }
-  
-  .skill-card {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 12px;
-    background-color: #f3e8ff;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-  }
-  .skill-card:hover {
-    background-color: #e9d5ff;
-  }
-  .skill-card input[type="checkbox"] {
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    background-color: white;
-    border: 2px solid #6A1B9A;
-    border-radius: 4px;
-    margin-right: 12px;
-    cursor: pointer;
-    position: relative;
-  }
-  .skill-card input[type="checkbox"]:checked {
-    background-color: #6A1B9A;
-  }
-  .skill-card input[type="checkbox"]:checked::after {
-    content: '✔';
-    color: white;
-    font-size: 14px;
-    position: absolute;
-    left: 4px;
-    top: -1px;
-  }
-  
-  /* Navigation Button Styles */
-  .advanced-btn {
-    width: 130px;
-    height: 40px;
-    font-size: 20px;
-    font-weight: 500;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-  }
-  .advanced-btn-back {
-    border: 2px solid #6A1B9A;
-    color: #6A1B9A;
-    background-color: white;
-  }
-  .advanced-btn-back:hover {
-    background-color: #6A1B9A;
-    color: white;
-  }
-  .advanced-btn-next {
-    background-color: #6A1B9A;
-    color: white;
-  }
-  .advanced-btn-next:hover {
-    background-color: #5a1784;
-  }
-  
->>>>>>> raneen/main

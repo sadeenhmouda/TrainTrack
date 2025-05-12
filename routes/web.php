@@ -53,9 +53,9 @@ Route::get('/traintrack/summaryresults', function () {
     return view('fallback');
 })->name('traintrack.fallback');
 
-Route::get('/traintrack/fallback-popup-test', function () {
-    return view('fallbackpopuptest');
-})->name('traintrack.fallbackpopuptest');
+Route::get('/traintrack/popup', function () {
+    return view('popup');
+})->name('traintrack.popup');
 
 Route::get('/traintrack/fallback/improve', function () {
     return view('fallbackimporve');

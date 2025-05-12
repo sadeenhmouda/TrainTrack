@@ -37,15 +37,6 @@
   color: white !important;
   margin-left: 10px;
 }
-
-
-
-
-
-
-
-
-
 .fallback-btn-confirm,
 .fallback-btn-cancel {
   min-width: 160px;
@@ -64,6 +55,6 @@
   color: white;
 }
 .pill {
-    @apply bg-gray-200 text-sm rounded-full px-4 py-1 font-medium hover:bg-purple-100;
-  }
+  @apply bg-gray-200 text-sm rounded-full px-4 py-1 font-medium hover:bg-purple-100;
+}
   
