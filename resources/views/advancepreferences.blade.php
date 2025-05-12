@@ -16,17 +16,8 @@
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </head>
 
-<<<<<<< HEAD
 <body class="wizard-body">
   <div class="wizard-layout">
-=======
-   <!-- Left Side (Stepper) -->
-<div class="w-[320px] px-6 py-8 bg-white border-r border-[#e0e0e0]">
-  <!-- App Logo -->
-  <img src="{{ asset('traintracklogo.png') }}" style="width: 180px;" class="fixed top-0 left-0  ml-1">
-  <br>
-  <br>
->>>>>>> raneen/main
 
     {{-- ✅ Left Sidebar --}}
     @include('traintrack.partials.sidebar', ['currentStep' => 5])
