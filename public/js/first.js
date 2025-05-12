@@ -5,7 +5,7 @@ window.addEventListener("load", () => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  // ✅ Clear wizard progress
+  // ✅ Clear previous selections
   localStorage.removeItem("selectedSubjectIds");
   localStorage.removeItem("selectedTechnicalSkills");
   localStorage.removeItem("selectedNonTechnicalSkills");
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
     yearSelect.appendChild(new Option(y, y));
   }
 
-  // ✅ Gender logic
+  // ✅ Gender Selection
   document.querySelectorAll(".option-button").forEach(btn => {
     btn.addEventListener("click", () => {
       document.querySelectorAll(".option-button").forEach(b => b.classList.remove("selected"));
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // ✅ Load majors dynamically
+  // ✅ Fetch Majors
   fetch("https://train-track-backend.onrender.com/wizard/majors")
     .then(res => res.json())
     .then(result => {
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
         result.data.forEach(major => {
           const span = document.createElement("span");
           span.classList.add("major-pill");
-          span.dataset.id = major.id; // ✅ Store major_id here
+          span.dataset.id = major.id;
           span.textContent = `${majorEmojiMap[major.name] || "🎓"} ${major.name}`;
           majorOptionsDiv.appendChild(span);
         });
@@ -90,9 +90,10 @@ document.addEventListener("DOMContentLoaded", function () {
           });
         });
       }
-    });
+    })
+    .catch(err => console.error("❌ Failed to load majors:", err));
 
-  // ✅ Error removal
+  // ✅ Input Error Removal
   nameField.addEventListener("input", function () {
     const error = this.nextElementSibling;
     if (error && error.classList.contains("error") && this.value.trim()) {
@@ -112,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // ✅ Form submission
+  // ✅ Handle Form Submission
   const nextButton = document.querySelector(".next");
   nextButton?.addEventListener("click", function (e) {
     e.preventDefault();
@@ -149,25 +150,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (isValid) {
-      // ✅ Format DOB as YYYY-MM-DD
       const dobFormatted = `${year}-${month}-${day}`;
-
       const formData = {
         full_name: fullName,
-        gender: selectedGender.textContent.trim().replace(/^[^\w]+/, ""), // remove emoji
+        gender: selectedGender.textContent.trim().replace(/^[^\w]+/, ""),
         date_of_birth: dobFormatted,
         major_id: selectedMajor.dataset.id
       };
 
       localStorage.setItem("personal_info", JSON.stringify(formData));
       console.log("✅ Saved personal info:", formData);
-
       window.location.href = "/traintrack/subject";
     }
   });
 });
 
-// ✅ Error helpers
+// ✅ Error Display Helpers
 function showError(inputId, message) {
   const input = document.getElementById(inputId);
   const error = document.createElement("div");

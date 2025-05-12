@@ -11,16 +11,20 @@
 
 <body class="wizard-body">
   <div class="wizard-layout">
-    {{-- Left Sidebar --}}
+    {{-- ✅ Left Sidebar --}}
     @include('traintrack.partials.sidebar')
 
-    <!-- Right Side -->
+    <!-- ✅ Right Side Content -->
     <div class="subject-form">
       <h1>🧠 Knowledge Background</h1>
-      <p>Select max 3 categories to get personalized subject suggestions</p>
+      <p>Select exactly 3 categories to get personalized subject suggestions</p>
 
-      <div class="subject-category-grid" id="categoryGrid"></div>
+      <!-- ✅ Category Grid Injected by JS -->
+      <div id="categoryGrid" class="subject-category-grid">
+        <!-- JS fills this -->
+      </div>
 
+      <!-- ✅ Footer Buttons -->
       <div class="subject-buttons">
         <a href="{{ route('traintrack') }}">
           <button class="btn-back">Back</button>
@@ -30,12 +34,12 @@
     </div>
   </div>
 
-  <!-- ✅ Inject next route as global JS variable -->
+  <!-- ✅ Route to next step -->
   <script>
     window.nextRoute = "{{ route('traintrack.subject2') }}";
   </script>
 
-  <!-- ✅ Load external JavaScript logic -->
+  <!-- ✅ Load JavaScript -->
   <script src="{{ asset('js/subjectcategories.js') }}"></script>
 </body>
 </html>

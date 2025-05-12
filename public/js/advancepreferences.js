@@ -81,7 +81,7 @@ async function submitToExpertSystem() {
   });
 
   try {
-    const response = await fetch("https://train-track-backend.onrender.com/recommendations", {
+    const response = await fetch("https://train-track-backend.onrender.com/wizard/submit",  {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)

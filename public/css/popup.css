@@ -1,42 +1,24 @@
 .fallback-modal .btn-purple {
-    background-color: #6b21a8;
-    color: white;
-    padding: 10px 16px;
-    border-radius: 8px;
-  }
-  
-  .fallback-modal .btn-gray {
-    background-color: #aaa;
-    color: white;
-    padding: 10px 16px;
-    border-radius: 8px;
-  }
-  .fallback-card {
-    border-radius: 18px;
-    padding: 25px;
-    font-family: 'Roboto', sans-serif;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  }
-  
-  .fallback-btn-confirm,
-.fallback-btn-cancel {
-  min-width: 180px;
-  padding: 10px 20px;
-  font-weight: 500;
-  font-size: 14px;
+  background-color: #6b21a8;
+  color: white;
+  padding: 10px 16px;
   border-radius: 8px;
 }
 
-.fallback-btn-confirm {
-  background-color: #6A1B9A !important;
-  color: white !important;
+.fallback-modal .btn-gray {
+  background-color: #aaa;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
 }
 
-.fallback-btn-cancel {
-  background-color: #aaa !important;
-  color: white !important;
-  margin-left: 10px;
+.fallback-card {
+  border-radius: 18px;
+  padding: 25px;
+  font-family: 'Roboto', sans-serif;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
+
 .fallback-btn-confirm,
 .fallback-btn-cancel {
   min-width: 160px;
@@ -46,15 +28,26 @@
   font-weight: 500;
   margin: 0 5px;
 }
+
 .fallback-btn-confirm {
   background-color: #6A1B9A;
   color: white;
 }
+
 .fallback-btn-cancel {
   background-color: #aaa;
   color: white;
 }
+
 .pill {
-  @apply bg-gray-200 text-sm rounded-full px-4 py-1 font-medium hover:bg-purple-100;
+  background-color: #e5e7eb;       /* Tailwind gray-200 */
+  font-size: 0.875rem;             /* text-sm */
+  border-radius: 9999px;           /* rounded-full */
+  padding: 4px 16px;               /* px-4 py-1 */
+  font-weight: 500;                /* font-medium */
+  transition: background-color 0.2s;
 }
-  
+
+.pill:hover {
+  background-color: #f3e8ff;       /* Tailwind purple-100 */
+}

@@ -3,11 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>Technical Skills | Train Track Wizard</title>
+
+  <!-- Fonts & Styles -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <link href="{{ asset('css/first.css') }}" rel="stylesheet">
   <link href="{{ asset('css/sidebar.css') }}" rel="stylesheet">
   <link href="{{ asset('css/tec.css') }}" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 </head>
+
 <body class="wizard-body">
   <div class="wizard-layout">
 
@@ -17,17 +20,21 @@
     <!-- ✅ Right Content Area -->
     <div class="tec-content" x-data="technicalSkillsStep()">
 
-      <!-- ✅ Title and Counter -->
+      <!-- ✅ Title -->
       <h1 class="tec-title">🧠 Technical Skill</h1>
       <p class="tec-subtitle">
         Select the technical skills you’re strongest in — you can choose between 3 and 8.
-        <div class="selection-line">
-          <span id="selected-counter" class="tec-counter">Selected: 0</span>
-        </div>
       </p>
 
+      <!-- ✅ Counter (moved outside <p>) -->
+      <div class="selection-line">
+        <span id="selected-counter" class="tec-counter">Selected: 0</span>
+      </div>
+
       <!-- ✅ Skills will be injected here by JS -->
-      <div id="technical-skills-list" class="tec-skill-container"></div>
+      <div id="technical-skills-list" class="tec-skill-container">
+        <!-- Filled dynamically by JS -->
+      </div>
 
       <!-- ✅ Selected Pills -->
       <div id="selected-skills-wrapper" class="selected-wrapper">
@@ -40,8 +47,9 @@
         <a href="{{ route('traintrack.subject2') }}">
           <button class="btn-back">Back</button>
         </a>
-        <button class="btn-next" @click="saveAndGoNext()">Next</button>
+        <button class="btn-next" id="nextBtn">Next</button>
       </div>
+
     </div>
   </div>
 
@@ -50,5 +58,18 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://unpkg.com/alpinejs" defer></script>
   <script src="{{ asset('js/tec.js') }}"></script>
+
+  <!-- ✅ Optional fallback in JS-only mode -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const nextBtn = document.getElementById("nextBtn");
+      if (nextBtn) {
+        nextBtn.addEventListener("click", () => {
+          const logic = technicalSkillsStep();
+          logic.saveAndGoNext();
+        });
+      }
+    });
+  </script>
 </body>
 </html>

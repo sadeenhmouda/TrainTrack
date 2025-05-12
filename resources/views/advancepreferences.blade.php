@@ -140,22 +140,7 @@
           "Structured Environment": "Clearly defined rules and roles."
         },
 
-<<<<<<< HEAD
         industryTips: {}, // Optional tooltip if you want
-=======
-
-<script>
-  function advancedPreferences() {
-    return {
-      trainingModes: [],
-      companySizes: [],
-      companyCultures: [],
-      industries: [],
-      training_mode: '',
-      company_size: '',
-      selected_culture: [],
-      selected_industry: [],
->>>>>>> raneen/main
 
         get canSubmit() {
           return this.selected_industry.length <= 2;

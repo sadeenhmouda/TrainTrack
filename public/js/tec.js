@@ -18,56 +18,60 @@ function technicalSkillsStep() {
 
 document.addEventListener("DOMContentLoaded", function () {
   const selectedIds = JSON.parse(localStorage.getItem("selectedTechnicalSkills") || "[]");
+  const selectedCategoryIds = JSON.parse(localStorage.getItem("selectedSubjectCategoryIds") || "[]");
   const counter = document.getElementById("selected-counter");
   const selectedBox = document.getElementById("selected-skills-box");
   const skillContainer = document.getElementById("technical-skills-list");
 
-  // ✅ Emoji map for category headers
   const emojiMap = {
     "Programming & Logic": "🛠️",
     "Cloud & DevOps Tools": "☁️",
-    "Security & IT Operations": "🔒",
-    "Database Technologies": "🗃️",
-    "Web & UI Development": "🌐",
+    "Cybersecurity & IT Security": "🔒",
+    "Data Analysis & BI Tools": "📈",
     "Software & System Design": "📐",
+    "Web & UI Development": "🌐",
     "Testing & QA": "🔍",
     "IT & Business Process Management": "📊",
-    "Digital Marketing Tools": "📣",
     "Marketing Tools & Techniques": "🎯",
-    "Data Analysis & BI Tools": "📈",
-    "Cybersecurity & IT Security": "🛡️"
+    "Digital Marketing Tools": "📣"
   };
 
-  const apiURL = "https://train-track-backend.onrender.com/wizard/technical-skills?category_ids=11,12,13,14,15,16,17,18";
+  if (!selectedCategoryIds.length) {
+    skillContainer.innerHTML = `<p style="color:red;">❌ No subject categories selected. Please go back and choose topics first.</p>`;
+    return;
+  }
+
+  const apiURL = `https://train-track-backend.onrender.com/wizard/technical-skills?category_ids=${selectedCategoryIds.join(",")}`;
+  console.log("📡 Fetching:", apiURL);
 
   fetch(apiURL)
-    .then(response => response.json())
+    .then(res => res.json())
     .then(result => {
+      console.log("✅ API Result:", result);
+
       if (result.success && Array.isArray(result.data)) {
-        skillContainer.innerHTML = "";
+        const grouped = {};
 
-        // ✅ Flatten tech categories from all subject categories
-        const allTechCategories = [];
-
+        // ✅ Group by tech_category_name (not category_id)
         result.data.forEach(subjectCategory => {
           subjectCategory.tech_categories.forEach(techCat => {
-            allTechCategories.push({
-              name: techCat.tech_category_name,
-              skills: techCat.skills
+            const categoryName = techCat.tech_category_name;
+            if (!grouped[categoryName]) grouped[categoryName] = new Map();
+
+            techCat.skills.forEach(skill => {
+              grouped[categoryName].set(skill.id, skill); // deduplicate by skill id
             });
           });
         });
 
-        // ✅ Group by unique tech category names
-        const grouped = {};
-        allTechCategories.forEach(cat => {
-          if (!grouped[cat.name]) grouped[cat.name] = [];
-          grouped[cat.name] = grouped[cat.name].concat(cat.skills);
-        });
+        console.log("🎯 Grouped by category name:", grouped);
+        skillContainer.innerHTML = "";
 
-        // ✅ Render each tech category with collapsible section
-        Object.entries(grouped).forEach(([categoryName, skills]) => {
+        // ✅ Render UI
+        Object.entries(grouped).forEach(([categoryName, skillMap]) => {
           const emoji = emojiMap[categoryName] || "";
+          const skills = Array.from(skillMap.values());
+
           const categoryBox = document.createElement("div");
           categoryBox.className = "category-box";
 
@@ -89,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
           skillContainer.appendChild(categoryBox);
         });
 
-        // ✅ Handle collapsible toggle
+        // ✅ Toggle logic
         document.querySelectorAll(".category-header").forEach(header => {
           header.addEventListener("click", () => {
             const body = header.nextElementSibling;
@@ -110,10 +114,13 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         updateUI();
+      } else {
+        skillContainer.innerHTML = `<p style="color:red;">⚠️ No skills found for selected categories.</p>`;
       }
     })
-    .catch(error => {
-      console.error("❌ Failed to load technical skills:", error);
+    .catch(err => {
+      console.error("❌ Fetch error:", err);
+      skillContainer.innerHTML = `<p style="color:red;">❌ Error loading skills.</p>`;
     });
 
   function updateUI() {
@@ -123,7 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
       name: cb.parentElement.textContent.trim()
     }));
 
-    selected = selected.filter((s, index, self) => index === self.findIndex(t => t.id === s.id));
+    selected = selected.filter((s, i, self) => i === self.findIndex(t => t.id === s.id));
     localStorage.setItem("selectedTechnicalSkills", JSON.stringify(selected.map(s => s.id)));
 
     if (counter) counter.textContent = `Selected: ${selected.length}`;
@@ -147,8 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
 
-    const checkboxes = document.querySelectorAll('input[name="technical_skills[]"]');
-    checkboxes.forEach(cb => {
+    document.querySelectorAll('input[name="technical_skills[]"]').forEach(cb => {
       cb.disabled = !cb.checked && selected.length >= 8;
     });
   }
