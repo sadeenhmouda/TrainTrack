@@ -1,16 +1,24 @@
-/* === Layout and Typography === */
+/* === Layout & Base === */
 body, html {
   font-family: 'Roboto', sans-serif;
   background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+.wizard-layout {
+  display: flex;
+  min-height: 100vh;
 }
 
 .form-area {
   flex: 1;
-  background-color: #fff;
+  background-color: #ffffff;
   padding: 2.5rem 3rem;
   overflow-y: auto;
 }
 
+/* === Titles === */
 .form-title {
   font-size: 28px;
   font-weight: 600;
@@ -24,7 +32,7 @@ body, html {
   margin-bottom: 1.5rem;
 }
 
-/* === Form Section === */
+/* === Group Headings === */
 .form-group {
   margin-bottom: 2.5rem;
   margin-left: 1rem;
@@ -43,21 +51,25 @@ body, html {
   margin-bottom: 0.5rem;
 }
 
-/* === Option Buttons === */
+/* === Option Grid === */
 .option-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 12px;
   align-items: center;
 }
 
-.default-option {
+/* === Option Buttons === */
+.default-option,
+.selected-option {
   padding: 0.5rem 1rem;
-  border-radius: 0.75rem;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
   background-color: #f0f0f0;
   color: #333;
-  border: 1px solid #ccc;
-  transition: 0.3s ease;
 }
 
 .default-option:hover {
@@ -65,15 +77,13 @@ body, html {
 }
 
 .selected-option {
-  padding: 0.5rem 1rem;
-  border-radius: 0.75rem;
   background-color: #d1c4e9;
   color: #6A1B9A;
   border: 1px solid #6A1B9A;
   font-weight: 500;
 }
 
-/* === Button Container === */
+/* === Button Row === */
 .advanced-buttons {
   display: flex;
   justify-content: space-between;
@@ -84,18 +94,26 @@ body, html {
   gap: 16px;
 }
 
-/* === Shared Base Styles === */
+.advanced-buttons-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* === Buttons === */
 .advanced-btn {
   width: 130px;
   height: 40px;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
   font-family: 'Roboto', sans-serif;
   border-radius: 12px;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-/* === Back Button === */
+/* Back */
 .advanced-btn-back {
   border: 2px solid #6A1B9A;
   color: #6A1B9A;
@@ -106,22 +124,21 @@ body, html {
   color: white;
 }
 
-/* === Clear Button === */
+/* Clear */
 .advanced-btn-clear {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
   font-family: 'Roboto', sans-serif;
   color: #6A1B9A;
   text-decoration: underline;
   background: transparent;
   border: none;
-  cursor: pointer;
 }
 .advanced-btn-clear:hover {
   color: #4a126b;
 }
 
-/* === Skip Button === */
+/* Skip */
 .advanced-btn-skip {
   background-color: #999;
   color: white;
@@ -131,7 +148,7 @@ body, html {
   background-color: #777;
 }
 
-/* === Submit Button === */
+/* Submit */
 .advanced-btn-submit {
   background-color: #6A1B9A;
   color: white;

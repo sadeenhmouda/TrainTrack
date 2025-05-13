@@ -14,9 +14,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   updateCounter();
 
-  // ✅ Fetch topics based on selected categories
+  // ✅ Fetch topics based on selected categories (fix: correct key name!)
   function fetchTopics() {
-    const raw = localStorage.getItem("selectedCategoryIds");
+    const raw = localStorage.getItem("selectedSubjectCategoryIds"); // ✅ Corrected key
     const categoryIds = raw ? JSON.parse(raw).join(",") : "";
 
     if (!categoryIds) {

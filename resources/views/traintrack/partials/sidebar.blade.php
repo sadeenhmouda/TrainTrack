@@ -1,5 +1,5 @@
 <div class="sidebar">
-  <img src="{{ asset('traintracklogo.png') }}" class="sidebar-logo">
+  <img src="{{ asset('traintrack2.png') }}" class="sidebar-logo">
 
   <div class="sidebar-title">Progress Guide</div>
   <div class="stepper-container">
