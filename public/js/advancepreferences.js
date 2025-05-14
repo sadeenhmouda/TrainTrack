@@ -17,18 +17,19 @@ async function submitToExpertSystem(isSkip = false) {
   const majorId = parseInt(localStorage.getItem("majorId"));
   const dateOfBirth = localStorage.getItem("dateOfBirth");
 
-  console.log("\ud83d\udce6 submitToExpertSystem() called");
-  console.log("\ud83c\udfaf full_name:", fullName);
-  console.log("\ud83c\udfaf gender:", gender);
-  console.log("\ud83c\udfaf major_id:", majorId);
-  console.log("\ud83c\udfaf date_of_birth:", dateOfBirth);
-  console.log("\ud83d\udcda subjects:", selectedSubjects);
-  console.log("\ud83d\udee0\ufe0f technical_skills:", selectedTechSkills);
-  console.log("\ud83d\udca1 non_technical_skills:", selectedNonTechSkills);
-  console.log("\ud83c\udfe2 training_modes:", selectedTrainingModeId);
-  console.log("\ud83c\udfe2 company_sizes:", selectedCompanySizeId);
-  console.log("\ud83c\udfed industries:", selectedIndustryIds);
-  console.log("\ud83d\udcbc company_culture:", selectedCultures);
+  console.log("📦 submitToExpertSystem() called");
+  console.log("🎯 full_name:", fullName);
+  console.log("🎯 gender:", gender);
+  console.log("🎯 major_id:", majorId);
+  console.log("🎯 date_of_birth:", dateOfBirth);
+  console.log("📚 subjects:", selectedSubjects);
+  console.log("🛠️ technical_skills:", selectedTechSkills);
+  console.log("💡 non_technical_skills:", selectedNonTechSkills);
+  console.log("🏢 training_modes:", selectedTrainingModeId);
+  console.log("🏢 company_sizes:", selectedCompanySizeId);
+  console.log("🏭 industries:", selectedIndustryIds);
+  console.log("💼 company_culture (names):", selectedCultures);
+  console.log("🗺️ cultureMap:", cultureMap);
 
   if (!fullName || !gender || !majorId || !dateOfBirth) {
     Swal.fire("Error", "Missing basic user info. Please restart the wizard.", "error");
@@ -61,7 +62,13 @@ async function submitToExpertSystem(isSkip = false) {
   const cleanTechSkills = selectedTechSkills.map(id => parseInt(id));
   const cleanNonTechSkills = selectedNonTechSkills.map(id => parseInt(id));
   const cleanIndustryIds = selectedIndustryIds.map(id => parseInt(id));
+
+  // ✅ Convert culture names to IDs safely
   const cultureIds = selectedCultures.map(name => cultureMap[name]).filter(Boolean);
+
+  if (selectedCultures.length > 0 && cultureIds.length === 0) {
+    console.warn("⚠️ Culture mapping failed — cultureMap may be empty or mismatched");
+  }
 
   const payload = {
     full_name: fullName,
@@ -79,7 +86,7 @@ async function submitToExpertSystem(isSkip = false) {
           training_mode: trainingModeDesc || null,
           company_size: companySizeDesc || null,
           preferred_industry: industryNames,
-          company_culture: selectedCultures
+          company_culture: cultureIds
         }
       : {},
 
@@ -93,7 +100,7 @@ async function submitToExpertSystem(isSkip = false) {
       : {}
   };
 
-  console.log("\ud83d\ude80 Submitting final payload to backend:", payload);
+  console.log("🚀 Submitting final payload to backend:", payload);
 
   Swal.fire({
     title: "Loading...",
@@ -137,7 +144,7 @@ async function submitToExpertSystem(isSkip = false) {
       Swal.fire("Error", "Recommendation failed. Try again.", "error");
     }
   } catch (err) {
-    console.error("\u274c Submit error:", err);
+    console.error("❌ Submit error:", err);
     Swal.close();
     Swal.fire("Error", "Network error occurred. Try again.", "error");
   }
