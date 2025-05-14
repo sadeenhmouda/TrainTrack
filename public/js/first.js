@@ -151,14 +151,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (isValid) {
       const dobFormatted = `${year}-${month}-${day}`;
+      const genderText = selectedGender.textContent.trim().replace(/^[^\w]+/, "");
+      const majorId = selectedMajor.dataset.id;
+
+      // ✅ Store individually for later use
+      localStorage.setItem("fullName", fullName);
+      localStorage.setItem("gender", genderText);
+      localStorage.setItem("dateOfBirth", dobFormatted);
+      localStorage.setItem("majorId", majorId);
+
+      // ✅ Also store full object if needed
       const formData = {
         full_name: fullName,
-        gender: selectedGender.textContent.trim().replace(/^[^\w]+/, ""),
+        gender: genderText,
         date_of_birth: dobFormatted,
-        major_id: selectedMajor.dataset.id
+        major_id: majorId
       };
-
       localStorage.setItem("personal_info", JSON.stringify(formData));
+
       console.log("✅ Saved personal info:", formData);
       window.location.href = "/traintrack/subject";
     }

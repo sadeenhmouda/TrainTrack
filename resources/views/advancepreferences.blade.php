@@ -87,15 +87,16 @@
         </div>
       </div>
 
-      <!-- Buttons -->
+      <!-- Navigation Buttons -->
       <div class="advanced-buttons">
         <button @click="goBack" class="advanced-btn advanced-btn-back">Back</button>
         <div class="flex gap-4 items-center">
           <button @click="clearAll" class="advanced-btn-clear">Clear</button>
-          <button id="skipAndSubmitBtn" class="advanced-btn advanced-btn-skip">Skip</button>
+          <button id="skipAndSubmitBtn" class="advanced-btn advanced-btn-skip" @click="submitToExpertSystem(true)">Skip</button>
           <button id="submitWithPrefsBtn"
-            :disabled="!canSubmit"
-            :class="['advanced-btn', 'advanced-btn-submit', { 'opacity-30 pointer-events-none': !canSubmit }]">
+                  :disabled="!canSubmit"
+                  @click="submitToExpertSystem(false)"
+                  :class="['advanced-btn', 'advanced-btn-submit', { 'opacity-30 pointer-events-none': !canSubmit }]">
             Submit
           </button>
         </div>
@@ -103,17 +104,14 @@
     </div>
   </div>
 
-  <!-- 🔁 Alpine Component -->
+  <!-- Alpine Component -->
   <script>
     function advancedPreferences() {
       return {
-        // Loaded from API
         trainingModes: [],
         companySizes: [],
         companyCultures: [],
         industries: [],
-
-        // Selected by user
         training_mode: '',
         company_size: '',
         selected_culture: [],
@@ -139,7 +137,7 @@
           "Structured Environment": "Clearly defined rules and roles."
         },
 
-        industryTips: {}, // Optional tooltip if you want
+        industryTips: {},
 
         get canSubmit() {
           return this.selected_industry.length <= 2;
@@ -212,12 +210,14 @@
 
         goBack() {
           window.history.back();
-        }
-      }
+        },
+
+        submitToExpertSystem // this will be declared in the external JS file
+      };
     }
   </script>
 
-  <!-- JS Submit Logic -->
+  <!-- Submit logic script -->
   <script src="{{ asset('js/advancepreferences.js') }}"></script>
 </body>
 </html>

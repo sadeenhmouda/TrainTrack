@@ -34,48 +34,33 @@
           </div>
         </div>
 
-        <!-- Date of Birth (Dropdown Style) -->
+        <!-- Date of Birth -->
         <div class="form-group dob-group">
           <label class="dob-label">Date of Birth</label>
           <div class="dob-selects" style="display: flex; gap: 10px;">
             <select id="dob-month" required>
               <option value="" disabled selected>Month</option>
-              <option value="01">January</option>
-              <option value="02">February</option>
-              <option value="03">March</option>
-              <option value="04">April</option>
-              <option value="05">May</option>
-              <option value="06">June</option>
-              <option value="07">July</option>
-              <option value="08">August</option>
-              <option value="09">September</option>
-              <option value="10">October</option>
-              <option value="11">November</option>
-              <option value="12">December</option>
             </select>
 
             <select id="dob-day" required>
               <option value="" disabled selected>Day</option>
-              <!-- JS will populate 1–31 -->
             </select>
 
             <select id="dob-year" required>
               <option value="" disabled selected>Year</option>
-              <!-- JS will populate years -->
             </select>
           </div>
         </div>
 
-    
-        <!-- Major (to be populated dynamically) -->
-          <div class="form-group">
-            <label>Major</label>
-            <div class="major-options" id="majorOptions">
-             <!-- JS will inject major pills here -->
-           </div>
+        <!-- Major -->
+        <div class="form-group">
+          <label>Major</label>
+          <div class="major-options" id="majorOptions">
+            <!-- JS will populate major pills here -->
           </div>
+        </div>
 
-        <!-- Buttons -->
+        <!-- Submit -->
         <div class="form-buttons">
           <button type="submit" class="next">Next</button>
         </div>
@@ -83,43 +68,114 @@
     </div>
   </div>
 
-  <!-- Your Scripts -->
-  <script src="{{ asset('js/first.js') }}"></script>
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="{{ asset('js/alert.js') }}"></script>
 
-  <!-- Populate Days and Years -->
   <script>
-    // Populate Day 1–31
+    // ✅ Populate Date Options
     const daySelect = document.getElementById("dob-day");
     for (let i = 1; i <= 31; i++) {
-      const day = i.toString().padStart(2, '0');
-      daySelect.innerHTML += `<option value="${day}">${day}</option>`;
+      const d = i.toString().padStart(2, "0");
+      daySelect.innerHTML += `<option value="${d}">${d}</option>`;
     }
 
-    // Populate Years from current back to 1950
+    const monthSelect = document.getElementById("dob-month");
+    const months = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    months.forEach((m, i) => {
+      const val = (i + 1).toString().padStart(2, "0");
+      monthSelect.innerHTML += `<option value="${val}">${m}</option>`;
+    });
+
     const yearSelect = document.getElementById("dob-year");
     const currentYear = new Date().getFullYear();
     for (let y = currentYear; y >= 1990; y--) {
       yearSelect.innerHTML += `<option value="${y}">${y}</option>`;
     }
-  </script>
 
-  <!-- Resume + Exit Handling -->
-  <script>
-    // ✅ 1. Ask to resume
-    handleWizardResume();
+    // ✅ Major Options
+    fetch("https://train-track-backend.onrender.com/wizard/majors")
+      .then(res => res.json())
+      .then(result => {
+        if (result.success && result.data) {
+          const majorOptionsDiv = document.getElementById("majorOptions");
+          majorOptionsDiv.innerHTML = "";
+          const emojiMap = {
+            "Computer Science Apprenticeship Program": "🧑‍💻",
+            "Management Information Systems": "💼",
+            "Computer Science": "💻",
+            "Cyber Security": "🔐",
+            "Computer Engineering": "🛠️",
+            "Network Information System": "🌐"
+          };
 
-    // ✅ 2. Warn before leaving
-    warnBeforeExit(() => {
-      const name = document.getElementById("fullName")?.value.trim();
-      const gender = document.querySelector(".option-button.selected");
-      const major = document.querySelector(".major-pill.selected");
-      const day = document.getElementById("dob-day")?.value;
-      const month = document.getElementById("dob-month")?.value;
-      const year = document.getElementById("dob-year")?.value;
+          result.data.forEach(major => {
+            const pill = document.createElement("span");
+            pill.classList.add("major-pill");
+            pill.dataset.id = major.id;
+            pill.textContent = `${emojiMap[major.name] || "🎓"} ${major.name}`;
+            majorOptionsDiv.appendChild(pill);
+          });
 
-      return name || gender || major || (day && month && year);
+          document.querySelectorAll(".major-pill").forEach(pill => {
+            pill.addEventListener("click", () => {
+              document.querySelectorAll(".major-pill").forEach(p => p.classList.remove("selected"));
+              pill.classList.add("selected");
+            });
+          });
+        }
+      });
+
+    // ✅ Gender toggle
+    document.querySelectorAll(".option-button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".option-button").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+      });
+    });
+
+    // ✅ Save Personal Info on Next
+    document.querySelector(".next")?.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      const fullName = document.getElementById("fullName").value.trim();
+      const genderBtn = document.querySelector(".option-button.selected");
+      const majorPill = document.querySelector(".major-pill.selected");
+
+      const day = document.getElementById("dob-day").value;
+      const month = document.getElementById("dob-month").value;
+      const year = document.getElementById("dob-year").value;
+
+      if (!fullName || !genderBtn || !majorPill || !day || !month || !year) {
+        Swal.fire("Error", "Please fill in all fields.", "error");
+        return;
+      }
+
+      const gender = genderBtn.textContent.trim().replace(/^[^\w]+/, "");
+      const majorId = majorPill.dataset.id;
+      const dob = `${year}-${month}-${day}`;
+
+      // ✅ Save to localStorage (Advanced Page needs these!)
+      localStorage.setItem("fullName", fullName);
+      localStorage.setItem("gender", gender);
+      localStorage.setItem("majorId", majorId);
+      localStorage.setItem("dateOfBirth", dob);
+
+      // ✅ Optional: Save as full object
+      const formData = {
+        full_name: fullName,
+        gender,
+        date_of_birth: dob,
+        major_id: majorId
+      };
+      localStorage.setItem("personal_info", JSON.stringify(formData));
+
+      console.log("✅ Saved personal info:", formData);
+
+      window.location.href = "/traintrack/subject";
     });
   </script>
 </body>
