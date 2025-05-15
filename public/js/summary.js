@@ -102,42 +102,48 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
 
-        <div class="match-breakdown">
-          <div class="bar-label">Subject Match <span>${pos.subject_fit_percentage.toFixed(1)}%</span></div>
-          <div class="bar-container"><div class="bar" id="subject-${index}"></div></div>
-
-          <div class="bar-label">Technical Skill <span>${pos.technical_skill_fit_percentage.toFixed(1)}%</span></div>
-          <div class="bar-container"><div class="bar" id="tech-${index}"></div></div>
-
-          <div class="bar-label">Non-Technical Skill <span>${pos.non_technical_skill_fit_percentage.toFixed(1)}%</span></div>
-          <div class="bar-container"><div class="bar" id="nontech-${index}"></div></div>
-        </div>
-
-        <button class="read-more-btn">💼 Read More About the Position</button>
-
+        <!-- Everything below is hidden initially -->
         <div class="card-details" style="display: none">
+
+          <div class="match-breakdown">
+            <div class="bar-label">Subject Match <span>${pos.subject_fit_percentage.toFixed(1)}%</span></div>
+            <div class="bar-container"><div class="bar" id="subject-${index}"></div></div>
+
+            <div class="bar-label">Technical Skill <span>${pos.technical_skill_fit_percentage.toFixed(1)}%</span></div>
+            <div class="bar-container"><div class="bar" id="tech-${index}"></div></div>
+
+            <div class="bar-label">Non-Technical Skill <span>${pos.non_technical_skill_fit_percentage.toFixed(1)}%</span></div>
+            <div class="bar-container"><div class="bar" id="nontech-${index}"></div></div>
+          </div>
+
+          <button class="read-more-btn">💼 Read More About the Position</button>
+
           <div class="company-section" id="companies-${index}"></div>
+
           <button class="toggle-more-btn">Show Less ▲</button>
         </div>
 
+        <!-- Show More toggle always visible -->
         <button class="toggle-more-btn show-more-btn" data-index="${index}">Show More ▼</button>
       `;
 
       container.appendChild(card);
 
-      // ✅ Render dynamic circular & linear progress
+      // Render progress bars
       renderCircularProgress(`progress-${index}`, pos.match_score_percentage);
       renderLinearProgress(`subject-${index}`, pos.subject_fit_percentage);
       renderLinearProgress(`tech-${index}`, pos.technical_skill_fit_percentage);
       renderLinearProgress(`nontech-${index}`, pos.non_technical_skill_fit_percentage);
     });
 
+    // Toggle Show More / Less
     container.addEventListener("click", function (e) {
       if (e.target.classList.contains("show-more-btn")) {
         const card = e.target.closest(".position-card");
         card.querySelector(".card-details").style.display = "block";
         e.target.style.display = "none";
       }
+
       if (e.target.classList.contains("toggle-more-btn") && !e.target.classList.contains("show-more-btn")) {
         const card = e.target.closest(".position-card");
         card.querySelector(".card-details").style.display = "none";
