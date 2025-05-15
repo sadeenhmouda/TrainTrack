@@ -90,24 +90,46 @@ document.addEventListener("DOMContentLoaded", function () {
     result.recommended_positions.forEach((pos, index) => {
       const card = document.createElement("div");
       card.className = "position-card";
+
       card.innerHTML = `
         <div class="card-top">
-          <p class="track-text">💼 You're on track for:</p>
-          <h3 class="position-name">${pos.position_name}</h3>
-          <div class="match-badge">${pos.fit_level} (${pos.match_score_percentage.toFixed(1)}%)</div>
-          <button class="show-more-btn" data-index="${index}">Show More ▼</button>
-        </div>
-        <div class="card-details" style="display: none">
-          <div class="match-breakdown">
-            <p>Subject Match: ${pos.subject_fit_percentage.toFixed(1)}%</p>
-            <p>Technical Skill: ${pos.technical_skill_fit_percentage.toFixed(1)}%</p>
-            <p>Non-Technical Skill: ${pos.non_technical_skill_fit_percentage.toFixed(1)}%</p>
+          <div class="circular-progress" id="progress-${index}">
+            <span class="progress-value">0%</span>
           </div>
-          <div class="company-section" id="companies-${index}"></div>
-          <button class="show-less-btn">Show Less ▲</button>
+          <div>
+            <p class="track-text">💼 You're on track for:</p>
+            <h3 class="position-name">${pos.position_name}</h3>
+          </div>
         </div>
+
+        <div class="match-breakdown">
+          <div class="bar-label">Subject Match <span>${pos.subject_fit_percentage.toFixed(1)}%</span></div>
+          <div class="bar-container"><div class="bar" id="subject-${index}"></div></div>
+
+          <div class="bar-label">Technical Skill <span>${pos.technical_skill_fit_percentage.toFixed(1)}%</span></div>
+          <div class="bar-container"><div class="bar" id="tech-${index}"></div></div>
+
+          <div class="bar-label">Non-Technical Skill <span>${pos.non_technical_skill_fit_percentage.toFixed(1)}%</span></div>
+          <div class="bar-container"><div class="bar" id="nontech-${index}"></div></div>
+        </div>
+
+        <button class="read-more-btn">💼 Read More About the Position</button>
+
+        <div class="card-details" style="display: none">
+          <div class="company-section" id="companies-${index}"></div>
+          <button class="toggle-more-btn">Show Less ▲</button>
+        </div>
+
+        <button class="toggle-more-btn show-more-btn" data-index="${index}">Show More ▼</button>
       `;
+
       container.appendChild(card);
+
+      // ✅ Render dynamic circular & linear progress
+      renderCircularProgress(`progress-${index}`, pos.match_score_percentage);
+      renderLinearProgress(`subject-${index}`, pos.subject_fit_percentage);
+      renderLinearProgress(`tech-${index}`, pos.technical_skill_fit_percentage);
+      renderLinearProgress(`nontech-${index}`, pos.non_technical_skill_fit_percentage);
     });
 
     container.addEventListener("click", function (e) {
@@ -116,10 +138,11 @@ document.addEventListener("DOMContentLoaded", function () {
         card.querySelector(".card-details").style.display = "block";
         e.target.style.display = "none";
       }
-      if (e.target.classList.contains("show-less-btn")) {
+      if (e.target.classList.contains("toggle-more-btn") && !e.target.classList.contains("show-more-btn")) {
         const card = e.target.closest(".position-card");
         card.querySelector(".card-details").style.display = "none";
-        card.querySelector(".show-more-btn").style.display = "inline-block";
+        const showMoreBtn = card.querySelector(".show-more-btn");
+        if (showMoreBtn) showMoreBtn.style.display = "inline-block";
       }
     });
 
@@ -153,6 +176,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  function renderCircularProgress(id, percent) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.style.background = `conic-gradient(orange ${percent}%, #e0e0e0 ${percent}%)`;
+    el.querySelector(".progress-value").textContent = `${Math.round(percent)}%`;
+  }
+
+  function renderLinearProgress(id, percent) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.style.width = `${percent}%`;
+  }
+
   function renderCompanies(companies, positions) {
     positions.forEach((pos, index) => {
       const compContainer = document.getElementById(`companies-${index}`);
@@ -164,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
           compContainer.innerHTML += `
             <p>
               ${i + 1}. ${c.company_name}<br>
-              📍 ${c.location} | 🏭 ${c.industry} | 🏢 ${c.company_size}
+              📍 ${c.location} | 🏛 ${c.industry} | 🏢 ${c.company_size}
             </p>
           `;
         });

@@ -1,180 +1,149 @@
-/* ===== Layout ===== */
+/* ===== Summary Layout ===== */
 .summary-area {
   flex: 1;
-  padding: 2rem 3rem;
+  padding:2rem 3rem;
   background-color: #fff;
+  font-family: 'Roboto', sans-serif;
 }
 
-.summary-title {
-  font-size: 28px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 0.2rem;
-}
 
-.summary-sub {
-  font-size: 16px;
-  color: #777;
-  margin-bottom: 1.5rem;
-}
-
-/* ===== Card ===== */
+/* ===== Card Styling ===== */
 .position-card {
-  border: 1px solid #ddd;
+  max-width: 657px;
+  margin: 0 auto 2rem;
+  background-color: #f9f9f9;
   border-radius: 12px;
-  padding: 1.2rem 1.5rem;
-  margin-bottom: 1.5rem;
+  border: 1px solid #ddd;
+  padding: 1.8rem 2rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  background: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
 }
 
-.track-text {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 0.2rem;
+/* ===== Card Header ===== */
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .position-name {
   font-size: 20px;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  color: #222;
 }
 
-.match-badge {
-  display: inline-block;
-  padding: 6px 10px;
-  background-color: #f0f0f0;
-  border-radius: 20px;
-  font-size: 14px;
-  color: #6A1B9A;
-  font-weight: 500;
-  margin-bottom: 0.8rem;
-}
-
-.card-top button,
-.card-details button {
-  padding: 6px 14px;
-  border: none;
-  background-color: #ccc;
-  color: #333;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.card-top button:hover,
-.card-details button:hover {
-  background-color: #bbb;
-}
-
-/* ===== Details Section ===== */
-.card-details {
-  padding-top: 1rem;
-  border-top: 1px solid #ddd;
-}
-
-.match-breakdown p {
-  margin: 0.3rem 0;
-  font-size: 15px;
-  color: #333;
-}
-
-.company-section p {
-  font-size: 14px;
-  margin: 0.3rem 0 0.6rem;
-  color: #444;
-}
-
-/* ===== Buttons ===== */
-.summary-actions {
-  margin-top: 2rem;
+/* ===== Circular Progress Bar ===== */
+.circular-progress {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: conic-gradient(orange 0%, #e0e0e0 0%);
   display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  color: #555;
+  position: relative;
+}
+
+.circular-progress::before {
+  content: "";
+  position: absolute;
+  width: 68%;
+  height: 68%;
+  background-color: #fff;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.circular-progress .progress-value {
+  z-index: 1;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ===== Linear Progress Bars ===== */
+.match-breakdown {
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
 }
 
-.summary-actions button {
-  background-color: #eee;
+.match-breakdown .bar-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+}
+
+.match-breakdown .bar-container {
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  height: 10px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.match-breakdown .bar {
+  height: 10px;
+  background-color: #6a1b9a;
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+
+/* ===== Read More Button ===== */
+.read-more-btn {
+  background-color: #6a1b9a;
+  color: #fff;
   border: none;
-  padding: 10px 16px;
+  padding: 0.6rem 1.2rem;
   border-radius: 8px;
   font-size: 14px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.summary-actions button:hover {
-  background-color: #ddd;
-}
-
-/* ===== No Match SweetAlert2 Popup Styling ===== */
-.swal2-popup.no-match-popup {
-  width: 900px !important;
-  padding: 3rem !important;
-  font-family: 'Roboto', sans-serif;
-  text-align: center;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-}
-
-/* Title */
-.swal2-popup.no-match-popup .swal2-title {
-  font-size: 26px;
-  font-weight: 650;
-  color: #333;
-  margin-bottom: 2rem;
-}
-
-/* Body Text – line spacing and spacing between paragraphs */
-.swal2-popup.no-match-popup .swal2-html-container p {
-  font-size: 16px;
-  color: #444;
-  line-height: 1.8;
-  margin-bottom: 1rem;
-}
-
-/* Final strong line inside popup */
-.swal2-popup.no-match-popup .swal2-html-container strong {
-  display: block;
-  margin-top: 1.5rem;
-  font-size: 16px;
-  color: #000;
-}
-
-/* Confirm Button */
-.swal2-popup.no-match-popup .swal2-confirm {
-  background-color: #6A1B9A !important;
-  color: white !important;
-  font-size: 16px;
-  padding: 10px 24px;
-  border-radius: 8px;
   font-weight: 500;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin: 0 auto;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.swal2-popup.no-match-popup .swal2-confirm:hover {
-  background-color: #591681 !important;
+.read-more-btn:hover {
+  background-color: #55167c;
 }
 
-/* Responsive for small screens */
-@media (max-width: 600px) {
-  .swal2-popup.no-match-popup {
-    width: 90% !important;
-    padding: 2rem !important;
-  }
+/* ===== Company Section ===== */
+.company-section {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #444;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
-  .swal2-popup.no-match-popup .swal2-title {
-    font-size: 24px;
-  }
+/* ===== Show More / Show Less Button ===== */
+.toggle-more-btn {
+  margin: 1.2rem auto 0;
+  font-size: 13px;
+  color: #333;
+  background-color: #f3f3f3;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: background-color 0.3s;
+}
 
-  .swal2-popup.no-match-popup .swal2-html-container p {
-    font-size: 15px;
-    line-height: 1.9;
-  }
-
-  .swal2-popup.no-match-popup .swal2-confirm {
-    font-size: 15px;
-    padding: 8px 20px;
-  }
+.toggle-more-btn:hover {
+  background-color: #e0e0e0;
 }
