@@ -41,8 +41,19 @@ document.addEventListener("DOMContentLoaded", function () {
       categoryGrid.appendChild(card);
     });
 
-    // ✅ Restore from localStorage if already selected
-    const saved = JSON.parse(localStorage.getItem("selectedSubjectCategoryIds") || "[]");
+    // ✅ Restore from localStorage if already selected — safely
+    const raw = localStorage.getItem("selectedSubjectCategoryIds");
+    let saved = [];
+
+    try {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        saved = parsed;
+      }
+    } catch (e) {
+      console.warn("⚠️ Could not parse saved subject category IDs:", e);
+    }
+
     saved.forEach(id => {
       const card = categoryGrid.querySelector(`.subject-card[data-id="${id}"]`);
       if (card) {

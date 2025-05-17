@@ -12,7 +12,19 @@ Route::get('/', function () {
 });
 
 // ✅ Wizard Step 0: Start Page
-Route::get('/traintrack/start', fn() => view('traintrack'))->name('traintrack.start');
+Route::get('/traintrack/start', function () {
+    session()->forget([
+        'wizard_selections',
+        'subject_categories',
+        'technical_skills',
+        'non_technical_skills',
+        'advanced_preferences',
+        'fallback_state'
+    ]);
+    return redirect()->route('traintrack');
+})->name('traintrack.start');
+
+
 
 // ✅ Wizard Step 1: Personal Info
 Route::get('/traintrack', fn() => view('traintrack'))->name('traintrack');
