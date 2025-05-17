@@ -76,12 +76,14 @@ document.addEventListener("DOMContentLoaded", function () {
       renderSummary(cached);
     });
 
+  // 🔴 Show error and redirect
   function showError(msg) {
     Swal.fire("Error", msg, "error").then(() => {
       window.location.href = "/traintrack";
     });
   }
 
+  // 🎯 Main renderer
   function renderSummary(result) {
     if (result.match_scenario === "fallback") {
       showFallbackModal();
@@ -94,17 +96,16 @@ document.addEventListener("DOMContentLoaded", function () {
       card.innerHTML = `
         <div class="card-top">
           <div class="circular-progress" id="progress-${index}">
-            <span class="progress-value">0%</span>
+            <span class="progress-value">0%</span> 
           </div>
           <div>
             <p class="track-text">💼 You're on track for:</p>
             <h3 class="position-name">${pos.position_name}</h3>
+            <p class="match-label">📌 ${pos.fit_level}</p>
           </div>
         </div>
 
-        <!-- Everything below is hidden initially -->
         <div class="card-details" style="display: none">
-
           <div class="match-breakdown">
             <div class="bar-label">Subject Match <span>${pos.subject_fit_percentage.toFixed(1)}%</span></div>
             <div class="bar-container"><div class="bar" id="subject-${index}"></div></div>
@@ -117,26 +118,22 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
 
           <button class="read-more-btn">💼 Read More About the Position</button>
-
           <div class="company-section" id="companies-${index}"></div>
-
           <button class="toggle-more-btn">Show Less ▲</button>
         </div>
 
-        <!-- Show More toggle always visible -->
         <button class="toggle-more-btn show-more-btn" data-index="${index}">Show More ▼</button>
       `;
 
       container.appendChild(card);
 
-      // Render progress bars
       renderCircularProgress(`progress-${index}`, pos.match_score_percentage);
       renderLinearProgress(`subject-${index}`, pos.subject_fit_percentage);
       renderLinearProgress(`tech-${index}`, pos.technical_skill_fit_percentage);
       renderLinearProgress(`nontech-${index}`, pos.non_technical_skill_fit_percentage);
     });
 
-    // Toggle Show More / Less
+    // Show More / Less Toggle
     container.addEventListener("click", function (e) {
       if (e.target.classList.contains("show-more-btn")) {
         const card = e.target.closest(".position-card");
@@ -152,10 +149,12 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
+    // Render company matches
     if (result.companies) {
       renderCompanies(result.companies, result.recommended_positions);
     }
 
+    // Fallback scenario button
     if (fallbackTriggered === "true") {
       const improveDiv = document.createElement("div");
       improveDiv.innerHTML = `
@@ -182,6 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  // 🟠 Circular progress bar fill
   function renderCircularProgress(id, percent) {
     const el = document.getElementById(id);
     if (!el) return;
@@ -189,12 +189,14 @@ document.addEventListener("DOMContentLoaded", function () {
     el.querySelector(".progress-value").textContent = `${Math.round(percent)}%`;
   }
 
+  // 🔵 Horizontal bar fill
   function renderLinearProgress(id, percent) {
     const el = document.getElementById(id);
     if (!el) return;
     el.style.width = `${percent}%`;
   }
 
+  // 🏢 Render matched companies
   function renderCompanies(companies, positions) {
     positions.forEach((pos, index) => {
       const compContainer = document.getElementById(`companies-${index}`);
@@ -215,10 +217,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+// 🔁 Restart wizard flow
 function restartWizard() {
   const keys = [
     "fullName", "gender", "majorId", "dateOfBirth",
-    "selectedSubjectIds", "selectedTechnicalSkills", "selectedNonTechnicalSkills",
+    "selectedSubjectIds", "selectedSubjectCategoryIds", 
+    "selectedTechnicalSkills", "selectedNonTechnicalSkills",
     "trainingModeId", "trainingModeDesc", "companySizeId", "companySizeDesc",
     "industryIds", "selectedIndustryNames", "companyCulture", "cultureMap",
     "recommendationResult", "fallbackTriggered", "finalWizardData"
