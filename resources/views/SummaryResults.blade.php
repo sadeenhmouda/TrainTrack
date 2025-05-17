@@ -43,6 +43,12 @@
   <!-- ✅ Attach JavaScript Logic -->
   <script src="{{ asset('js/summary.js') }}"></script>
   <script>
+    // ✅ Home redirection function
+    function goHome() {
+      window.location.href = "/";
+    }
+
+    // ✅ Export PDF logic
     document.getElementById("downloadPdfBtn").addEventListener("click", () => {
       const element = document.querySelector(".summary-area");
       const exportDate = document.getElementById("exportDate");

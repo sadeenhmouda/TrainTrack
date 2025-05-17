@@ -3,6 +3,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const fallbackTriggered = localStorage.getItem("fallbackTriggered");
   const finalWizardData = localStorage.getItem("finalWizardData");
 
+  const homeBtn = document.getElementById("goHomeBtn"); // ✅ Home button
+  if (homeBtn) {
+    homeBtn.addEventListener("click", () => {
+      window.location.href = "/";
+    });
+  }
+
   if (!finalWizardData) {
     showError("Wizard data missing. Please restart the wizard.");
     return;
@@ -221,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function restartWizard() {
   const keys = [
     "fullName", "gender", "majorId", "dateOfBirth",
-    "selectedSubjectIds", "selectedSubjectCategoryIds", 
+    "selectedSubjectIds", "selectedSubjectCategoryIds",
     "selectedTechnicalSkills", "selectedNonTechnicalSkills",
     "trainingModeId", "trainingModeDesc", "companySizeId", "companySizeDesc",
     "industryIds", "selectedIndustryNames", "companyCulture", "cultureMap",
