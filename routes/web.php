@@ -58,3 +58,11 @@ Route::get('/traintrack/pdf/download', [PdfController::class, 'download'])->name
 Route::get('/fallback', fn() => view('fallback'))->name('traintrack.fallback');
 Route::get('/traintrack/popup', fn() => view('popup'))->name('traintrack.popup');
 Route::get('/traintrack/fallback/improve', fn() => view('fallbackimporve'))->name('traintrack.fallback.improve');
+
+Route::get('/traintrack/position/{id}', function ($id) {
+    return view('traintrack.position-details');
+});
+
+Route::get('/traintrack/selections', function () {
+    return view('traintrack.selections');
+});
