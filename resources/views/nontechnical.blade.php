@@ -13,7 +13,10 @@
   <div class="wizard-layout">
 
     <!-- Sidebar -->
-    @include('traintrack.partials.sidebar', ['currentStep' => 4])
+       @include('traintrack.partials.sidebar', [
+  'currentStep' => 4,
+  'currentSubstep' => null
+])
 
     <!-- Right Panel -->
     <div class="right-panel" x-data="nonTechnicalSkillsStep()">

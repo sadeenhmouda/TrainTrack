@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+<<<<<<< HEAD
   function renderListFromStorage(id, key) {
     const list = safeParse(key);
     const container = document.getElementById(id);
@@ -54,4 +55,24 @@ document.addEventListener("DOMContentLoaded", function () {
   renderListFromStorage("nonTechnicalSkillList", "selectedNonTechnicalSkills");
   renderListFromPersonal("cultureList", "preferred_cultures");
   renderListFromPersonal("industryList", "preferred_industries");
+=======
+  function toggleFlatList(containerId, items, wrapperId = null) {
+    const container = document.getElementById(containerId);
+    const wrapper = wrapperId ? document.getElementById(wrapperId) : container.closest(".info-card");
+    container.innerHTML = "";
+
+    if (!items || items.length === 0) {
+      wrapper.style.display = "none";
+      return;
+    }
+
+    items.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      container.appendChild(li);
+    });
+
+    wrapper.style.display = "block";
+  }
+>>>>>>> 4a066e589694056365294e7326738d9a0487cc99
 });

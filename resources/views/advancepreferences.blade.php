@@ -19,7 +19,10 @@
   <div class="wizard-layout">
 
     {{-- ✅ Left Sidebar --}}
-    @include('traintrack.partials.sidebar', ['currentStep' => 5])
+       @include('traintrack.partials.sidebar', [
+  'currentStep' => 5,
+  'currentSubstep' => null
+])
 
     {{-- ✅ Right Panel --}}
     <div class="form-area" x-data="advancedPreferences()" x-init="fetchPreferences()">
