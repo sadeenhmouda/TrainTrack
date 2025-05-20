@@ -3,10 +3,56 @@ document.addEventListener("DOMContentLoaded", function () {
   const fallbackTriggered = localStorage.getItem("fallbackTriggered");
   const finalWizardData = localStorage.getItem("finalWizardData");
 
-  const homeBtn = document.getElementById("goHomeBtn"); // ✅ Home button
+  const homeBtn = document.getElementById("goHomeBtn");
   if (homeBtn) {
     homeBtn.addEventListener("click", () => {
       window.location.href = "/";
+    });
+  }
+
+  try {
+    const fullData = JSON.parse(finalWizardData);
+    if (fullData) {
+      const fallbackPayload = {
+        subjects: fullData.selectedSubjectIds || [],
+        technical_skills: fullData.selectedTechnicalSkills || [],
+        non_technical_skills: fullData.selectedNonTechnicalSkills || [],
+        advanced_preferences: {
+          training_modes: fullData.trainingModeId ? [parseInt(fullData.trainingModeId)] : [],
+          company_sizes: fullData.companySizeId ? [parseInt(fullData.companySizeId)] : [],
+          preferred_industry: fullData.industryIds || []
+        },
+        previous_fallback_ids: [],
+        is_fallback: true
+      };
+      localStorage.setItem("previousFallbackPayload", JSON.stringify(fallbackPayload));
+    }
+  } catch (err) {
+    console.warn("⚠️ Could not prepare fallbackPayload from finalWizardData", err);
+  }
+
+  if (fallbackTriggered === "true" && container) {
+    const improveDiv = document.createElement("div");
+    improveDiv.innerHTML = `
+      <div style="text-align: center; margin-top: 2rem;">
+        <button id="improveBtn" style="
+          background: linear-gradient(90deg, #8e2de2, #4a00e0);
+          color: white;
+          border: none;
+          padding: 14px 28px;
+          font-size: 16px;
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+          cursor: pointer;
+          transition: transform 0.2s ease-in-out;
+        ">✨ Improve My Selections</button>
+      </div>
+    `;
+    container.appendChild(improveDiv);
+
+    document.getElementById("improveBtn").addEventListener("click", () => {
+      localStorage.removeItem("fallbackTriggered");
+      window.location.href = "/traintrack/fallback/improve";
     });
   }
 
@@ -20,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
     headers: { "Content-Type": "application/json" },
     body: finalWizardData
   })
-    .then(res => res.json())
+    .then(async result => result.json())
     .then(async result => {
       console.log("🎯 Recommendation result:", result);
 
@@ -30,6 +76,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
       localStorage.setItem("recommendationResult", JSON.stringify(result));
 
+      // ✅ Handle fallback
+      if (result.match_scenario === "fallback") {
+        Swal.fire({
+          title: '⚡ No Perfect Match Found',
+          html: `<p style="margin: 0; color: #444; font-size: 15px;">
+              Based on your selections, no strong position match was found.<br>
+              You can improve your results by selecting more subjects or skills.
+            </p>`,
+          showCancelButton: true,
+          reverseButtons: true,
+          cancelButtonText: 'Skip, Maybe Later',
+          confirmButtonText: '🚀 Yes, Improve My Selection',
+          customClass: {
+            popup: 'fallback-card',
+            confirmButton: 'fallback-btn-confirm',
+            cancelButton: 'fallback-btn-cancel'
+          },
+          background: '#fff',
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        }).then(popupResult => {
+          if (popupResult.isConfirmed) {
+            window.location.href = "/traintrack/fallback/improve";
+          } else {
+            localStorage.setItem("fallbackTriggered", "true");
+            renderSummary(result);
+          }
+        });
+
+        return;
+      }
+
+      // ✅ Fetch company matches if needed
       if (result.should_fetch_companies) {
         const ids = result.recommended_positions.map(p => p.position_id).join(",");
 
@@ -67,7 +146,6 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .catch(err => {
       console.error("❌ API error. Falling back to cached result:", err);
-
       const stored = localStorage.getItem("recommendationResult");
       let cached = null;
       try {
@@ -75,27 +153,19 @@ document.addEventListener("DOMContentLoaded", function () {
       } catch (err) {
         return showError("Invalid cached result. Please restart the wizard.");
       }
-
       if (!cached || !cached.success) {
         return showError("No valid results. Please restart the wizard.");
       }
-
       renderSummary(cached);
     });
 
-  // 🔴 Show error and redirect
   function showError(msg) {
     Swal.fire("Error", msg, "error").then(() => {
       window.location.href = "/traintrack";
     });
   }
 
-  // 🎯 Main renderer
   function renderSummary(result) {
-    if (result.match_scenario === "fallback") {
-      showFallbackModal();
-    }
-
     result.recommended_positions.forEach((pos, index) => {
       const card = document.createElement("div");
       card.className = "position-card";
@@ -103,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
       card.innerHTML = `
         <div class="card-top">
           <div class="circular-progress" id="progress-${index}">
-            <span class="progress-value">0%</span> 
+            <span class="progress-value">0%</span>
           </div>
           <div>
             <p class="track-text">💼 You're on track for:</p>
@@ -124,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="bar-container"><div class="bar" id="nontech-${index}"></div></div>
           </div>
 
-          <button class="read-more-btn">💼 Read More About the Position</button>
+          <a href="/traintrack/position/${pos.position_id}" class="read-more-btn">💼 Read More About the Position</a>
           <div class="company-section" id="companies-${index}"></div>
           <button class="toggle-more-btn">Show Less ▲</button>
         </div>
@@ -133,14 +203,12 @@ document.addEventListener("DOMContentLoaded", function () {
       `;
 
       container.appendChild(card);
-
       renderCircularProgress(`progress-${index}`, pos.match_score_percentage);
       renderLinearProgress(`subject-${index}`, pos.subject_fit_percentage);
       renderLinearProgress(`tech-${index}`, pos.technical_skill_fit_percentage);
       renderLinearProgress(`nontech-${index}`, pos.non_technical_skill_fit_percentage);
     });
 
-    // Show More / Less Toggle
     container.addEventListener("click", function (e) {
       if (e.target.classList.contains("show-more-btn")) {
         const card = e.target.closest(".position-card");
@@ -156,39 +224,12 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    // Render company matches
+    // ✅ Add companies if available
     if (result.companies) {
       renderCompanies(result.companies, result.recommended_positions);
     }
-
-    // Fallback scenario button
-    if (fallbackTriggered === "true") {
-      const improveDiv = document.createElement("div");
-      improveDiv.innerHTML = `
-        <div style="text-align: center; margin-top: 2rem;">
-          <button id="improveBtn" style="
-            background: linear-gradient(90deg, #8e2de2, #4a00e0);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            font-size: 16px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out;
-          ">✨ Improve My Selections</button>
-        </div>
-      `;
-      container.appendChild(improveDiv);
-
-      document.getElementById("improveBtn").addEventListener("click", () => {
-        localStorage.removeItem("fallbackTriggered");
-        window.location.href = "/traintrack/fallback/improve";
-      });
-    }
   }
 
-  // 🟠 Circular progress bar fill
   function renderCircularProgress(id, percent) {
     const el = document.getElementById(id);
     if (!el) return;
@@ -196,19 +237,16 @@ document.addEventListener("DOMContentLoaded", function () {
     el.querySelector(".progress-value").textContent = `${Math.round(percent)}%`;
   }
 
-  // 🔵 Horizontal bar fill
   function renderLinearProgress(id, percent) {
     const el = document.getElementById(id);
     if (!el) return;
     el.style.width = `${percent}%`;
   }
 
-  // 🏢 Render matched companies
   function renderCompanies(companies, positions) {
     positions.forEach((pos, index) => {
       const compContainer = document.getElementById(`companies-${index}`);
       const filtered = companies.filter(c => c.position_id === pos.position_id);
-
       if (filtered.length > 0) {
         compContainer.innerHTML = "<p><strong>Based on your preferences, you fit in:</strong></p>";
         filtered.forEach((c, i) => {
@@ -234,7 +272,6 @@ function restartWizard() {
     "industryIds", "selectedIndustryNames", "companyCulture", "cultureMap",
     "recommendationResult", "fallbackTriggered", "finalWizardData"
   ];
-
   keys.forEach(k => localStorage.removeItem(k));
   window.location.href = "/traintrack";
 }

@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () { 
   const topicsContainer = document.getElementById("topicsContainer");
   const nextBtn = document.getElementById("nextBtn");
   const selectedCount = document.getElementById("selectedCount");
@@ -99,10 +99,12 @@ document.addEventListener("DOMContentLoaded", function () {
       usedCategoryIds.add(btn.getAttribute("data-category-id"));
     });
 
-    const isValid = selectedTopics.length === 7 && usedCategoryIds.size === 3;
+    // ✅ Allow selection between 3 and 7 topics, and exactly 3 categories
+    const isValid = selectedTopics.length >= 3 && selectedTopics.length <= 7 && usedCategoryIds.size === 3;
     nextBtn.disabled = !isValid;
 
-    warningEl.style.display = selectedTopics.length === 7 && usedCategoryIds.size < 3
+    // 🔔 Show warning if all 7 selected but not from 3 categories
+    warningEl.style.display = (selectedTopics.length === 7 && usedCategoryIds.size < 3)
       ? "block"
       : "none";
   }

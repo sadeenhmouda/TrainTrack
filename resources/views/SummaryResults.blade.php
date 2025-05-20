@@ -32,7 +32,7 @@
 
       <!-- Footer Buttons -->
       <div class="summary-actions">
-        <button onclick="goToSelections()">🔗 My Selections</button>
+        <button onclick="window.location.href='/traintrack/selections'" class="back-button">🔗 My Selections</button>
         <button onclick="restartWizard()">🔁 Restart Wizard</button>
         <button onclick="goHome()">🏠 Home</button>
         <button id="downloadPdfBtn" class="export-btn">📝 Export PDF</button>

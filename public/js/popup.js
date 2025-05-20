@@ -1,4 +1,4 @@
-function showFallbackModal() {
+if (result.match_scenario === "fallback") {
   Swal.fire({
     title: '⚡ No Perfect Match Found',
     html: `
@@ -19,13 +19,14 @@ function showFallbackModal() {
     background: '#fff',
     allowOutsideClick: false,
     allowEscapeKey: false
-  }).then((result) => {
-    if (result.isConfirmed) {
-      // ✅ Go to fallback improvement page
+  }).then((popupResult) => {
+    if (popupResult.isConfirmed) {
       window.location.href = "/traintrack/fallback/improve";
-    } else if (result.dismiss === Swal.DismissReason.cancel) {
-      // ✅ Mark fallback as skipped (so we can show the "Improve" button later)
+    } else {
       localStorage.setItem("fallbackTriggered", "true");
+      renderSummary(result); // ✅ Only render AFTER user responds
     }
   });
+} else {
+  renderSummary(result); // ✅ Normal render
 }

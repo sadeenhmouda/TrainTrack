@@ -86,7 +86,10 @@ async function submitToExpertSystem(isSkip = false) {
           training_mode: trainingModeDesc || null,
           company_size: companySizeDesc || null,
           preferred_industry: industryNames,
-          company_culture: cultureIds
+          company_culture: cultureIds,
+          training_mode_id: selectedTrainingModeId ? parseInt(selectedTrainingModeId) : null,
+          company_size_id: selectedCompanySizeId ? parseInt(selectedCompanySizeId) : null,
+          preferred_industry_ids: cleanIndustryIds
         }
       : {},
 
@@ -138,7 +141,14 @@ async function submitToExpertSystem(isSkip = false) {
         localStorage.setItem("fallbackTriggered", "true");
       }
 
-      localStorage.setItem("finalWizardData", JSON.stringify(payload));
+      // ✅ Fix: Attach readable names for display in summary view
+      if (payload.advanced_preferences) {
+        payload.advanced_preferences.training_mode_name = trainingModeDesc || null;
+        payload.advanced_preferences.company_size_name = companySizeDesc || null;
+        payload.advanced_preferences.preferred_industry_names = industryNames;
+        payload.advanced_preferences.company_culture_names = selectedCultures;
+      }
+          localStorage.setItem("finalWizardData", JSON.stringify(payload));
       window.location.href = "/traintrack/summaryresults";
     } else {
       Swal.fire("Error", "Recommendation failed. Try again.", "error");

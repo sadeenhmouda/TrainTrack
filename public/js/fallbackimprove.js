@@ -32,18 +32,14 @@ document.addEventListener("DOMContentLoaded", async function () {
   fetchFallbackData();
 
   function fetchFallbackData() {
-    const payload = {
-      subjects: [174, 185, 195],
-      technical_skills: [36, 40, 42, 35],
-      non_technical_skills: [99, 100, 101],
-      advanced_preferences: {
-        training_modes: [1, 2],
-        company_sizes: [2],
-        industries: [3]
-      },
-      previous_fallback_ids: [1],
-      is_fallback: true
-    };
+   const payload = JSON.parse(localStorage.getItem("previousFallbackPayload") || "{}");
+
+
+  if (!payload) {
+    alert("⚠️ Missing fallback data. Please go back and retry.");
+    return;
+  }
+
 
     fetch("https://train-track-backend.onrender.com/recommendations/fallback-prerequisites", {
       method: "POST",
@@ -112,6 +108,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       .then(result => {
         if (result.success && result.recommendations) {
           localStorage.setItem("fallbackResults", JSON.stringify(result.recommendations));
+          localStorage.removeItem("previousFallbackPayload");
+
           window.location.href = "/summaryresults";
         } else {
           alert("❌ No match found after fallback.");
