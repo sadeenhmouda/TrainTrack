@@ -8,21 +8,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
-<<<<<<< HEAD
   <div class="page-container">
 
     <!-- Header: Logo + Title -->
-=======
-
-  <!-- 🔄 Loading Spinner -->
-  <div id="loadingSpinner" style="text-align: center; padding: 40px;">
-    <p style="font-size: 18px; color: #6a1b9a;">⏳ Loading your selections...</p>
-  </div>
-
-  <!-- ✅ Page Content (initially hidden) -->
-  <div id="selectionContent" class="page-container" style="display: none;">
-    <!-- Header -->
->>>>>>> 4a066e589694056365294e7326738d9a0487cc99
     <div class="header-stack">
       <a href="/">
         <img src="/traintracklogo.png" alt="Train Track Logo" class="logo" />
