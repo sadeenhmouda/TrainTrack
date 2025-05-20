@@ -46,8 +46,4 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("❌ Error:", err);
       document.body.innerHTML = "<p style='color:red;text-align:center;'>❌ Failed to load position details.</p>";
     });
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> 4a066e589694056365294e7326738d9a0487cc99
