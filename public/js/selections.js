@@ -1,57 +1,99 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // ✅ Remove duplicates
-  function uniqueArray(arr) {
-    return [...new Set(arr || [])];
+  const payload = localStorage.getItem("finalWizardData");
+
+  if (!payload) {
+    alert("⚠️ No saved wizard data found. Please complete the wizard first.");
+    return;
   }
 
-  // ✅ Safe JSON parsing
-  function safeParse(key) {
-    try {
-      return JSON.parse(localStorage.getItem(key));
-    } catch {
-      return null;
+  fetch("https://train-track-backend.onrender.com/user-input-summary", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: payload
+  })
+    .then(res => res.json())
+    .then(result => {
+      if (!result.success) throw new Error("Failed to fetch summary");
+
+      const data = result.data;
+
+      // ✅ Show content and hide spinner
+      document.getElementById("loadingSpinner").style.display = "none";
+      document.getElementById("selectionContent").style.display = "block";
+
+      // ✅ Basic Info
+      showIfExists("fullName", data.full_name);
+      showIfExists("gender", data.gender);
+      showIfExists("major", data.major);
+      showIfExists("dob", data.date_of_birth);
+
+      // ✅ Grouped Lists (Subjects, Tech Skills)
+      toggleGroupedList("subjectList", data.subjects, "subjects");
+      toggleGroupedList("technicalSkillList", data.technical_skills, "skills");
+
+      // ✅ Flat List (Non-Technical Skills)
+      toggleFlatList("nonTechnicalSkillList", data.non_technical_skills);
+
+      // ✅ Optional Preferences
+      const prefs = data.preferences || {};
+
+      showIfExists("trainingMode", prefs.training_mode_name, "trainingModeCard");
+      showIfExists("companySize", prefs.company_size_name, "companySizeCard");
+      toggleFlatList("cultureList", prefs.company_culture_names, "cultureCard");
+      toggleFlatList("industryList", prefs.preferred_industry_names, "industryCard");
+    })
+    .catch(err => {
+      console.error("❌ Error loading selections:", err);
+      alert("Something went wrong while loading your selections.");
+    });
+
+  function showIfExists(spanId, value, wrapperId = null) {
+    const span = document.getElementById(spanId);
+    const wrapper = wrapperId ? document.getElementById(wrapperId) : span.closest(".info-card");
+
+    if (value) {
+      span.textContent = value;
+      wrapper.style.display = wrapper.classList.contains("inline-pair") ? "flex" : "block";
+    } else {
+      wrapper.style.display = "none";
     }
   }
 
-  const personal = safeParse("personal_info") || {};
-
-  // ✅ Inject single values
-  document.getElementById("fullName").textContent = personal.full_name || "N/A";
-  document.getElementById("gender").textContent = personal.gender || "N/A";
-  document.getElementById("major").textContent = personal.major || "N/A";
-  document.getElementById("dob").textContent = personal.date_of_birth || "N/A";
-  document.getElementById("trainingMode").textContent = personal.training_mode || personal.trainingModeName || "N/A";
-  document.getElementById("companySize").textContent = personal.company_size || personal.companySizeName || "N/A";
-
-  // ✅ Reusable function for rendering lists
-  function renderListFromPersonal(id, key) {
-    const list = Array.isArray(personal[key]) ? uniqueArray(personal[key]) : [];
+  function toggleGroupedList(id, groups, key) {
     const container = document.getElementById(id);
     container.innerHTML = "";
-    list.forEach(item => {
+
+    if (!groups || groups.length === 0) {
+      container.closest(".info-card").style.display = "none";
+      return;
+    }
+
+    groups.forEach(group => {
       const li = document.createElement("li");
-      li.textContent = item;
+      const names = group[key].map(item => item.name).join(", ");
+      li.innerHTML = `<span style="font-weight: 600; color: #3a2257;">${group.category_name}:</span> ${names}`;
       container.appendChild(li);
     });
   }
 
-  function renderListFromStorage(id, key) {
-    const list = safeParse(key);
-    const container = document.getElementById(id);
+  function toggleFlatList(containerId, items, wrapperId = null) {
+    const container = document.getElementById(containerId);
+    const wrapper = wrapperId ? document.getElementById(wrapperId) : container.closest(".info-card");
     container.innerHTML = "";
-    if (Array.isArray(list)) {
-      uniqueArray(list).forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = item;
-        container.appendChild(li);
-      });
-    }
-  }
 
-  // ✅ Render lists from localStorage
-  renderListFromStorage("subjectList", "selectedSubjectNames");
-  renderListFromStorage("technicalSkillList", "selectedTechnicalSkills");
-  renderListFromStorage("nonTechnicalSkillList", "selectedNonTechnicalSkills");
-  renderListFromPersonal("cultureList", "preferred_cultures");
-  renderListFromPersonal("industryList", "preferred_industries");
+    if (!items || items.length === 0) {
+      wrapper.style.display = "none";
+      return;
+    }
+
+    items.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      container.appendChild(li);
+    });
+
+    wrapper.style.display = "block";
+  }
 });
