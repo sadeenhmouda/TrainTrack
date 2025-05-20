@@ -17,7 +17,10 @@
   <div class="wizard-layout">
 
     {{-- ✅ Sidebar --}}
-    @include('traintrack.partials.sidebar', ['currentStep' => 6])
+       @include('traintrack.partials.sidebar', [
+  'currentStep' => 6,
+  'currentSubstep' => null
+])
 
     {{-- ✅ Right Side --}}
     <div class="summary-area">

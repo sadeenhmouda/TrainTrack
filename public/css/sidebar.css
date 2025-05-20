@@ -1,50 +1,74 @@
-/* Sidebar Layout */
+/* 🔁 ADJUST SIDEBAR HEIGHT */
 .sidebar {
   width: 320px;
-  padding: 28px 24px;
+  padding: 24px;
   background-color: white;
   border-right: 1px solid #e0e0e0;
-  height: 100vh;              /* ✅ Constrain sidebar height to screen */
-  overflow-y: auto;           /* ✅ Show scrollbar only if sidebar overflows */
-  scrollbar-gutter: auto;     /* ✅ Avoid empty space when scrollbar not needed (optional) */
+  height: auto;               /* ✅ changed from 100vh */
+  min-height: 100vh;          /* ✅ keeps full height but scroll-free */
+  overflow-y: hidden;         /* ✅ no vertical scrollbar */
+  position: relative;
 }
 
-
-/* Logo */
+/* ✅ CLEAN LOGO SPACING */
 .sidebar-logo {
-  width: 180px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  margin-left: 4px;
+  width: 220px;
+  margin-top: -30px;
+  margin-left: 10px;
+  display: block;
 }
 
-/* Title */
+/* ✅ ADJUST TITLE MARGIN */
 .sidebar-title {
-  margin-top: 40px;
+  margin-top: -10px;          /* previously 90px */
   margin-left: 16px;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 400;
   color: #333;
-  margin-bottom: 16px;
+  margin-bottom: 11px;
 }
 
-/* Stepper Container */
+/* ✅ BRING STEPPER CLOSER TO TITLE */
 .stepper-container {
   position: relative;
   margin-left: 4px;
+  margin-top: 0px;
 }
 
-/* Vertical Line */
+/* ✅ ALIGN VERTICAL LINE TO CIRCLE CENTER */
 .vertical-line {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 32px;
-  width: 1px;
-  background-color: #d1d5db; /* gray-300 */
+  left: 17px;              /* 32px step-circle → center is 16px */
+  width: 1.6px;
+  background-color: #d1d5db;
   z-index: 0;
 }
+
+/* ✅ NO CHANGES TO CIRCLES — JUST ALIGNMENT FIXES */
+.step {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+}
+
+.step-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 15px;
+  background-color: #f5f5f5;
+  border: 1px solid #d1d5db;
+  color: #0f0f0f;
+  margin-right: 12px;
+}
+
+/* ... keep other styles (active, filled, half-active, etc.) as is */
 
 /* Step List */
 .step-list {
@@ -54,58 +78,47 @@
   position: relative;
   z-index: 10;
 }
-
-/* Each Step */
-.step {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.step-circle {
-  width: 32px;
-  height: 32px;
-  border-radius: 9999px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 500;
-  font-size: 14px;
-  margin-right: 12px;
-}
-
 .step-circle.active {
+  border: 2px solid #6A1B9A;
+  background-color: white;
+  color: #6A1B9A;
+}
+
+.step-circle.filled {
   background-color: #6A1B9A;
   color: white;
   border: 2px solid #6A1B9A;
 }
 
-.step-circle.inactive {
-  background-color: #F5F5F5;
-  color: #0f0f0f;
-  border: 1px solid #d1d5db;
+.step-circle.half-active {
+  background-color: white;
+  color: #6A1B9A;
+  border-top: 2px solid #6A1B9A;
+  border-bottom: 2px solid #6A1B9A;
+  border-left: 2px solid #d1d5db;
+  border-right: 2px solid #d1d5db;
 }
 
-/* Step Text */
 .step-label {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 500;
   color: #333;
-  margin-top: 4px;
+  margin-top: 10.5px;
 }
 
 /* Substeps */
 .substep {
   display: flex;
   align-items: center;
-  margin-top: 12px;
+  margin-top: 10px;
+  margin-left: 15px;
 }
 
 .substep-circle {
   width: 29px;
   height: 29px;
   border-radius: 9999px;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   border: 1px solid #6A1B9A;
   display: flex;
   align-items: center;
@@ -115,12 +128,24 @@
   color: #0f0f0f;
 }
 
-.substep.inactive .substep-circle {
+.substep-circle.active {
+  border: 2px solid #6A1B9A;
+  color: #6A1B9A;
+  background-color: white;
+}
+
+.substep-circle.filled {
+  background-color: #6A1B9A;
+  color: white;
+  border: 2px solid #6A1B9A;
+}
+
+.substep-circle.inactive {
   border-color: #d1d5db;
 }
 
 .substep-text {
   margin-left: 8px;
-  font-size: 15px;
+  font-size: 14.6px;
   color: #333;
 }

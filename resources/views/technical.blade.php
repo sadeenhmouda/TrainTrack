@@ -15,7 +15,10 @@
   <div class="wizard-layout">
 
     <!-- ✅ Left Sidebar -->
-    @include('traintrack.partials.sidebar')
+      @include('traintrack.partials.sidebar', [
+  'currentStep' => 3,
+  'currentSubstep' => null
+  ])
 
     <!-- ✅ Right Content Area -->
     <div class="tec-content" x-data="technicalSkillsStep()">
