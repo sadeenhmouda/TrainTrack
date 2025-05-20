@@ -7,9 +7,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="page-container">
+  <!-- ✅ Loader Box - Matching Final Selections Style -->
+  <div id="loadingBox">
+    <div class="text-purple-700 text-lg font-medium animate-pulse flex items-center gap-2">
+      ⏳ <span>Loading your selections...</span>
+    </div>
+  </div>
 
-    <!-- ✅ Logo + Title (stacked, tight) -->
+  <!-- ✅ Main Page Content (Hidden Initially) -->
+  <div class="page-container" style="display: none;">
+    <!-- ✅ Logo + Title -->
     <div class="header-stack">
       <a href="{{ url('/') }}">
         <img src="{{ asset('traintracklogo.png') }}" alt="Train Track Logo" class="logo" />
@@ -42,12 +49,13 @@
       <p id="tips"></p>
     </div>
 
-    <!-- ✅ Back to Results -->
+    <!-- ✅ Back Button -->
     <a href="{{ route('traintrack.summaryresults') }}" class="back-button">
       <span class="arrow-icon">←</span> Back to Results
     </a>
-
-    <script src="{{ asset('js/position-details.js') }}"></script>
   </div>
+
+  <!-- ✅ JS -->
+  <script src="{{ asset('js/position-details.js') }}"></script>
 </body>
 </html>

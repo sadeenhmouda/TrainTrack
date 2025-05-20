@@ -5,11 +5,12 @@ async function submitToExpertSystem(isSkip = false) {
   const selectedTrainingModeId = localStorage.getItem("trainingModeId");
   const selectedCompanySizeId = localStorage.getItem("companySizeId");
   const selectedIndustryIds = JSON.parse(localStorage.getItem("industryIds") || "[]");
-  const selectedCultures = JSON.parse(localStorage.getItem("companyCulture") || "[]");
+  const selectedIndustryNames = JSON.parse(localStorage.getItem("selectedIndustryNames") || "[]");
 
+
+  const selectedCultures = JSON.parse(localStorage.getItem("companyCulture") || "[]");
   const trainingModeDesc = localStorage.getItem("trainingModeDesc");
   const companySizeDesc = localStorage.getItem("companySizeDesc");
-  const industryNames = JSON.parse(localStorage.getItem("selectedIndustryNames") || "[]");
   const cultureMap = JSON.parse(localStorage.getItem("cultureMap") || "{}");
 
   const fullName = localStorage.getItem("fullName");
@@ -62,8 +63,6 @@ async function submitToExpertSystem(isSkip = false) {
   const cleanTechSkills = selectedTechSkills.map(id => parseInt(id));
   const cleanNonTechSkills = selectedNonTechSkills.map(id => parseInt(id));
   const cleanIndustryIds = selectedIndustryIds.map(id => parseInt(id));
-
-  // ✅ Convert culture names to IDs safely
   const cultureIds = selectedCultures.map(name => cultureMap[name]).filter(Boolean);
 
   if (selectedCultures.length > 0 && cultureIds.length === 0) {
@@ -85,7 +84,7 @@ async function submitToExpertSystem(isSkip = false) {
       ? {
           training_mode: trainingModeDesc || null,
           company_size: companySizeDesc || null,
-          preferred_industry: industryNames,
+          preferred_industry: selectedIndustryNames,
           company_culture: cultureIds,
           training_mode_id: selectedTrainingModeId ? parseInt(selectedTrainingModeId) : null,
           company_size_id: selectedCompanySizeId ? parseInt(selectedCompanySizeId) : null,
@@ -141,14 +140,15 @@ async function submitToExpertSystem(isSkip = false) {
         localStorage.setItem("fallbackTriggered", "true");
       }
 
-      // ✅ Fix: Attach readable names for display in summary view
-      if (payload.advanced_preferences) {
-        payload.advanced_preferences.training_mode_name = trainingModeDesc || null;
-        payload.advanced_preferences.company_size_name = companySizeDesc || null;
-        payload.advanced_preferences.preferred_industry_names = industryNames;
-        payload.advanced_preferences.company_culture_names = selectedCultures;
-      }
-          localStorage.setItem("finalWizardData", JSON.stringify(payload));
+      // ✅ Final fix: Ensure readable names are added properly
+      payload.preferences = {
+        training_mode_name: trainingModeDesc || null,
+        company_size_name: companySizeDesc || null,
+        preferred_industry_names: selectedIndustryNames,
+        company_culture_names: selectedCultures
+      };
+
+      localStorage.setItem("finalWizardData", JSON.stringify(payload));
       window.location.href = "/traintrack/summaryresults";
     } else {
       Swal.fire("Error", "Recommendation failed. Try again.", "error");

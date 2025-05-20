@@ -1,5 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // ✅ Define positionId from URL
+  const loadingBox = document.getElementById("loadingBox");
+  const pageContainer = document.querySelector(".page-container");
+
+  // ✅ Hide page content and show loader
+  pageContainer.style.display = "none";
+  loadingBox.style.display = "flex";
+
   const pathSegments = window.location.pathname.split('/');
   const positionId = pathSegments[pathSegments.length - 1];
 
@@ -42,6 +48,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       document.getElementById("tips").textContent = data.tips;
+
+      // ✅ When loaded → hide loader, show content
+      loadingBox.style.display = "none";
+      pageContainer.style.display = "block";
     })
     .catch(err => {
       console.error("❌ Error:", err);

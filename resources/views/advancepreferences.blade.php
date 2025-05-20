@@ -191,6 +191,8 @@
           }).filter(Boolean);
 
           localStorage.setItem("industryIds", JSON.stringify(selectedIds));
+          localStorage.setItem("selectedIndustryNames", JSON.stringify(this.selected_industry));
+
         },
 
         saveTrainingMode(desc) {

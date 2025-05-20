@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
       showIfExists("trainingMode", prefs.training_mode_name, "trainingModeCard");
       showIfExists("companySize", prefs.company_size_name, "companySizeCard");
       toggleFlatList("cultureList", prefs.company_culture_names, "cultureCard");
+      console.log("👀 Preferred Industry Names:", prefs.preferred_industry_names);
       toggleFlatList("industryList", prefs.preferred_industry_names, "industryCard");
     })
     .catch(err => {
