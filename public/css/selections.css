@@ -105,7 +105,8 @@ ul li, ol li {
 .back-button:hover .arrow-icon {
   transform: translateX(-4px);
 }
-/* Compact inline layout for single-line fields */
+
+/* ✅ Inline Layout for small paired fields */
 .inline-pair {
   display: flex;
   align-items: center;

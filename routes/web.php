@@ -71,6 +71,26 @@ Route::get('/fallback', fn() => view('fallback'))->name('traintrack.fallback');
 Route::get('/traintrack/popup', fn() => view('popup'))->name('traintrack.popup');
 Route::get('/traintrack/fallback/improve', fn() => view('fallbackimporve'))->name('traintrack.fallback.improve');
 
+Route::get('/api/prerequisite-names', function (Request $request) {
+    $type = $request->query('type');
+ // Map readable types to DB values
+    $map = [
+        'subject' => 'Subject',
+        'technical' => 'Technical Skill',
+        'non-technical' => 'Non-Technical Skill',
+    ];
+
+    if (!isset($map[$type])) {
+        return response()->json([], 400); // Bad Request
+    }
+
+    $results = DB::table('prerequisites')
+        ->select('id', 'name') // 🔁 changed from prerequisite_name
+        ->where('type', $map[$type]) // 🔁 changed from prerequisite_type
+        ->get();
+
+    return response()->json($results);
+});
 Route::get('/traintrack/position/{id}', function ($id) {
     return view('traintrack.position-details');
 });

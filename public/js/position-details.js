@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // ✅ Define positionId from URL
   const pathSegments = window.location.pathname.split('/');
   const positionId = pathSegments[pathSegments.length - 1];
 
-  if (!positionId) {
-    document.body.innerHTML = "<p style='color:red;text-align:center;'>❌ No position ID provided.</p>";
+  if (!positionId || positionId === "undefined") {
+    document.body.innerHTML = "<p style='color:red;text-align:center;'>❌ Invalid position ID.</p>";
     return;
   }
 
