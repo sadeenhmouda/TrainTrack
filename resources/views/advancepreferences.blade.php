@@ -24,6 +24,7 @@
   'currentSubstep' => null
 ])
 
+
     {{-- ✅ Right Panel --}}
     <div class="form-area" x-data="advancedPreferences()" x-init="fetchPreferences()">
       <h1 class="form-title">⚙️ Advanced Preferences</h1>
