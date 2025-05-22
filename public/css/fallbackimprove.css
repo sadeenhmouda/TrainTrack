@@ -1,3 +1,4 @@
+
 /* === Fallback Improve Layout === */
 body {
   font-family: 'Roboto', sans-serif;
@@ -35,13 +36,18 @@ body {
   margin-bottom: 35px;
 }
 
-.fallback-section h3 {
+.card-section {
+  background: white;
+  padding: 24px 32px;
+  margin-bottom: 28px;
+  border-radius: 18px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card-section h3 {
   font-size: 18px;
+  margin-bottom: 16px;
   font-weight: 600;
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .pill-container {
@@ -61,6 +67,10 @@ body {
   cursor: pointer;
   transition: all 0.25s ease;
   border: 2px solid transparent;
+}
+
+.pill:hover {
+  background-color: #d5c4e0;
 }
 
 .pill.selected {
@@ -106,16 +116,19 @@ body {
   background-color: #58168a;
 }
 
-.card-section {
-  background: white;
-  padding: 24px 32px;
-  margin-bottom: 28px;
-  border-radius: 18px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
-}
+/* ✅ Responsive polish */
+@media screen and (max-width: 600px) {
+  .btn {
+    width: 100%;
+  }
 
-.card-section h3 {
-  font-size: 18px;
-  margin-bottom: 16px;
-  font-weight: 600;
+  .fallback-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pill {
+    font-size: 13px;
+    padding: 8px 14px;
+  }
 }

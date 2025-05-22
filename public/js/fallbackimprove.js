@@ -1,120 +1,96 @@
+// ✅ fallbackimprove.js (FINAL FIXED VERSION)
 document.addEventListener("DOMContentLoaded", async function () {
+  const API_BASE = "https://train-track-backend.onrender.com/";
+
   const subjectList = document.getElementById("subjectList");
   const technicalList = document.getElementById("technicalSkillList");
   const nonTechList = document.getElementById("nonTechnicalSkillList");
   const submitBtn = document.getElementById("submitImprovementBtn");
 
-  // Maps for ID ➝ Name
-  let subjectMap = {};
-  let techMap = {};
-  let nonTechMap = {};
+  const selectedSubjects = new Set();
+  const selectedTechSkills = new Set();
+  const selectedNonTechSkills = new Set();
 
-  // Load name maps first
-  async function fetchPrerequisiteMap(type) {
-  const res = await fetch(`/api/prerequisite-names?type=${type}`);
-  const data = await res.json();
-  const map = {};
-  data.forEach(item => {
-    map[item.id] = item.name;
-  });
-  return map;
-}
-
-
-  // Load all maps
- [subjectMap, techMap, nonTechMap] = await Promise.all([
-  fetchPrerequisiteMap("subject"),
-  fetchPrerequisiteMap("technical"),
-  fetchPrerequisiteMap("non-technical")
-]);
-
-  // Now fetch fallback recommendation IDs
+  // ✅ Start fetching fallback data
   fetchFallbackData();
 
   function fetchFallbackData() {
-   const payload = JSON.parse(localStorage.getItem("previousFallbackPayload") || "{}");
+    const rawPayload = localStorage.getItem("previousFallbackPayload") || "{}";
+    const payload = JSON.parse(rawPayload);
 
+    if (!payload || Object.keys(payload).length === 0) {
+      alert("⚠️ Missing fallback data. Please go back and retry.");
+      return;
+    }
 
-  if (!payload) {
-    alert("⚠️ Missing fallback data. Please go back and retry.");
-    return;
-  }
-
-
-    fetch("https://train-track-backend.onrender.com/recommendations/fallback-prerequisites", {
+    fetch(`${API_BASE}recommendations/fallback-prerequisites`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     })
       .then(res => res.json())
       .then(data => {
-        if (!data.success || !data.missing_prerequisites) {
+        console.log("✅ Backend returned fallback data:", data);
+
+        if (!data.success) {
+          console.warn("⚠️ Backend says 'no success'. Message:", data.message);
           alert("⚠️ No fallback options returned.");
           return;
         }
 
-        renderOptions(data.missing_prerequisites.subjects, subjectList, selectedSubjects, subjectMap);
-        renderOptions(data.missing_prerequisites.technical_skills, technicalList, selectedTechSkills, techMap);
-        renderOptions(data.missing_prerequisites.non_technical_skills, nonTechList, selectedNonTechSkills, nonTechMap);
+        renderOptions(data.missing_prerequisites.subjects, subjectList, selectedSubjects);
+        renderOptions(data.missing_prerequisites.technical_skills, technicalList, selectedTechSkills);
+        renderOptions(data.missing_prerequisites.non_technical_skills, nonTechList, selectedNonTechSkills);
       })
       .catch(err => {
-        console.error("Error fetching fallback prerequisites:", err);
+        console.error("❌ Error fetching fallback prerequisites:", err);
+        alert("❌ Could not fetch fallback data.");
       });
   }
 
-  // Selection tracking
-  const selectedSubjects = new Set();
-  const selectedTechSkills = new Set();
-  const selectedNonTechSkills = new Set();
-
-  function renderOptions(idArray, container, selectionSet, nameMap) {
+  function renderOptions(array, container, selectionSet) {
     container.innerHTML = "";
-    idArray.forEach(id => {
+    array.forEach(item => {
       const pill = document.createElement("div");
       pill.className = "pill";
-      pill.textContent = nameMap[id] || `ID ${id}`;
+      pill.textContent = item.name || `⚠️ Unknown ${item.id}`;
       pill.onclick = () => {
         pill.classList.toggle("selected");
-        if (selectionSet.has(id)) {
-          selectionSet.delete(id);
+        if (selectionSet.has(item.id)) {
+          selectionSet.delete(item.id);
         } else {
-          selectionSet.add(id);
+          selectionSet.add(item.id);
         }
       };
       container.appendChild(pill);
     });
   }
 
-  // Final Submit
   submitBtn.addEventListener("click", function () {
     const finalPayload = {
       subjects: [...selectedSubjects],
       technical_skills: [...selectedTechSkills],
       non_technical_skills: [...selectedNonTechSkills],
-      advanced_preferences: {
-        training_modes: [1, 2],
-        company_sizes: [2],
-        industries: [3]
-      },
-      is_fallback: true
+      is_fallback: true,
+      advanced_preferences: JSON.parse(localStorage.getItem("advancedPreferences") || "{}"),
+      previous_fallback_ids: []
     };
 
-    fetch("https://train-track-backend.onrender.com/recommendations", {
+    fetch(`${API_BASE}recommendations`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(finalPayload)
     })
       .then(res => res.json())
       .then(result => {
-        if (result.success && result.recommendations) {
-          localStorage.setItem("fallbackResults", JSON.stringify(result.recommendations));
+        if (result.success && result.recommended_positions) {
+          localStorage.setItem("recommendationResult", JSON.stringify(result));
           localStorage.removeItem("previousFallbackPayload");
-
-          window.location.href = "/summaryresults";
+          window.location.href = "/traintrack/summaryresults";
         } else {
-          alert("❌ No match found after fallback.");
+          alert("❌ No improved match found after fallback.");
         }
       })
-      .catch(err => console.error("Submit error:", err));
+      .catch(err => console.error("❌ Submit error:", err));
   });
 });

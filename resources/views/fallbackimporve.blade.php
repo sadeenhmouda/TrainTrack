@@ -1,34 +1,40 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Improve Your Match – Fallback</title>
-  <link rel="stylesheet" href="{{ asset('css/fallbackimprove.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/fallbackimprove.css') }}" />
 </head>
 <body>
   <div class="fallback-container">
-    <div class="fallback-header"><div class="card-section">
-      <h2><span class="highlight">You're Close!</span></h2>
-      <p>To improve your results, we recommend that you choose at least one option from each category that definitely applies to you.</p>
-    </div></div>
+    <div class="fallback-header">
+      <div class="card-section">
+        <h2><span class="highlight">You're Close!</span></h2>
+        <p>
+          To improve your results, we recommend that you choose at least one option from each category that definitely applies to you.
+        </p>
+      </div>
+    </div>
 
     <!-- Recommended Subjects -->
-<div class="card-section">
-  <h3>⚡ Recommended Subjects</h3>
-  <div id="subjectList" class="pill-container"></div>
-</div>
+    <div class="card-section">
+      <h3>⚡ Recommended Subjects</h3>
+      <div id="subjectList" class="pill-container"></div>
+    </div>
 
-<!-- Recommended Technical Skills -->
-<div class="card-section">
-  <h3>⚡ Recommended Technical Skills</h3>
-  <div id="technicalSkillList" class="pill-container"></div>
-</div>
+    <!-- Recommended Technical Skills -->
+    <div class="card-section">
+      <h3>⚡ Recommended Technical Skills</h3>
+      <div id="technicalSkillList" class="pill-container"></div>
+    </div>
 
-<!-- Recommended Non-Technical Skills -->
-<div class="card-section">
-  <h3>🌟 Recommended Non - Technical Skills</h3>
-  <div id="nonTechnicalSkillList" class="pill-container"></div>
-</div>
+    <!-- Recommended Non-Technical Skills -->
+    <div class="card-section">
+      <h3>🌟 Recommended Non-Technical Skills</h3>
+      <div id="nonTechnicalSkillList" class="pill-container"></div>
+    </div>
 
     <!-- Buttons -->
     <div class="fallback-buttons">

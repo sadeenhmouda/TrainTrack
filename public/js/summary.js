@@ -8,105 +8,138 @@ document.addEventListener("DOMContentLoaded", function () {
     homeBtn.addEventListener("click", () => {
       window.location.href = "/";
     });
+  }try {
+  const fullData = JSON.parse(finalWizardData);
+  if (fullData) {
+    const fallbackPayload = {
+      subjects: fullData.selectedSubjectIds || [],
+      technical_skills: fullData.selectedTechnicalSkills || [],
+      non_technical_skills: fullData.selectedNonTechnicalSkills || [],
+      advanced_preferences: fullData.advancedPreferences || {},
+      previous_fallback_ids: [],
+      is_fallback: true
+    };
+    localStorage.setItem("previousFallbackPayload", JSON.stringify(fallbackPayload));
   }
+} catch (err) {
+  console.warn("⚠️ Could not prepare fallbackPayload from finalWizardData", err);
+}
 
-  try {
-    const fullData = JSON.parse(finalWizardData);
-    if (fullData) {
-      const fallbackPayload = {
-        subjects: fullData.selectedSubjectIds || [],
-        technical_skills: fullData.selectedTechnicalSkills || [],
-        non_technical_skills: fullData.selectedNonTechnicalSkills || [],
-        advanced_preferences: {
-          training_modes: fullData.trainingModeId ? [parseInt(fullData.trainingModeId)] : [],
-          company_sizes: fullData.companySizeId ? [parseInt(fullData.companySizeId)] : [],
-          preferred_industry: fullData.industryIds || []
-        },
-        previous_fallback_ids: [],
-        is_fallback: true
-      };
-      localStorage.setItem("previousFallbackPayload", JSON.stringify(fallbackPayload));
-    }
-  } catch (err) {
-    console.warn("⚠️ Could not prepare fallbackPayload from finalWizardData", err);
-  }
-
-  if (fallbackTriggered === "true" && container) {
-    const improveDiv = document.createElement("div");
-    improveDiv.innerHTML = `
-      <div style="text-align: center; margin-top: 2rem;">
-        <button id="improveBtn" style="
-          background: linear-gradient(90deg, #8e2de2, #4a00e0);
-          color: white;
-          border: none;
-          padding: 14px 28px;
-          font-size: 16px;
-          border-radius: 12px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-          cursor: pointer;
-          transition: transform 0.2s ease-in-out;
-        ">✨ Improve My Selections</button>
-      </div>
-    `;
-    container.appendChild(improveDiv);
-
-    document.getElementById("improveBtn").addEventListener("click", () => {
-      localStorage.removeItem("fallbackTriggered");
-      window.location.href = "/traintrack/fallback/improve";
-    });
-  }
 
   if (!finalWizardData) {
     showError("Wizard data missing. Please restart the wizard.");
     return;
   }
 
-  fetch("https://train-track-backend.onrender.com/recommendations", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: finalWizardData
-  })
-    .then(async result => result.json())
-    .then(async result => {
-      console.log("🎯 Recommendation result:", result);
+ fetch("https://train-track-backend.onrender.com/recommendations", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: finalWizardData
+})
+  .then(async result => result.json())
+  .then(async result => {
+console.log("🔎 FULL raw result object:", result);
+  console.log("➡️ match_scenario key value:", result.match_scenario);
 
-      if (!result.success || !Array.isArray(result.recommended_positions)) {
-        throw new Error("No valid recommendations returned.");
-      }
+    console.log("🎯 Recommendation result:", result); // ✅ LOG IT
+    if (!result.success || !Array.isArray(result.recommended_positions)) {
+      throw new Error("No valid recommendations returned.");
+    }
 
-      localStorage.setItem("recommendationResult", JSON.stringify(result));
+      // ✅ Check for "No Match" case: all results exist but are too weak
+const allNoMatch = result.recommended_positions.length > 0 &&
+                   result.recommended_positions.every(pos =>
+                     pos.fit_level?.toLowerCase() === "no match"
+                   );
 
-      // ✅ Handle fallback
-      if (result.match_scenario === "fallback") {
-        Swal.fire({
-          title: '⚡ No Perfect Match Found',
-          html: `<p style="margin: 0; color: #444; font-size: 15px;">
-              Based on your selections, no strong position match was found.<br>
-              You can improve your results by selecting more subjects or skills.
-            </p>`,
-          showCancelButton: true,
-          reverseButtons: true,
-          cancelButtonText: 'Skip, Maybe Later',
-          confirmButtonText: '🚀 Yes, Improve My Selection',
-          customClass: {
-            popup: 'fallback-card',
-            confirmButton: 'fallback-btn-confirm',
-            cancelButton: 'fallback-btn-cancel'
-          },
-          background: '#fff',
-          allowOutsideClick: false,
-          allowEscapeKey: false
-        }).then(popupResult => {
-          if (popupResult.isConfirmed) {
-            window.location.href = "/traintrack/fallback/improve";
-          } else {
-            localStorage.setItem("fallbackTriggered", "true");
-            renderSummary(result);
-          }
+if (allNoMatch) {  // ✅ This must match the variable name above
+  Swal.fire({
+    title: '❌ No Match',
+    html: `<p style="color: #333; font-size: 15px;">
+             Dear, you may not have focused on your choices and may have chosen random options,<br>
+             so there are no matching positions.<br><br>
+             Please restart the wizard and try again.
+           </p>`,
+    confirmButtonText: '🚀 Restart the Wizard',
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    showCancelButton: false,
+    customClass: {
+      popup: 'fallback-card',
+      confirmButton: 'fallback-btn-confirm'
+    }
+  }).then(() => {
+    restartWizard();
+  });
+
+  return; // ❗ Stop execution here
+}
+
+
+  // ✅ Save result normally
+  localStorage.setItem("recommendationResult", JSON.stringify(result));
+
+  // ✅ Case 2: Fallback match triggered
+  if (
+    result.recommended_positions?.length > 0 &&
+    result.recommended_positions[0].fit_level?.toLowerCase() === "fallback"
+  ) {
+    result.match_scenario = "fallback";
+
+    Swal.fire({
+      title: '⚡ No Perfect Match Found',
+      html: `<p style="margin: 0; color: #444; font-size: 15px;">
+          Based on your selections, no strong position match was found.<br>
+          You can improve your results by selecting more subjects or skills.
+        </p>`,
+      showCancelButton: true,
+      reverseButtons: true,
+      cancelButtonText: 'Skip, Maybe Later',
+      confirmButtonText: '🚀 Yes, Improve My Selection',
+      customClass: {
+        popup: 'fallback-card',
+        confirmButton: 'fallback-btn-confirm',
+        cancelButton: 'fallback-btn-cancel'
+      },
+      background: '#fff',
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    }).then(popupResult => {
+      if (popupResult.isConfirmed) {
+        window.location.href = "/traintrack/fallback/improve";
+      } else {
+        localStorage.setItem("fallbackTriggered", "true");
+        renderSummary(result); // ✅ Show weak fallback cards only if user skips
+
+        // ✅ Append "Improve" button manually
+        const improveDiv = document.createElement("div");
+        improveDiv.innerHTML = `
+          <div style="text-align: center; margin-top: 2rem;">
+            <button id="improveBtn" style="
+              background: linear-gradient(90deg, #8e2de2, #4a00e0);
+              color: white;
+              border: none;
+              padding: 14px 28px;
+              font-size: 16px;
+              border-radius: 12px;
+              box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+              cursor: pointer;
+              transition: transform 0.2s ease-in-out;
+            ">✨ Improve My Selections</button>
+          </div>
+        `;
+        const container = document.getElementById("positionResultsContainer");
+        container.appendChild(improveDiv);
+
+        document.getElementById("improveBtn").addEventListener("click", () => {
+          localStorage.removeItem("fallbackTriggered");
+          window.location.href = "/traintrack/fallback/improve";
         });
+    }
+  });
 
-        return;
-      }
+  return;
+}
 
       // ✅ Fetch company matches if needed
       if (result.should_fetch_companies) {
