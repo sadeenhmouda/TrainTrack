@@ -105,9 +105,32 @@ if (allNoMatch) {  // ✅ This must match the variable name above
       allowOutsideClick: false,
       allowEscapeKey: false
     }).then(popupResult => {
-      if (popupResult.isConfirmed) {
-        window.location.href = "/traintrack/fallback/improve";
-      } else {
+  if (popupResult.isConfirmed) {
+    try {
+      const fullData = JSON.parse(localStorage.getItem("finalWizardData") || "{}");
+      const previousIds = result.recommended_positions.map(p => p.position_id);
+
+      const fallbackPayload = {
+        subjects: fullData.subjects || fullData.selectedSubjectIds || [],
+        technical_skills: fullData.technical_skills || fullData.selectedTechnicalSkills || [],
+        non_technical_skills: fullData.non_technical_skills || fullData.selectedNonTechnicalSkills || [],
+        advanced_preferences: fullData.advanced_preferences || fullData.advancedPreferences || {},
+        previous_fallback_ids: previousIds,
+        is_fallback: true
+      };
+
+      console.log("💾 Saving previousFallbackPayload:", fallbackPayload);
+      localStorage.setItem("previousFallbackPayload", JSON.stringify(fallbackPayload));
+      window.location.href = "/traintrack/fallback/improve";
+    } catch (err) {
+      console.warn("⚠️ Could not save fallback payload", err);
+      Swal.fire("Error", "Failed to prepare fallback page. Please restart the wizard.", "error");
+    }
+  }
+
+
+
+ else {
         localStorage.setItem("fallbackTriggered", "true");
         renderSummary(result); // ✅ Show weak fallback cards only if user skips
 
@@ -131,10 +154,26 @@ if (allNoMatch) {  // ✅ This must match the variable name above
         const container = document.getElementById("positionResultsContainer");
         container.appendChild(improveDiv);
 
-        document.getElementById("improveBtn").addEventListener("click", () => {
-          localStorage.removeItem("fallbackTriggered");
-          window.location.href = "/traintrack/fallback/improve";
-        });
+       document.getElementById("improveBtn").addEventListener("click", () => {
+      const fullData = JSON.parse(localStorage.getItem("finalWizardData") || "{}");
+      const fallbackIds = result.recommended_positions
+      .filter(p => p.fit_level?.toLowerCase() === "fallback")
+      .map(p => p.position_id);
+      
+      const payload = {
+        subjects: fullData.subjects || fullData.selectedSubjectIds || [],
+        technical_skills: fullData.technical_skills || fullData.selectedTechnicalSkills || [],
+        non_technical_skills: fullData.non_technical_skills || fullData.selectedNonTechnicalSkills || [],
+        advanced_preferences: fullData.advanced_preferences || fullData.advancedPreferences || {},
+        previous_fallback_ids: fallbackIds,
+        is_fallback: true
+};
+
+  localStorage.setItem("previousFallbackPayload", JSON.stringify(payload));
+  localStorage.removeItem("fallbackTriggered");
+  window.location.href = "/traintrack/fallback/improve";
+});
+
     }
   });
 

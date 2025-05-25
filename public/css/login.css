@@ -1,0 +1,155 @@
+/* --------------------- */
+/* 💫 Base Reset + Font */
+/* --------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background-color: #fff;
+}
+
+/* --------------------- */
+/* 🔲 Container Layout   */
+/* --------------------- */
+.signup-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.left-image-section {
+  width: 50%;
+  height: 100%;
+}
+
+.left-image-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.right-form-section {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #ffffff, #faf4ff);
+  padding: 40px;
+}
+
+/* --------------------- */
+/* 📦 Form Box Styling   */
+/* --------------------- */
+.form-box {
+  max-width: 400px;
+  width: 100%;
+  background-color: #fff;
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 12px 24px rgba(106, 27, 154, 0.08);
+  text-align: center;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+/* --------------------- */
+/* 🖋️ Title Styles       */
+/* --------------------- */
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 20px;
+}
+
+h1 span {
+  background: linear-gradient(90deg, #ff6a00, #6A1B9A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+/* --------------------- */
+/* 🔘 Google Button Zone */
+/* --------------------- */
+#googleSignInBtn {
+  margin: 0 auto 20px auto;
+}
+
+/* --------------------- */
+/* ➖ Divider             */
+/* --------------------- */
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  font-size: 14px;
+  margin: 16px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #ddd;
+  margin: 0 10px;
+}
+
+/* --------------------- */
+/* 💬 Login Note         */
+/* --------------------- */
+.login-note {
+  font-size: 13px;
+  color: #555;
+  margin-top: 18px;
+}
+
+.login-note a {
+  color: #6A1B9A;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.login-note a:hover {
+  color: #ff6a00;
+}
+
+/* --------------------- */
+/* 🎞️ Animation         */
+/* --------------------- */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* --------------------- */
+/* 📱 Responsive         */
+/* --------------------- */
+@media (max-width: 768px) {
+  .signup-container {
+    flex-direction: column;
+  }
+
+  .left-image-section {
+    display: none;
+  }
+
+  .right-form-section {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .form-box {
+    padding: 30px 20px;
+  }
+}

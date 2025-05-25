@@ -38,11 +38,11 @@
 
     <!-- Buttons -->
     <div class="fallback-buttons">
-      <button onclick="window.location.href='/summaryresults'" class="btn skip-btn">Skip, maybe later</button>
+      <button id="skipImproveBtn" class="btn skip-btn">Skip, maybe later</button>
       <button id="submitImprovementBtn" class="btn submit-btn">Submit</button>
     </div>
   </div>
 
-  <script src="{{ asset('js/fallbackimprove.js') }}"></script>
+<script src="{{ asset('js/fallbackimprove.js') }}?v=9999"></script>
 </body>
 </html>
