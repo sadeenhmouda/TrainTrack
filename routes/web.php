@@ -98,3 +98,7 @@ Route::get('/traintrack/position/{id}', function ($id) {
 Route::get('/traintrack/selections', function () {
     return view('traintrack.selections');
 });
+
+Route::get('/traintrack/profile', function () {
+    return view('traintrack.profile');
+});
