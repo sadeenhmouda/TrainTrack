@@ -46,13 +46,10 @@
       </div>
 
       <!-- ✅ Navigation Buttons -->
-      <div class="tec-footer">
-        <a href="{{ route('traintrack.subject2') }}">
-          <button class="btn-back">Back</button>
-        </a>
-        <button class="btn-next" id="nextBtn">Next</button>
-      </div>
-
+      <a href="{{ route('traintrack.subject2') }}">
+        <button class="tec-back-btn">Back</button>
+      </a>
+      <button class="tec-next-btn" id="nextBtn">Next</button>
     </div>
   </div>
 
@@ -74,5 +71,6 @@
       }
     });
   </script>
+  <script src="{{ asset('js/theme.js') }}" defer></script>
 </body>
 </html>

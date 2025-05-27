@@ -250,24 +250,22 @@ if (allNoMatch) {  // ✅ This must match the variable name above
           </div>
           <div>
             <p class="track-text">💼 You're on track for:</p>
-           <div class="position-line">
-  <h3 class="position-name">${pos.position_name}</h3>
-  <p class="match-label">📌 ${pos.fit_level}</p>
-</div>
+            <h3 class="position-name">${pos.position_name}</h3>
+            <p class="match-label">📌 ${pos.fit_level}</p>
           </div>
         </div>
 
         <div class="card-details" style="display: none">
-         <div class="match-breakdown">
-         <div class="bar-label">Subject Match <span>${pos.subject_fit_percentage.toFixed(1)}%</span></div>
-         <div class="bar-container"><div class="bar" id="subject-${index}"></div></div>
+          <div class="match-breakdown">
+            <div class="bar-label">Subject Match <span>${pos.subject_fit_percentage.toFixed(1)}%</span></div>
+            <div class="bar-container"><div class="bar" id="subject-${index}"></div></div>
 
-         <div class="bar-label">Technical Skill <span>${pos.technical_skill_fit_percentage.toFixed(1)}%</span></div>
-         <div class="bar-container"><div class="bar" id="tech-${index}"></div></div>
+            <div class="bar-label">Technical Skill <span>${pos.technical_skill_fit_percentage.toFixed(1)}%</span></div>
+            <div class="bar-container"><div class="bar" id="tech-${index}"></div></div>
 
-         <div class="bar-label">Non-Technical Skill <span>${pos.non_technical_skill_fit_percentage.toFixed(1)}%</span></div>
-         <div class="bar-container"><div class="bar" id="nontech-${index}"></div></div>
-       </div>
+            <div class="bar-label">Non-Technical Skill <span>${pos.non_technical_skill_fit_percentage.toFixed(1)}%</span></div>
+            <div class="bar-container"><div class="bar" id="nontech-${index}"></div></div>
+          </div>
 
           <a href="/traintrack/position/${pos.position_id}" class="read-more-btn">💼 Read More About the Position</a>
           <div class="company-section" id="companies-${index}"></div>
@@ -308,7 +306,7 @@ if (allNoMatch) {  // ✅ This must match the variable name above
   function renderCircularProgress(id, percent) {
     const el = document.getElementById(id);
     if (!el) return;
-    el.style.background = `conic-gradient(#f59f0d  ${percent}%, #e0e0e0 ${percent}%)`;
+    el.style.background = `conic-gradient(orange ${percent}%, #e0e0e0 ${percent}%)`;
     el.querySelector(".progress-value").textContent = `${Math.round(percent)}%`;
   }
 
@@ -326,15 +324,11 @@ if (allNoMatch) {  // ✅ This must match the variable name above
         compContainer.innerHTML = "<p><strong>Based on your preferences, you fit in:</strong></p>";
         filtered.forEach((c, i) => {
           compContainer.innerHTML += `
-<div class="company-entry">
-  <div class="company-info">
-    ${i + 1}. ${c.company_name}<br>
-    📍 ${c.location} | 🏛 ${c.industry} | 🏢 ${c.company_size}
-  </div>
-  <a href="/company-details/${c.company_id}" target="_blank" class="company-read-btn">About the company</a>
-
-</div>
-`;
+            <p>
+              ${i + 1}. ${c.company_name}<br>
+              📍 ${c.location} | 🏛 ${c.industry} | 🏢 ${c.company_size}
+            </p>
+          `;
         });
       }
     });

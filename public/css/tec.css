@@ -1,11 +1,19 @@
+:root {
+  --primary-color: #6A1B9A;
+  --accent-color: #EBD9FF;
+}
+
 /* Main Right Panel Layout */
 .tec-content {
   flex: 1;
   padding: 2.5rem 3rem;
   background-color: white;
-  height: 100vh;
+  min-height: 100vh;
   overflow-y: auto;
+  width: 100%; /* Add this */
+  box-sizing: border-box; /* Safe layout */
 }
+
 
 /* Title with icon and counter */
 .tec-title {
@@ -30,7 +38,7 @@
 .tec-counter {
   font-size: 14px;
   font-weight: 500;
-  color: #6A1B9A;
+  color: var(--accent-color);
 }
 
 /* Subtitle */
@@ -49,7 +57,7 @@
   margin-top: 1rem;
 }
 .category-box {
-  background-color: #f2dfff;
+ background-color: var(--primary-color);
   border-radius: 12px;
   padding: 0.3rem;
   width: 100%;
@@ -58,7 +66,7 @@
 }
 
 .category-header {
-  background-color: #e8d4f8;
+  background-color: var(--primary-color);
   border-radius: 12px;    /* 🔁 Matches Figma radius */
   padding: 0.7rem 1.2rem; /* 👌 Balanced spacing */
   font-size: 15px;        /* 👁️ Matches visual density */
@@ -72,14 +80,14 @@
 }
 
 .category-header:hover {
-  background-color: #e1c4f6;
+ background-color: var(--primary-color);
 }
 
 /* Toggle +/- icon */
 .toggle-icon {
   font-size: 18px;
   font-weight: bold;
-  color: #6A1B9A;
+  color: var(--accent-color);
 }
 
 /* Collapsible Content */
@@ -98,46 +106,62 @@
   display: flex;
 }
 
-/* Footer Buttons Container */
-.tec-footer {
-  margin-top: 2.5rem;
-  padding: 0 3rem 3rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Button Styles */
-.btn-back,
-.btn-next {
+/* Back Button */
+.tec-back-btn {
   width: 130px;
   height: 40px;
-  border-radius: 12px;
+  font-size: 16px;
   font-weight: 500;
-  font-size: 18px;
+  border-radius: 12px;
+  border: 2px solid var(--accent-color);
+  background-color: white;
+  color: var(--accent-color);
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
   transition: all 0.3s ease;
+  margin-top: 2rem;
+  margin-left: -1rem;
 }
 
-.btn-back {
-  border: 2px solid #6A1B9A;
-  color: #6A1B9A;
-  background: white;
-}
 
-.btn-next {
-  background-color: #6A1B9A;
+.tec-back-btn:hover {
+  background-color: var(--accent-color);
   color: white;
 }
 
-.btn-next:hover {
-  background-color: #5a1784;
+/* Next Button */
+.tec-next-btn {
+  width: 130px;
+  height: 40px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  background-color: var(--accent-color);
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 2rem;
+  float: right; /* ✅ This pushes it to the far right */
+  margin-right: -1rem;
+  
+}
+
+.tec-next-btn:hover {
+  background-color: var(--primary-color); /* Darker purple on hover */
+}
+
+.tec-next-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 /* Checkbox Custom Style */
 input[type="checkbox"] {
   width: 16px;
   height: 16px;
-  accent-color: #6A1B9A;
+  accent-color: var(--accent-color)
 }
 
 /* Selected Skills Display Box */
@@ -157,13 +181,13 @@ input[type="checkbox"] {
 /* Individual Pill */
 .skill-pill {
   display: inline-block;
-  background-color: #e0e7ff;
-  color: #1e40af;
+  background-color: var(--primary-color);
+  color: #000000;
   padding: 6px 12px;
   border-radius: 20px;
   font-size: 13px;
   font-weight: 500;
-  border: 1px solid #a5b4fc;
+  border:var( --accent-color);
 }
 
 /* Selected Skills Section Label */
@@ -173,7 +197,7 @@ input[type="checkbox"] {
   color: #0c600c;
 }
 .pill-remove {
-  color: #1e40af;
+  color: #af1e1e;
   font-weight: bold;
   margin-right: 6px;
   cursor: pointer;

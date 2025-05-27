@@ -1,3 +1,7 @@
+:root {
+  --primary-color: #6A1B9A;    /* fallback for female */
+  --accent-color: #EBD9FF;
+}
 /* ====== Layout ====== */
 .subject-form {
     flex: 1;
@@ -11,6 +15,9 @@
     font-weight: 600;
     color: #333;
     margin-bottom: 0.5rem;
+    display: flex;
+  justify-content: space-between;
+  align-items: center;
   }
   
   .subject-subtitle {
@@ -18,13 +25,16 @@
     color: #333;
     margin-bottom: 0.5rem;
   }
-  
-  .subject-counter {
-    font-size: 14px;
-    color: #666;
-    display: inline-block;
-    margin-bottom: 1.5rem;
-  }
+
+.subject-counter {
+  font-size: 14px;
+  color: var(--accent-color);
+  margin-bottom: 1.5rem;
+  text-align: right;
+  display: block;
+  width: 100%;
+}
+
   
   /* ====== Topic Container ====== */
 /* Container that pushes counter to the right */
@@ -39,7 +49,7 @@
 .tec-counter {
   font-size: 14px;
   font-weight: 500;
-  color: #6A1B9A;
+  color:  var(--primary-color);
 }
   
   .category-group h2 {
@@ -48,7 +58,10 @@
     color: #333;
     margin-bottom: 10px;
   }
-  
+  .category-group:not(:last-child) {
+  margin-bottom: 32px;
+}
+
   .topic-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -73,55 +86,64 @@
   }
   
   .topic-btn:hover {
-    border-color: #6A1B9A;
+    background-color: var(--primary-color);
   }
   
   .topic-btn.selected {
-    background-color: #f3e5f5;
-    border-color: #6A1B9A;
-    color: #6A1B9A;
+  background-color: var(--primary-color);
+  
   }
   
   /* ====== Navigation Buttons ====== */
   .subject-buttons {
-    width: 100%;
-    padding-top: 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    position: fixed;
+   bottom: 20px; /* was 60px — move it closer to bottom */
+   right: 20px;  /* was 60px — move it closer to right edge */
+   z-index: 100;
   }
   
   .btn-back {
-    width: 130px;
-    height: 40px;
-    border: 2px solid #6A1B9A;
-    background-color: transparent;
-    color: #6A1B9A;
-    font-size: 16px;
-    font-weight: 500;
-    border-radius: 12px;
-    transition: all 0.3s ease;
+    position: absolute;
+   left: -800%;
+   width: 130px;
+   height: 40px;
+   font-size: 16px;
+   font-weight: 500;
+   border-radius: 12px;
+   transition: all 0.3s ease;
+   font-family: 'Roboto', sans-serif;
+   color: white;
+   background-color: var(--accent-color);
+   border: none;
+   border-radius: 12px;
+   cursor: pointer;
   }
   
   .btn-back:hover {
-    background-color: #f3e5f5;
+   background-color: var(--accent-color);
+   color: #fff;
+  } 
+ .btn-next {
+   width: 130px;
+   height: 40px;
+   font-size: 16px;
+   font-weight: 500;
+   font-family: 'Roboto', sans-serif;
+   color: white;
+   background-color: var(--accent-color);
+   border: none;
+   border-radius: 12px;
+   cursor: not-allowed;
+   transition: background-color 0.3s ease;
   }
-  
-  .btn-next {
-    width: 130px;
-    height: 40px;
-    background-color: #6A1B9A;
-    color: white;
-    font-size: 16px;
-    font-weight: 500;
-    border: none;
-    border-radius: 12px;
-    transition: background-color 300ms ease;
-    cursor: pointer;
+  .btn-next.active {
+   background-color: var(--accent-color);
+   cursor: pointer; 
   }
-  
   .btn-next:disabled {
     background-color: #ccc;
     cursor: not-allowed;
   }
-  
+  .btn-next.active:hover {
+   background-color: var(--primary-color);
+  }

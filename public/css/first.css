@@ -1,3 +1,9 @@
+:root {
+  --primary-color: #6A1B9A;  /* Default fallback */
+  --accent-color: #EBD9FF;
+}
+
+
 /* Global Reset */
 * {
   box-sizing: border-box;
@@ -6,39 +12,42 @@
 }
 
 /* Base Layout */
-html, body {
-  height: 100%;
-  overflow: hidden;
+ html, body {
+  min-height: 100vh;
+  overflow-y: auto;   /* ✅ Show scrollbar only when needed */
+  overflow-x: hidden;
   font-family: 'Roboto', sans-serif;
   background-color: #f8f8f8;
 }
 
+
 /* Wizard Layout */
 .wizard-body {
-  height: 100%;
+  height: auto;
 }
 
 .wizard-layout {
-  display: flex;
-  height: 100vh;
-  overflow: hidden;
+display: flex;
+  flex-direction: row;
+  min-height: 100vh;   /* ✅ Allow to grow as needed */
+  width: 100%;
 }
+
+
 
 /* Main Form Area */
 .form-area {
-  flex-grow: 1;
+   flex-grow: 1;
+  padding: 40px 60px 20px 60px;
+  overflow-y: auto;     /* ✅ vertical scroll only if needed */
+  overflow-x: hidden;   /* 🚫 disable horizontal scroll */
   background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 40px 60px 220px 60px;
-  overflow-y: auto;
 }
 
 /* Titles */
 .form-title {
   font-size: 28px;
-  color: #6A1B9A;
+  color: #000000;
   margin-bottom: 10px;
 }
 
@@ -65,8 +74,14 @@ html, body {
   border: 1px solid #ccc;
   border-radius: 6px;
 }
-
+input[type="text"]:focus {
+  background-color: #fefeff; /* change to white or any color you like */
+  outline: none;
+  border: 1px solid #ffffff; /* optional: add purple border */
+  box-shadow: 0 0 0 2px; /* optional glow */
+}
 /* Date of Birth Styling */
+/* ✅ DOB Label */
 .dob-label {
   font-size: 13px;
   font-weight: 500;
@@ -76,40 +91,115 @@ html, body {
   text-transform: uppercase;
 }
 
+/* ✅ DOB Group Container */
 .dob-group {
   position: relative;
 }
 
+/* ✅ Layout for dropdowns */
 .dob-selects {
   display: flex;
   gap: 12px;
   margin-top: 10px;
+  flex-wrap: wrap;
 }
 
-  .dob-selects select {
-    width: 120px;
-    height: 42px;
-    padding: 10px 14px;
-    font-size: 14px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    color: #000;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: 0.2s ease
- }
+/* ✅ Optional default <select> styling — keep if still using them */
+.dob-selects select {
+  width: 120px;
+  height: 42px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  color: #000;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.dob-selects select:hover {
+  background-color: var(--accent-color);
+}
+/* ✅ Highlight DOB fields when selected */
+.dob-selected .custom-dropdown {
+ background-color: var(--primary-color);
+  color: white;
+}
+.dob-selected .custom-dropdown .selected {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* ✅ Custom Dropdown Container */
+.custom-dropdown {
+  position: relative;
+  width: 120px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  user-select: none;
+}
+.custom-dropdown:hover {
+ background-color: var(--primary-color);
+}
+/* Highlight DOB field when selected */
+.custom-dropdown .selected.active {
+ background-color: var(--primary-color);
+  color: rgb(0, 0, 0);
+}
 
 
+/* ✅ Selected value */
+.custom-dropdown .selected {
+  padding: 10px 14px;
+  border-radius: 20px;
+  color: #000;
+}
 
-/* Gender Buttons */
+/* ✅ Dropdown options */
+.custom-dropdown .options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 160px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  z-index: 10;
+  display: none;
+}
+
+/* ✅ Show dropdown when open */
+.custom-dropdown.open .options {
+  display: block;
+}
+
+/* ✅ Option item */
+.custom-dropdown .options li {
+  padding: 12px 12px;
+  cursor: pointer;
+}
+
+.custom-dropdown .options li:hover {
+ background-color: var(--accent-color);
+}
+
+/* ✅ Gender Button Group */
 .button-group {
   display: inline-flex;
   gap: 12px;
   margin-top: 10px;
 }
 
+/* ✅ Gender Option Button Style */
 .option-button {
   display: inline-flex;
   align-items: center;
@@ -124,14 +214,14 @@ html, body {
   white-space: nowrap;
 }
 
+/* ✅ Hover and Selected Styles */
 .option-button:hover {
-  background-color: #aa6dd0;
+  background-color: var(--primary-color);
 }
 
 .option-button.selected,
 .major-pill.selected {
-  border: 2px solid #6A1B9A;
-  background-color: #ede7f6;
+ background-color: var(--primary-color);
 }
 
 /* Major Pills */
@@ -157,7 +247,7 @@ html, body {
 }
 
 .major-pill:hover {
-  background-color: #aa6dd0;
+  background-color: var(--primary-color);
 }
 
 /* Error Message */
@@ -170,10 +260,10 @@ html, body {
 
 /* Next Button (Bottom Right like Figma) */
 .form-buttons {
-  position: fixed;
-  bottom: 60px;
-  right: 60px;
-  z-index: 100;
+position: fixed;
+ bottom: 20px; /* was 60px — move it closer to bottom */
+ right: 20px;  /* was 60px — move it closer to right edge */
+ z-index: 100;
 }
 
 .next {
@@ -183,7 +273,7 @@ html, body {
   font-weight: 500;
   font-family: 'Roboto', sans-serif;
   color: white;
-  background-color: #6A1B9A;
+ background-color: var(--accent-color);
   border: none;
   border-radius: 12px;
   cursor: pointer;
@@ -194,13 +284,21 @@ html, body {
 }
 
 .next:hover {
-  background-color: #aa6dd0;
+background-color: var(--primary-color);
 }
 
 /* Responsive for Short Screens */
-@media (max-height: 650px) {
-  .form-area {
-    overflow-y: auto;
-    padding-bottom: 140px;
+@media (max-width: 768px) {
+  .wizard-layout {
+    flex-direction: column;
+  }
+  
+  .form-buttons {
+    left: 0;
+    right: 0;
+    margin: auto;
+    bottom: 20px;
+    text-align: center;
   }
 }
+

@@ -42,8 +42,14 @@
   </div>
 
   <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
   <script src="https://unpkg.com/alpinejs" defer></script>
-  <script src="{{ asset('js/non.v2.js') }}"></script>
+  
+  <script src="{{ asset('js/theme.js') }}" defer></script>
+    <!-- Always before non.v2.js -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('js/non.v2.js') }}"></script>
+
+  
 </body>
 </html>

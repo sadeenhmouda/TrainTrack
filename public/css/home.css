@@ -10,26 +10,40 @@ body {
   background-color: black;
   color: white;
   overflow-x: hidden;
+  
+
+}
+.logo img,
+.logo-img {
+  height: 150px;     /* Adjust size as needed */
+  width: unset;
+  display: block;
 }
 
 /* ==== NAVBAR ==== */
 .navbar {
+  margin-top: 20px; /* You can increase this value to move it further down */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10%;
+  padding: 10px 40px; /* 🔽 reduced vertical padding */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 3rem;
-  position: absolute;
-  width: 100%;
   z-index: 100;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: transparent;
 }
 
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: white;
+/* === RIGHT SIDE OF NAVBAR === */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 32px;
 }
 
+/* === NAV LINKS === */
 .nav-links {
   display: flex;
   gap: 24px;
@@ -38,9 +52,9 @@ body {
 
 .nav-links a,
 .dropdown-btn {
-  color: #ccc;
+  color: #1e3a8a;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 18px;
   background: none;
   border: none;
   cursor: pointer;
@@ -50,7 +64,42 @@ body {
 
 .nav-links a:hover,
 .dropdown-btn:hover {
+  text-decoration: underline;
+}
+
+/* === AUTH BUTTONS === */
+.auth-buttons {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.signup-link {
+  font-weight: bold;
+  color: #1e3a8a;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.signup-link:hover {
+  text-decoration: underline;
+}
+
+.login-btn {
+  background-color:  #f59e0b;
   color: white;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
+  text-decoration: underline;
+
 }
 
 /* ==== DROPDOWN ==== */
@@ -93,66 +142,102 @@ body {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background-image: url('/p1.jpg'); /* ✅ Make sure p1.jpg is in public/ */
+  background-image: url('/d.jpg'); /* ✅ Ensure image is in /public */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+ display: flex;
+  align-items: flex-end; /* ✅ Push content to bottom */
+  justify-content: flex-start; /* ✅ Align to left */
+  padding: 60px 80px; /* ✅ Padding from edges */
+
+  padding-top: 120px; /* ✅ Allow room for absolute navbar */
+}
+
+
+
+/* ==== HERO CONTENT ==== */
+/* === HERO SECTION === */
+.hero {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/d.jpg'); /* your purple wave background */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 120px 80px 60px;
   overflow: hidden;
 }
 
+/* === HERO TEXT === */
+.hero-content {
+  
+  z-index: 2;
+  color: white;
+}
+
+.hero-content h2 {
+  font-size: 4.8rem;
+  font-weight: 899;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  color: #ddd;
+  margin-bottom: 2rem;
+}
+
+/* === CTA BUTTON === */
+.cta-button {
+  background-color: #f59e0b;
+  color: white;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #d97706;
+}
+
+/* === IMAGE ON RIGHT SIDE (Bottom-Right Float) === */
+.hero-decor-image {
+    position: absolute;
+    bottom: -300px;
+    right: -210px;
+    height: 960px;
+    z-index: 1;
+    pointer-events: none;
+    transform: rotate(334deg);
+}
+.image-tint {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255 0 0 / 5%); /*   overlay */
+  pointer-events: none;
+}
 .overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgb(252 252 252 / 1%);/* 🔲 40% dark overlay */
   z-index: 1;
 }
 
-/* ==== HERO CONTENT ==== */
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 700px;
-  width: 100%;
-  text-align: center;
-  color: white;
-  padding: 0 1rem;
-}
-
-.hero-content h2 {
-  font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 1rem;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-}
-
-.hero-content p {
-  font-size: 1.2rem;
-  color: #dddddd;
-  margin-bottom: 2rem;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-.cta-button {
-  background-color: #2563eb;
-  color: white;
-  padding: 12px 28px;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.cta-button:hover {
-  background-color: #1d4ed8;
-}
 
 /* ==== RESPONSIVE ==== */
 @media (max-width: 768px) {
@@ -178,5 +263,15 @@ body {
   .nav-links {
     flex-wrap: wrap;
     gap: 12px;
+  }
+
+  .navbar-right {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .auth-buttons {
+    justify-content: flex-start;
   }
 }

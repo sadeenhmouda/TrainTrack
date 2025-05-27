@@ -19,7 +19,7 @@
 
     <!-- ✅ Right Side Content -->
     <div class="subject-form">
-      <h1>🧠 Knowledge Background</h1>
+      <h1>📚 Knowledge Background</h1>
       <p>Select exactly 3 categories to get personalized subject suggestions</p>
 
       <!-- ✅ Category Grid Injected by JS -->
@@ -44,5 +44,7 @@
 
   <!-- ✅ Load JavaScript -->
   <script src="{{ asset('js/subjectcategories.js') }}"></script>
+  <script src="{{ asset('js/theme.js') }}" defer></script>
+
 </body>
 </html>

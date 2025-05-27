@@ -17,65 +17,73 @@
 
 <body class="wizard-body">
   <div class="wizard-layout">
-
     {{-- ✅ Left Sidebar --}}
-       @include('traintrack.partials.sidebar', [
-  'currentStep' => 5,
-  'currentSubstep' => null
-])
-
+    @include('traintrack.partials.sidebar', [
+      'currentStep' => 5,
+      'currentSubstep' => null
+    ])
 
     {{-- ✅ Right Panel --}}
     <div class="form-area" x-data="advancedPreferences()" x-init="fetchPreferences()">
       <h1 class="form-title">⚙️ Advanced Preferences</h1>
       <p class="form-subtitle">This step’s optional — but it helps us find a match that really fits you.</p>
 
-      <!-- Training Mode -->
+      <!-- ✅ Training Mode -->
       <div class="form-group">
         <h2>Preferred Training Mode</h2>
         <div class="option-grid">
           <template x-for="mode in trainingModes" :key="mode.id">
             <button
               @click="saveTrainingMode(mode.description)"
-              :class="training_mode === mode.description ? 'selected-option' : 'default-option'"
-              :title="trainingModeTips[mode.description.toLowerCase()] || ''">
-              <span x-text="mode.description"></span> ⓘ
+              :class="training_mode === mode.description ? 'selected-option' : 'default-option'">
+              <span x-text="mode.description"></span>
+              <span class="tooltip-wrapper">
+                ⓘ
+                <span class="tooltip-box" x-text="trainingModeTips[mode.description.toLowerCase()] || ''"></span>
+              </span>
             </button>
           </template>
         </div>
       </div>
 
-      <!-- Company Size -->
+      <!-- ✅ Company Size -->
       <div class="form-group">
         <h2>Preferred Company Size</h2>
         <div class="option-grid">
           <template x-for="size in companySizes" :key="size.id">
             <button
               @click="saveCompanySize(size.description)"
-              :class="company_size === size.description ? 'selected-option' : 'default-option'"
-              :title="companySizeTips[size.description.toLowerCase()] || ''">
-              <span x-text="size.description"></span> ⓘ
+              :class="company_size === size.description ? 'selected-option' : 'default-option'">
+              <span x-text="size.description"></span>
+              <span class="tooltip-wrapper">
+                ⓘ
+                <span class="tooltip-box" x-text="companySizeTips[size.description.toLowerCase()] || ''"></span>
+              </span>
             </button>
           </template>
         </div>
       </div>
 
-      <!-- Company Culture -->
+      <!-- ✅ Company Culture -->
       <div class="form-group">
         <h2>Preferred Company Culture</h2>
+        <p class="note">Choose up to 2 Company Culture you’re most interested in.</p>
         <div class="option-grid">
           <template x-for="culture in companyCultures" :key="culture.id">
             <button
               @click="toggleCulture(culture.name)"
-              :class="selected_culture.includes(culture.name) ? 'selected-option' : 'default-option'"
-              :title="cultureTips[culture.name] || ''">
-              <span x-text="culture.name"></span> ⓘ
+              :class="selected_culture.includes(culture.name) ? 'selected-option' : 'default-option'">
+              <span x-text="culture.name"></span>
+              <span class="tooltip-wrapper">
+                ⓘ
+                <span class="tooltip-box" x-text="cultureTips[culture.name] || ''"></span>
+              </span>
             </button>
           </template>
         </div>
       </div>
 
-      <!-- Industry -->
+      <!-- ✅ Industry -->
       <div class="form-group">
         <h2>Preferred Industry</h2>
         <p class="note">Choose up to 2 industries you’re most interested in.</p>
@@ -83,19 +91,21 @@
           <template x-for="industry in industries" :key="industry.id">
             <button
               @click="toggleIndustry(industry.name)"
-              :class="selected_industry.includes(industry.name) ? 'selected-option' : 'default-option'"
-              :title="industryTips[industry.name] || ''">
-              <span x-text="industry.name"></span> ⓘ
+              :class="selected_industry.includes(industry.name) ? 'selected-option' : 'default-option'">
+              <span x-text="industry.name"></span>
+              <span class="tooltip-wrapper">
+                ⓘ
+                <span class="tooltip-box" x-text="industryTips[industry.name] || ''"></span>
+              </span>
             </button>
           </template>
         </div>
       </div>
 
-      <!-- Navigation Buttons -->
+      <!-- ✅ Navigation Buttons -->
       <div class="advanced-buttons">
         <button @click="goBack" class="advanced-btn advanced-btn-back">Back</button>
         <div class="flex gap-4 items-center">
-          <button @click="clearAll" class="advanced-btn-clear">Clear</button>
           <button id="skipAndSubmitBtn" class="advanced-btn advanced-btn-skip" @click="submitToExpertSystem(true)">Skip</button>
           <button id="submitWithPrefsBtn"
                   :disabled="!canSubmit"
@@ -123,7 +133,7 @@
 
         trainingModeTips: {
           onsite: "Training happens at the company's location.",
-          remote: "Training can be done from anywhere.",
+          remotely: "Training can be done from anywhere.",
           hybrid: "Mix of onsite and remote training."
         },
 
@@ -141,7 +151,13 @@
           "Structured Environment": "Clearly defined rules and roles."
         },
 
-        industryTips: {},
+        industryTips: {
+          "Software Development": "Work with apps, websites, and tech solutions.",
+         "Insurance": "Support clients and services in the insurance field.",
+         "Workforce Management": "Help manage teams, HR tools, or employee systems.",
+          "E-commerce Solutions": "Training in online platforms, shopping systems, and digital sales.",
+         "Telecommunications": "Work in network systems, mobile services, or digital infrastructure."
+        },
 
         get canSubmit() {
           return this.selected_industry.length <= 2;
@@ -157,7 +173,6 @@
                 this.companyCultures = data.data.company_cultures;
                 this.industries = data.data.industries;
 
-                // ✅ Build cultureMap and save to localStorage
                 const map = {};
                 data.data.company_cultures.forEach(c => {
                   map[c.name] = c.id;
@@ -193,7 +208,6 @@
 
           localStorage.setItem("industryIds", JSON.stringify(selectedIds));
           localStorage.setItem("selectedIndustryNames", JSON.stringify(this.selected_industry));
-
         },
 
         saveTrainingMode(desc) {
@@ -231,12 +245,13 @@
           window.history.back();
         },
 
-        submitToExpertSystem // defined in advancepreferences.js
+        submitToExpertSystem // from advancepreferences.js
       };
     }
   </script>
 
   <!-- ✅ JS logic for Submit -->
   <script src="{{ asset('js/advancepreferences.js') }}"></script>
+  <script src="{{ asset('js/theme.js') }}" defer></script>
 </body>
 </html>

@@ -28,11 +28,13 @@
 
           {{-- Substep 2.1 --}}
           <div class="substep">
-            <div class="substep-circle 
-              {{ $currentSubstep == '2.1' ? 'active' : 
-                 (in_array($currentSubstep, ['2.2', '3', '4', '5', '6']) ? 'filled' : 'inactive') }}">
-              2.1
-            </div>
+           <div class="substep-circle 
+  {{ $currentSubstep == '2.1' ? 'active' : 
+     ($currentStep > 2 || $currentSubstep == '2.2' ? 'filled' : 'inactive') }}">
+  2.1
+</div>
+
+
             <div class="substep-text">Select Interest Categories</div>
           </div>
 

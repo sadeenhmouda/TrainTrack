@@ -1,4 +1,3 @@
-
 // ✅ fallbackimprove.js (Final Version with Fix)
 document.addEventListener("DOMContentLoaded", async function () {
   const API_BASE = "https://train-track-backend.onrender.com/";
@@ -13,21 +12,28 @@ document.addEventListener("DOMContentLoaded", async function () {
   const selectedNonTechSkills = new Set();
 
   // ✅ Skip Improve Button Logic (Updated)
-  skipBtn.addEventListener("click", () => {
-    const cachedResult = localStorage.getItem("recommendationResult");
-    const fallbackPayload = localStorage.getItem("previousFallbackPayload");
+skipBtn.addEventListener("click", () => {
+  const cachedResult = localStorage.getItem("recommendationResult");
+  const fallbackPayload = JSON.parse(localStorage.getItem("previousFallbackPayload") || "{}");
 
-    if (!cachedResult || !fallbackPayload) {
-      alert("⚠️ Missing fallback data. Please restart the wizard.");
-      window.location.href = "/traintrack";
-      return;
-    }
+  if (!cachedResult || Object.keys(fallbackPayload).length === 0) {
+    alert("⚠️ Missing fallback data. Please restart the wizard.");
+    window.location.href = "/traintrack";
+    return;
+  }
 
-    // ✅ Set flag and redirect immediately to summary page
-    localStorage.setItem("fallbackTriggered", "true");
-    localStorage.setItem("finalWizardData", fallbackPayload);
-    window.location.href = "/traintrack/summaryresults";
-  });
+  // ✅ Strip is_fallback to prevent re-triggering popup
+  delete fallbackPayload.is_fallback;
+
+  // ✅ Save cleaned payload
+  localStorage.setItem("finalWizardData", JSON.stringify(fallbackPayload));
+
+  // ✅ Set flag to render fallback result directly
+  localStorage.setItem("fallbackTriggered", "true");
+
+  window.location.href = "/traintrack/summaryresults";
+});
+
 
   // ✅ Start fetching fallback data
   fetchFallbackData();

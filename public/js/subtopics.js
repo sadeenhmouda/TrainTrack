@@ -74,6 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
       group.appendChild(btnContainer);
       topicsContainer.appendChild(group);
     });
+    updateCounter();
   }
 
   // ✅ Toggle topic selection
@@ -95,18 +96,21 @@ document.addEventListener("DOMContentLoaded", function () {
     selectedCount.textContent = selectedTopics.length;
 
     const usedCategoryIds = new Set();
-    document.querySelectorAll(".topic-btn.selected").forEach(btn => {
-      usedCategoryIds.add(btn.getAttribute("data-category-id"));
-    });
+   document.querySelectorAll(".topic-btn.selected").forEach(btn => {
+    usedCategoryIds.add(btn.getAttribute("data-category-id"));
+   });
 
-    // ✅ Allow selection between 3 and 7 topics, and exactly 3 categories
-    const isValid = selectedTopics.length >= 3 && selectedTopics.length <= 7 && usedCategoryIds.size === 3;
-    nextBtn.disabled = !isValid;
+   const isValid = selectedTopics.length >= 3 && selectedTopics.length <= 7 && usedCategoryIds.size === 3;
 
-    // 🔔 Show warning if all 7 selected but not from 3 categories
-    warningEl.style.display = (selectedTopics.length === 7 && usedCategoryIds.size < 3)
-      ? "block"
-      : "none";
+   nextBtn.disabled = !isValid;
+  
+   // ✅ Add or remove the class properly
+   nextBtn.classList.toggle("active", isValid);
+
+   // Show warning only if 7 selected but less than 3 categories used
+   warningEl.style.display = (selectedTopics.length === 7 && usedCategoryIds.size < 3)
+    ? "block"
+    : "none";
   }
 
   // ✅ Save selections on "Next"

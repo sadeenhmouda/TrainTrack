@@ -5,11 +5,18 @@ function nonTechnicalSkillsStep() {
       const selectedIds = Array.from(checked).map(cb => cb.value);
 
       if (selectedIds.length < 3 || selectedIds.length > 5) {
-        alert("Please select between 3 and 5 non-technical skills.");
+        Swal.fire({
+          icon: 'warning',
+          title: 'Oops! 😅',
+          text: 'Please select between 3 and 5 soft skills before continuing.',
+          confirmButtonText: 'Okay!',
+          confirmButtonColor: '#6A1B9A',
+          background: '#F8F0FF',
+          color: '#333'
+        });
         return;
       }
 
-      // ✅ CORRECT KEY!
       localStorage.setItem("selectedNonTechnicalSkills", JSON.stringify(selectedIds));
       window.location.href = "/traintrack/advancepreferences";
     }
@@ -17,7 +24,6 @@ function nonTechnicalSkillsStep() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  // ✅ Use only this correct key here too
   const savedSkillIds = JSON.parse(localStorage.getItem("selectedNonTechnicalSkills") || "[]");
   const skillContainer = document.getElementById("skills-container");
   const counter = document.getElementById("nontech-counter");
@@ -71,6 +77,28 @@ document.addEventListener("DOMContentLoaded", function () {
           if (input) input.checked = true;
         });
 
+        // ✅ Block the 6th selection
+        checkboxes.forEach(cb => {
+          cb.addEventListener("pointerdown", (e) => {
+            const checkedCount = document.querySelectorAll('input[name="non_technical_skills[]"]:checked').length;
+
+            if (!cb.checked && checkedCount >= 5) {
+              e.preventDefault(); // stop toggle
+
+              Swal.fire({
+                icon: 'info',
+                title: 'Limit reached 😊',
+                text: 'You can only select up to 5 soft skills.',
+                confirmButtonText: 'Got it!',
+                confirmButtonColor: '#6A1B9A',
+                background: '#F8F0FF',
+                color: '#333'
+              });
+            }
+          });
+        });
+
+        // ✅ Update counter, button state, and styling
         checkboxes.forEach(cb => {
           cb.addEventListener("change", updateUI);
         });
@@ -87,21 +115,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const checked = Array.from(checkboxes).filter(cb => cb.checked);
     const selectedIds = checked.map(cb => cb.value);
 
-    // ✅ Store with the correct key again
     localStorage.setItem("selectedNonTechnicalSkills", JSON.stringify(selectedIds));
     if (counter) counter.textContent = `Selected: ${selectedIds.length}`;
 
-    // Highlight selected
     checkboxes.forEach(cb => {
       cb.parentElement.classList.toggle("selected", cb.checked);
     });
 
-    // Limit max selection
     checkboxes.forEach(cb => {
       cb.disabled = !cb.checked && selectedIds.length >= 5;
     });
 
-    // Enable Next button if valid
     if (nextBtn) {
       if (selectedIds.length >= 3 && selectedIds.length <= 5) {
         nextBtn.classList.add("active");
@@ -113,7 +137,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // ✅ Activate next
   const vm = nonTechnicalSkillsStep();
   nextBtn?.addEventListener("click", vm.saveAndGoNext);
 });

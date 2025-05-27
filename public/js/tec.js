@@ -6,7 +6,14 @@ function technicalSkillsStep() {
       selected = [...new Set(selected)];
 
       if (selected.length < 3 || selected.length > 8) {
-        alert("Please select between 3 and 8 technical skills.");
+        Swal.fire({
+          icon: 'warning',
+          title: 'Oops! 😅',
+          text: 'Please select between 3 and 8 technical skills.',
+          confirmButtonColor: '#6A1B9A',
+          background: '#F8F0FF',
+          color: '#333'
+        });
         return;
       }
 
@@ -24,16 +31,16 @@ document.addEventListener("DOMContentLoaded", function () {
   const skillContainer = document.getElementById("technical-skills-list");
 
   const emojiMap = {
-    "Programming & Logic": "🛠️",
-    "Cloud & DevOps Tools": "☁️",
-    "Cybersecurity & IT Security": "🔒",
-    "Data Analysis & BI Tools": "📈",
-    "Software & System Design": "📐",
-    "Web & UI Development": "🌐",
-    "Testing & QA": "🔍",
-    "IT & Business Process Management": "📊",
-    "Marketing Tools & Techniques": "🎯",
-    "Digital Marketing Tools": "📣"
+    "programming & logic": "🛠️",
+    "cloud & devops tools": "☁️",
+    "cybersecurity & it security": "🔒",
+    "data analysis & bi tools": "📈",
+    "software & system design": "📐",
+    "web & ui development": "🌐",
+    "testing & qa": "🔍",
+    "it & business process management": "📊",
+    "marketing tools & techniques": "🎯",
+    "digital marketing tools": "📣"
   };
 
   if (!selectedCategoryIds.length) {
@@ -52,24 +59,20 @@ document.addEventListener("DOMContentLoaded", function () {
       if (result.success && Array.isArray(result.data)) {
         const grouped = {};
 
-        // ✅ Group by tech_category_name (not category_id)
         result.data.forEach(subjectCategory => {
           subjectCategory.tech_categories.forEach(techCat => {
             const categoryName = techCat.tech_category_name;
             if (!grouped[categoryName]) grouped[categoryName] = new Map();
-
             techCat.skills.forEach(skill => {
-              grouped[categoryName].set(skill.id, skill); // deduplicate by skill id
+              grouped[categoryName].set(skill.id, skill);
             });
           });
         });
 
-        console.log("🎯 Grouped by category name:", grouped);
         skillContainer.innerHTML = "";
 
-        // ✅ Render UI
         Object.entries(grouped).forEach(([categoryName, skillMap]) => {
-          const emoji = emojiMap[categoryName] || "";
+          const emoji = emojiMap[categoryName.toLowerCase()] || "";
           const skills = Array.from(skillMap.values());
 
           const categoryBox = document.createElement("div");
@@ -109,8 +112,25 @@ document.addEventListener("DOMContentLoaded", function () {
           if (input) input.checked = true;
         });
 
+        // ✅ Add listener to enforce max limit with popup
         document.querySelectorAll('input[name="technical_skills[]"]').forEach(cb => {
-          cb.addEventListener("change", updateUI);
+          cb.addEventListener("change", (e) => {
+            const checked = document.querySelectorAll('input[name="technical_skills[]"]:checked');
+            if (checked.length > 8) {
+              cb.checked = false;
+              Swal.fire({
+                 icon: 'info',
+                 title: 'Limit reached 😊', 
+                 text: 'You can only select up to 8 technical skills.',
+                 confirmButtonText: 'Got it!',
+                 confirmButtonColor: '#6A1B9A',     // your purple brand color
+                 background: '#F8F0FF',             // soft background
+                 color: '#333'
+              });
+            } else {
+              updateUI();
+            }
+          });
         });
 
         updateUI();
@@ -152,10 +172,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (input) input.checked = false;
         updateUI();
       });
-    });
-
-    document.querySelectorAll('input[name="technical_skills[]"]').forEach(cb => {
-      cb.disabled = !cb.checked && selected.length >= 8;
     });
   }
 });

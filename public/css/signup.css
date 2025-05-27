@@ -1,0 +1,208 @@
+/* Reset & Layout */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background-color: #fff;
+}
+
+.signup-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* ✅ LEFT SIDE */
+.left-image-section {
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.left-image-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ✅ RIGHT SIDE */
+.right-form-section {
+  width: 50%;
+  padding: 60px 40px;
+  background: linear-gradient(to right, #ffffff, #faf4ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-box {
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  animation: fadeIn 0.6s ease;
+  background: #fff;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(106, 27, 154, 0.08);
+}
+
+/* Heading */
+h1 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #222;
+}
+
+h1 span {
+  background: linear-gradient(90deg, #ff6a00, #6A1B9A); /* Orange to Purple */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+/* Buttons */
+.google-btn, .guest-btn {
+  font-family: 'Roboto', sans-serif;
+  width: 100%;
+  padding: 14px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+/* ✅ Updated Google Button */
+.google-btn {
+  background: #181818; /* deep modern black */
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 14px;
+  width: 100%;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* soft shadow for depth */
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.google-btn:hover {
+  background: #000; /* rich black on hover */
+  transform: translateY(-1px);
+}
+
+/* Divider */
+.divider {
+  font-size: 14px;
+  color: #888;
+  margin: 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #ddd;
+  margin: 0 10px;
+}
+
+/* Guest Button */
+.guest-btn {
+  background-color: #fff;              /* White background */
+  border: 1px solid #ccc;              /* Light gray border */
+  color: #111;                         /* Near-black text */
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 14px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.guest-btn:hover {
+  background-color: #f4f4f4;           /* Soft hover feedback */
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Terms & Login */
+.terms, .login-note {
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  color: #777;
+  margin-top: 16px;
+  line-height: 1.6;
+}
+
+.terms, .login-note {
+  color: #666;                         /* Neutral gray */
+  font-size: 13px;
+  margin-top: 16px;
+  font-weight: 400;
+}
+
+.terms a,
+.login-note a {
+  color: #111;                      /* Black or dark */
+  font-weight: 500;
+  text-decoration: underline;      /* 👈 Always underlined */
+  text-underline-offset: 2px;      /* Optional: spacing for clean look */
+}
+
+
+.terms a:hover, .login-note a:hover {
+  text-decoration: underline;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.custom-google-btn {
+  background-color: #0a0a23;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  border: none;
+  border-radius: 999px;
+  padding: 14px 24px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.custom-google-btn:hover {
+  background-color: #1c1c3b;
+  transform: translateY(-1px);
+}
+
+.custom-google-btn img {
+  height: 20px;
+}

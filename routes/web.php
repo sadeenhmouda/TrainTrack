@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\WizardController;
+use App\Http\Controllers\CompanyController;
 
 // ✅ Home Page
 Route::get('/', function () {
@@ -102,3 +103,13 @@ Route::get('/traintrack/selections', function () {
 Route::get('/traintrack/profile', function () {
     return view('traintrack.profile');
 });
+
+Route::get('/signup', function () {
+    return view('traintrack.signup');
+});
+
+Route::get('/login', function () {
+    return view('traintrack.login');
+})->name('login');
+
+Route::get('/company-details/{id}', [CompanyController::class, 'show']);

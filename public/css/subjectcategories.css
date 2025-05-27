@@ -1,3 +1,8 @@
+
+:root {
+  --primary-color: #6A1B9A;    /* Fallback */
+  --accent-color: #EBD9FF;
+}
 /* ✅ Right Side Layout */
 .subject-form {
   padding: 40px;
@@ -19,7 +24,7 @@
 
 /* ✅ Subtitle */
 .subject-form p {
-  font-size: 15px;
+  font-size: 16px;
   color: #333;
   margin-left: 40px;
   margin-bottom: 24px;
@@ -54,18 +59,20 @@
 }
 
 .subject-card:hover {
-  border-color: #6A1B9A;
+  border: 3px solid var(--accent-color );
+  
 }
 
 .subject-card.selected {
-  border: 2px solid #6A1B9A;
-  background-color: #f9f0ff;
+   border: 3px solid var(--accent-color);
 }
 
 .subject-card img {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 12px;
+   width: 64px;
+  height: 64px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 12px;
 }
 
 .subject-card span {
@@ -78,52 +85,56 @@
 
 /* ✅ Bottom Button Group */
 .subject-buttons {
-  margin-top: auto;
-  padding: 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  position: relative;
+position: fixed;
+ bottom: 20px; /* was 60px — move it closer to bottom */
+ right: 20px;  /* was 60px — move it closer to right edge */
+ z-index: 100;
 }
 
-/* ✅ Back Button */
+/* ✅ Back Button – same style, positioned left side */
 .btn-back {
+ position: absolute;
+ left: -800%;
   width: 130px;
   height: 40px;
-  border: 2px solid #6A1B9A;
-  color: #6A1B9A;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
   border-radius: 12px;
   transition: all 0.3s ease;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  background-color: var(--accent-color);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
 }
 
 .btn-back:hover {
-  background-color: #6A1B9A;
+  background-color: var(--accent-color);
   color: #fff;
 }
 
-/* ✅ Next Button (Always visible but disabled until 3 selections) */
+/* ✅ Next Button – always bottom-right corner */
 .btn-next {
   width: 130px;
   height: 40px;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
+  font-family: 'Roboto', sans-serif;
   color: white;
-  background-color: #ccc; /* Gray when disabled */
+  background-color: #ccc; /* Disabled default */
   border: none;
   border-radius: 12px;
-  transition: all 0.3s ease;
   cursor: not-allowed;
+  transition: background-color 0.3s ease;
 }
 
 .btn-next.active {
-  background-color: #6A1B9A;
+ background-color: var(--accent-color);
   cursor: pointer;
 }
 
 .btn-next.active:hover {
-  background-color: #5a1784;
+  background-color: var(--primary-color);
 }
 

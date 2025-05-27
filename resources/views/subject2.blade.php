@@ -24,7 +24,7 @@
     <div class="subject-form">
 
       <!-- Title & Subtitle -->
-      <h1 class="subject-title">📚 Subject of Interest</h1>
+      <h1 class="subject-title">📚 Knowledge Background</h1>
       <p class="subject-subtitle">
         Nice, choose <strong>7 max topics</strong> — at least one from each of the 3 categories.
       </p>
@@ -51,5 +51,6 @@
 
   <!-- JS -->
   <script src="{{ asset('js/subtopics.js') }}" defer></script>
+  <script src="{{ asset('js/theme.js') }}" defer></script>
 </body>
 </html>
