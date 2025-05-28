@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\WizardController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\GoogleLoginController;
+
 
 // ✅ Home Page
 Route::get('/', function () {
@@ -100,10 +103,6 @@ Route::get('/traintrack/selections', function () {
     return view('traintrack.selections');
 });
 
-Route::get('/traintrack/profile', function () {
-    return view('traintrack.profile');
-});
-
 Route::get('/signup', function () {
     return view('traintrack.signup');
 });
@@ -113,3 +112,23 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::get('/company-details/{id}', [CompanyController::class, 'show']);
+
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+
+// ✅ NEW Route to handle direct summary view by trial ID
+Route::get('/summary/{trial_id}', function ($trial_id) {
+    return view('summaryresults', ['trial_id' => $trial_id]);
+})->name('summary.view');
+
+Route::post('/user/google-login', [GoogleLoginController::class, 'handle']);
+
+Route::get('/user/guest', function () {
+    $guestId = uniqid("guest_", true);
+    session(['user_id' => $guestId, 'is_guest' => true]);
+
+    return response()->json([
+        'success' => true,
+        'user_id' => $guestId,
+        'redirect_url' => '/profile'
+    ]);
+});
