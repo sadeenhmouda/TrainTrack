@@ -1,41 +1,39 @@
 document.addEventListener("DOMContentLoaded", function () {
   const guestBtn = document.getElementById("guestBtn");
 
-  // ✅ Clear old wizard or trial data
-  const keysToClear = [
-    "finalWizardData", "recommendationResult", "fallbackTriggered", "previousFallbackPayload",
-    "fullName", "gender", "majorId", "selectedSubjectIds", "selectedSubjectCategoryIds",
-    "selectedTechnicalSkills", "selectedNonTechnicalSkills",
-    "trainingModeId", "trainingModeDesc", "companySizeId", "companySizeDesc",
-    "industryIds", "selectedIndustryNames", "companyCulture", "cultureMap",
-    "user_id", "is_guest"
-  ];
-  keysToClear.forEach(key => localStorage.removeItem(key));
-
-  // ✅ Guest Mode: Redirect directly to home/start
   if (guestBtn) {
     guestBtn.addEventListener("click", () => {
-      localStorage.setItem("is_guest", "true"); // optional: track guest mode
-      window.location.href = "/traintrack/start"; // your wizard start route
+      fetch("https://train-track-backend.onrender.com/user/guest")
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            localStorage.setItem("user_id", data.user_id);
+            localStorage.setItem("is_guest", "true");
+            window.location.href = "/";
+          } else {
+            alert("❌ Guest login failed.");
+          }
+        })
+        .catch(err => {
+          console.error("❌ Guest login error:", err);
+          alert("❌ Error connecting to server.");
+        });
     });
   }
 
-  // ✅ Google Sign-In (Redirect Mode)
-  window.onload = function () {
-    google.accounts.id.initialize({
-      client_id: "122216480872-belaanl5ifilncshj243le3aasskuphe.apps.googleusercontent.com",
-      ux_mode: "redirect",
-      login_uri: "https://train-track-backend.onrender.com/user/google-login"
-    });
+  google.accounts.id.initialize({
+    client_id: "122216480872-belaanl5ifilncshj243le3aasskuphe.apps.googleusercontent.com",
+    ux_mode: "redirect",
+    login_uri: "https://train-track-backend.onrender.com/user/google-login"
+  });
 
-    google.accounts.id.renderButton(
-      document.getElementById("googleSignInBtn"),
-      {
-        theme: "filled_black",
-        size: "large",
-        shape: "pill",
-        text: "signup_with"
-      }
-    );
-  };
+  google.accounts.id.renderButton(
+    document.getElementById("googleSignInBtn"),
+    {
+      theme: "filled_black",
+      size: "large",
+      shape: "pill",
+      text: "signup_with"
+    }
+  );
 });

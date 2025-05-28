@@ -10,33 +10,23 @@
 </head>
 <body>
 
-<div class="signup-container">
-  <!-- LEFT IMAGE -->
-  <div class="left-image-section">
-    <img src="{{ asset('signup-art.webp') }}" alt="Signup Illustration" /> 
-  </div>
+  <div class="background">
+    <div class="overlay"></div>
 
-  <!-- RIGHT FORM -->
-  <div class="right-form-section">
-    <div class="form-box animate-slide">
+    <div class="signup-card">
       <h1>Sign up to <span>Train Track</span></h1>
 
-      <!-- Google Sign-In Button -->
-      <div id="googleSignInBtn" style="margin-bottom: 20px;"></div>
+      <!-- Google Button -->
+      <div id="googleSignInBtn"></div>
 
       <div class="divider"><span>or</span></div>
 
-      <!-- Guest Mode -->
       <button class="guest-btn" id="guestBtn">Continue as Guest</button>
 
-      <p class="login-note">
-        Already have an account? <a href="/login">Log In</a>
-      </p>
+      <p class="login-note">Already have an account? <a href="/login">Log In</a></p>
     </div>
   </div>
-</div>
 
-<script src="{{ asset('js/signup.js') }}" defer></script>
-
+  <script src="{{ asset('js/signup.js') }}" defer></script>
 </body>
 </html>
