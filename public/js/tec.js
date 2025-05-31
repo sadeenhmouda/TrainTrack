@@ -1,4 +1,7 @@
-function technicalSkillsStep() {
+const userId = localStorage.getItem("userId");
+if (!userId) {
+  console.warn("⚠️ No user ID found in localStorage");
+}function technicalSkillsStep() {
   return {
     saveAndGoNext() {
       const checked = document.querySelectorAll('input[name="technical_skills[]"]:checked');

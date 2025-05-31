@@ -1,3 +1,7 @@
+const userId = localStorage.getItem("userId");
+if (!userId) {
+  console.warn("⚠️ No user ID found in localStorage");
+}
 document.addEventListener("DOMContentLoaded", function () { 
   const topicsContainer = document.getElementById("topicsContainer");
   const nextBtn = document.getElementById("nextBtn");

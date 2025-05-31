@@ -1,3 +1,7 @@
+const userId = localStorage.getItem("userId");
+if (!userId) {
+  console.warn("⚠️ No user ID found in localStorage");
+}
 async function submitToExpertSystem(isSkip = false) {
   const selectedSubjects = JSON.parse(localStorage.getItem("selectedSubjectIds") || "[]");
   const selectedTechSkills = JSON.parse(localStorage.getItem("selectedTechnicalSkills") || "[]");

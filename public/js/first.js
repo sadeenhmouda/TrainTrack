@@ -1,3 +1,7 @@
+const userId = localStorage.getItem("userId");
+if (!userId) {
+  console.warn("⚠️ No user ID found in localStorage");
+}
 function applyWizardTheme() {
   const gender = localStorage.getItem("wizardGender");
   const root = document.documentElement;
