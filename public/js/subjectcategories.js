@@ -1,3 +1,7 @@
+const userId = localStorage.getItem("userId");
+if (!userId) {
+  console.warn("⚠️ No user ID found in localStorage");
+}
 document.addEventListener("DOMContentLoaded", function () {
   const API_URL = "https://train-track-backend.onrender.com/wizard/subject-categories";
   const categoryGrid = document.getElementById("categoryGrid");

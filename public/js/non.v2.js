@@ -1,3 +1,8 @@
+const userId = localStorage.getItem("userId");
+if (!userId) {
+  console.warn("⚠️ No user ID found in localStorage");
+}
+
 function nonTechnicalSkillsStep() {
   return {
     saveAndGoNext() {

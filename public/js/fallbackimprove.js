@@ -1,3 +1,7 @@
+const userId = localStorage.getItem("userId");
+if (!userId) {
+  console.warn("⚠️ No user ID found in localStorage");
+}
 // ✅ fallbackimprove.js (Final Version with Fix)
 document.addEventListener("DOMContentLoaded", async function () {
   const API_BASE = "https://train-track-backend.onrender.com/";

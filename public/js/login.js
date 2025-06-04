@@ -1,3 +1,7 @@
+const userId = localStorage.getItem("userId");
+if (!userId) {
+  console.warn("⚠️ No user ID found in localStorage");
+}
 document.addEventListener("DOMContentLoaded", function () {
   // ✅ Google Sign-In with redirect mode
   google.accounts.id.initialize({

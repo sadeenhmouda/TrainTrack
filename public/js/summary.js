@@ -1,8 +1,52 @@
+const userId = localStorage.getItem("userId");
+if (!userId) {
+  console.warn("⚠️ No user ID found in localStorage");
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   const container = document.getElementById("positionResultsContainer");
   const fallbackTriggered = localStorage.getItem("fallbackTriggered");
   const finalWizardData = localStorage.getItem("finalWizardData");
+  const urlParams = new URLSearchParams(window.location.search);
+  let trialId = urlParams.get("trial_id");
+
+if (!trialId) {
+  // Try extracting from /summary/:id
+  const pathMatch = window.location.pathname.match(/\/summary\/(\d+)/);
+  if (pathMatch) trialId = pathMatch[1];
+}
+
+// 👇 Check for saved trial ID first
+if (trialId) {
+  console.log("📦 Loading from trial_id:", trialId);
+  fetch(`https://train-track-backend.onrender.com/user/trial/${trialId}`, {
+  credentials: "include"
+})
+.then(res => res.json())
+.then(result => {
+  if (!result || !result.success || !result.trialData?.result_data?.recommended_positions) {
+    throw new Error("Invalid trial result.");
+  }
+
+  const trialResult = result.trialData.result_data;
+  localStorage.setItem("recommendationResult", JSON.stringify(trialResult));
+  renderSummary(trialResult);
+})
+.catch(err => {
+  console.error("❌ Failed to load saved trial:", err);
+  Swal.fire("Error", "Could not load saved trial. Please try again.", "error");
+});
+
+
+  return; // ✅ Stop here: don't continue to live wizard logic
+}
+
+// ✅ Normal logic: Live wizard mode
+if (!finalWizardData && !trialId) {
+  showError("Wizard data missing. Please restart the wizard.");
+  return;
+}
+
 
   const homeBtn = document.getElementById("goHomeBtn");
   if (homeBtn) {
@@ -27,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
 }
 
 
-  if (!finalWizardData) {
+if (!finalWizardData && !trialId) {
     showError("Wizard data missing. Please restart the wizard.");
     return;
   }
@@ -46,6 +90,39 @@ console.log("🔎 FULL raw result object:", result);
     if (!result.success || !Array.isArray(result.recommended_positions)) {
       throw new Error("No valid recommendations returned.");
     }
+// ✅ Save trial for logged-in users
+const userId = localStorage.getItem("userId");
+if (userId) {
+  fetch("https://train-track-backend.onrender.com/wizard/save-trial", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      user_id: parseInt(userId),
+      status_class: "completed",
+      status_label: "Completed",
+      saved_data: JSON.parse(localStorage.getItem("finalWizardData")),
+      result_data: result,
+      is_submitted: true
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log("✅ Trial saved successfully:", data);
+    Swal.fire({
+  icon: "success",
+  title: "Saved to Profile 🎉",
+  text: "You can view this result in your profile later.",
+  toast: true,
+  position: "top-end",
+  timer: 3000,
+  showConfirmButton: false
+});
+
+  })
+  .catch(err => {
+    console.error("❌ Failed to save trial:", err);
+  });
+}
 
       // ✅ Check for "No Match" case: all results exist but are too weak
 const allNoMatch = result.recommended_positions.length > 0 &&
