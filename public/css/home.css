@@ -142,27 +142,7 @@ body {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background-image: url('/ddd.jpg'); /* ✅ Ensure image is in /public */
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
- display: flex;
-  align-items: flex-end; /* ✅ Push content to bottom */
-  justify-content: flex-start; /* ✅ Align to left */
-  padding: 60px 80px; /* ✅ Padding from edges */
-
-  padding-top: 120px; /* ✅ Allow room for absolute navbar */
-}
-
-
-
-/* ==== HERO CONTENT ==== */
-/* === HERO SECTION === */
-.hero {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  background-image: url('/d.jpg'); /* your purple wave background */
+  background-image: url('/ddd.jpg'); /* ✅ correct image */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -172,7 +152,6 @@ body {
   padding: 120px 80px 60px;
   overflow: hidden;
 }
-
 /* === HERO TEXT === */
 .hero-content {
   

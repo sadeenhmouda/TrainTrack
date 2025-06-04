@@ -28,7 +28,7 @@
     <!-- Right Side -->
     <div class="navbar-right">
       <div class="nav-links">
-        <a href="/">Home</a>
+        
         <div class="dropdown">
           <button class="dropdown-btn" onclick="toggleDropdown()">Track ▼</button>
           <div id="trackDropdown" class="dropdown-content">
